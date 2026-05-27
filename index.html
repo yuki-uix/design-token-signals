@@ -237,6 +237,7 @@
       text-transform: uppercase;
       white-space: nowrap;
     }
+    .label-br { display: none; }
 
     /* ── Profile Cards ── */
     .profiles-wrap {
@@ -549,7 +550,10 @@
       nav { padding: 16px 20px; }
       .hero { padding: 56px 20px 48px; }
       .profiles-wrap, .concept-wrap { padding: 0 20px 60px; }
-      .section-divider { padding: 0 20px; }
+      .section-divider { padding: 0 20px; justify-content: flex-start; }
+      .section-divider::before, .section-divider::after { display: none; }
+      .section-label { white-space: normal; }
+      .label-br { display: block; }
       .profiles { grid-template-columns: 1fr; }
       .concept { grid-template-columns: 1fr; }
       .footer-main { padding: 40px 20px 32px; grid-template-columns: 1fr; gap: 32px; }
@@ -636,7 +640,7 @@
 
   <!-- Profiles -->
   <div class="section-divider" id="profiles">
-    <span class="section-label">Signal Profiles — same structure, different tokens</span>
+    <span class="section-label">Signal Profiles —<br class="label-br"> same structure, different tokens</span>
   </div>
 
   <div class="profiles-wrap">
