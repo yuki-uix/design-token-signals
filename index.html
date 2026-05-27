@@ -143,8 +143,8 @@
     }
     .profiles {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
     }
 
     .profile-card {
@@ -172,6 +172,16 @@
       flex-direction: column;
       gap: 10px;
     }
+
+    /* Clean Light preview */
+    .preview-clean { background: #f6f9fc; }
+    .preview-clean .prev-nav { display: flex; justify-content: space-between; align-items: center; }
+    .preview-clean .prev-logo { width: 40px; height: 6px; background: #0a2540; border-radius: 3px; opacity: 0.9; }
+    .preview-clean .prev-btn { width: 48px; height: 16px; background: #635bff; border-radius: 4px; }
+    .preview-clean .prev-headline { width: 68%; height: 8px; background: #0a2540; border-radius: 4px; margin-top: 8px; opacity: 0.85; }
+    .preview-clean .prev-sub { width: 52%; height: 5px; background: #425466; border-radius: 3px; opacity: 0.4; }
+    .preview-clean .prev-cards { display: flex; gap: 6px; margin-top: 4px; }
+    .preview-clean .prev-card { flex: 1; height: 32px; background: #fff; border: 1px solid #e3e8ee; border-radius: 4px; box-shadow: 0 1px 3px rgba(50,50,93,.08); }
 
     /* Minimal Dark preview */
     .preview-minimal { background: #0e0e0f; }
@@ -202,6 +212,56 @@
     .preview-warm .prev-sub { width: 50%; height: 6px; background: #6b6b65; border-radius: 3px; opacity: 0.5; }
     .preview-warm .prev-cards { display: flex; gap: 6px; margin-top: 4px; }
     .preview-warm .prev-card { flex: 1; height: 34px; background: #fff; border: 1px solid #e8e8e4; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+
+    /* Corporate Blue preview */
+    .preview-corporate { background: #fff; border-top: 3px solid #0070d2 !important; }
+    .preview-corporate .prev-nav { display: flex; justify-content: space-between; align-items: center; }
+    .preview-corporate .prev-logo { width: 44px; height: 6px; background: #0070d2; border-radius: 2px; }
+    .preview-corporate .prev-btn { width: 56px; height: 16px; background: #0070d2; border-radius: 3px; }
+    .preview-corporate .prev-headline { width: 68%; height: 8px; background: #181818; border-radius: 2px; margin-top: 8px; }
+    .preview-corporate .prev-sub { width: 52%; height: 5px; background: #54698d; border-radius: 2px; opacity: 0.5; }
+    .preview-corporate .prev-cards { display: flex; gap: 6px; margin-top: 6px; }
+    .preview-corporate .prev-card { flex: 1; height: 32px; background: #f4f6f9; border: 1px solid #dddbda; border-left: 3px solid #0070d2; border-radius: 0 3px 3px 0; }
+
+    /* Monochrome preview */
+    .preview-mono { background: #fff; }
+    .preview-mono .prev-nav { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e8e8e8; padding-bottom: 8px; margin-bottom: 4px; }
+    .preview-mono .prev-logo { width: 44px; height: 6px; background: #000; border-radius: 1px; }
+    .preview-mono .prev-btn { width: 40px; height: 16px; background: #000; border-radius: 1px; }
+    .preview-mono .prev-headline { width: 65%; height: 12px; background: #000; border-radius: 1px; margin-top: 6px; }
+    .preview-mono .prev-sub { width: 48%; height: 8px; background: #000; border-radius: 1px; opacity: 0.85; font-style: italic; }
+    .preview-mono .prev-cards { display: flex; gap: 6px; margin-top: 8px; }
+    .preview-mono .prev-card { flex: 1; height: 32px; background: #fff; border: 1px solid #e8e8e8; border-radius: 1px; }
+
+    /* Neo-Brutalist preview */
+    .preview-brutalist { background: #f9f6ef; }
+    .preview-brutalist .prev-nav { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; padding-bottom: 8px; margin-bottom: 4px; }
+    .preview-brutalist .prev-logo { width: 44px; height: 7px; background: #000; border-radius: 0; }
+    .preview-brutalist .prev-btn { width: 52px; height: 18px; background: #f5e100; border: 2px solid #000; border-radius: 0; box-shadow: 2px 2px 0 #000; }
+    .preview-brutalist .prev-headline { width: 50%; height: 10px; background: #000; border-radius: 0; margin-top: 8px; }
+    .preview-brutalist .prev-sub { width: 38%; height: 10px; background: #000; border-radius: 0; }
+    .preview-brutalist .prev-cards { display: flex; gap: 6px; margin-top: 8px; }
+    .preview-brutalist .prev-card { flex: 1; height: 32px; background: #fff; border: 2px solid #000; border-radius: 0; box-shadow: 2px 2px 0 #000; }
+
+    /* AI Gradient preview */
+    .preview-ai { background: #08080f; background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(139,92,246,.4) 0%, transparent 65%); }
+    .preview-ai .prev-nav { display: flex; justify-content: space-between; align-items: center; }
+    .preview-ai .prev-logo { width: 40px; height: 6px; background: rgba(255,255,255,.8); border-radius: 3px; }
+    .preview-ai .prev-btn { width: 52px; height: 16px; background: linear-gradient(135deg, #8b5cf6, #6366f1); border-radius: 8px; box-shadow: 0 0 8px rgba(139,92,246,.5); }
+    .preview-ai .prev-headline { width: 70%; height: 8px; background: rgba(255,255,255,.75); border-radius: 4px; margin-top: 8px; }
+    .preview-ai .prev-hl2 { width: 52%; height: 8px; background: linear-gradient(90deg, #a78bfa, #60a5fa, #34d399); border-radius: 4px; }
+    .preview-ai .prev-cards { display: flex; gap: 6px; margin-top: 4px; }
+    .preview-ai .prev-card { flex: 1; height: 32px; background: rgba(139,92,246,.07); border: 1px solid rgba(139,92,246,.22); border-radius: 10px; box-shadow: 0 0 8px rgba(139,92,246,.12); }
+
+    /* Playful preview */
+    .preview-playful { background: #ffffff; }
+    .preview-playful .prev-nav { display: flex; justify-content: space-between; align-items: center; }
+    .preview-playful .prev-logo { width: 44px; height: 7px; background: #18003d; border-radius: 6px; }
+    .preview-playful .prev-btn { width: 56px; height: 18px; background: linear-gradient(135deg, #7c3aed, #e879f9); border-radius: 14px; }
+    .preview-playful .prev-headline { width: 62%; height: 9px; background: #18003d; border-radius: 5px; margin-top: 8px; }
+    .preview-playful .prev-sub { width: 48%; height: 6px; background: linear-gradient(90deg, #7c3aed44, #e879f944); border-radius: 5px; }
+    .preview-playful .prev-cards { display: flex; gap: 6px; margin-top: 4px; }
+    .preview-playful .prev-card { flex: 1; height: 34px; background: #faf5ff; border: 1px solid rgba(124,58,237,.15); border-radius: 16px; }
 
     .profile-info {
       padding: 18px 20px;
@@ -348,7 +408,29 @@
   <div class="profiles-wrap">
     <div class="profiles">
 
-      <a href="profiles/minimal-dark/demo.html" class="profile-card">
+      <a href="demo.html?theme=clean-light" class="profile-card">
+        <div class="profile-preview preview-clean">
+          <div class="prev-nav">
+            <div class="prev-logo"></div>
+            <div class="prev-btn"></div>
+          </div>
+          <div class="prev-headline"></div>
+          <div class="prev-sub"></div>
+          <div class="prev-cards">
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+          </div>
+        </div>
+        <div class="profile-info">
+          <div class="profile-signal-tag">Light · Corporate</div>
+          <div class="profile-name">Clean Light</div>
+          <div class="profile-desc">Trust · Professional · Clarity</div>
+          <span class="profile-link">View demo →</span>
+        </div>
+      </a>
+
+      <a href="demo.html?theme=minimal-dark" class="profile-card">
         <div class="profile-preview preview-minimal">
           <div class="prev-nav">
             <div class="prev-logo"></div>
@@ -370,7 +452,7 @@
         </div>
       </a>
 
-      <a href="profiles/bold-dark/demo.html" class="profile-card">
+      <a href="demo.html?theme=bold-dark" class="profile-card">
         <div class="profile-preview preview-bold">
           <div class="prev-nav">
             <div class="prev-logo"></div>
@@ -392,7 +474,7 @@
         </div>
       </a>
 
-      <a href="profiles/warm-organic/demo.html" class="profile-card">
+      <a href="demo.html?theme=warm-organic" class="profile-card">
         <div class="profile-preview preview-warm">
           <div class="prev-nav">
             <div class="prev-logo"></div>
@@ -410,6 +492,116 @@
           <div class="profile-signal-tag">Light · Organic</div>
           <div class="profile-name">Warm Organic</div>
           <div class="profile-desc">Humanity · Warmth · Thoughtful</div>
+          <span class="profile-link">View demo →</span>
+        </div>
+      </a>
+
+      <a href="demo.html?theme=corporate-blue" class="profile-card">
+        <div class="profile-preview preview-corporate">
+          <div class="prev-nav">
+            <div class="prev-logo"></div>
+            <div class="prev-btn"></div>
+          </div>
+          <div class="prev-headline"></div>
+          <div class="prev-sub"></div>
+          <div class="prev-cards">
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+          </div>
+        </div>
+        <div class="profile-info">
+          <div class="profile-signal-tag">Light · Enterprise</div>
+          <div class="profile-name">Corporate Blue</div>
+          <div class="profile-desc">Trust · Compliance · Risk-averse</div>
+          <span class="profile-link">View demo →</span>
+        </div>
+      </a>
+
+      <a href="demo.html?theme=monochrome" class="profile-card">
+        <div class="profile-preview preview-mono">
+          <div class="prev-nav">
+            <div class="prev-logo"></div>
+            <div class="prev-btn"></div>
+          </div>
+          <div class="prev-headline"></div>
+          <div class="prev-sub"></div>
+          <div class="prev-cards">
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+          </div>
+        </div>
+        <div class="profile-info">
+          <div class="profile-signal-tag">Light · Editorial</div>
+          <div class="profile-name">Monochrome</div>
+          <div class="profile-desc">Confidence · Timeless · Editorial</div>
+          <span class="profile-link">View demo →</span>
+        </div>
+      </a>
+
+      <a href="demo.html?theme=neo-brutalist" class="profile-card">
+        <div class="profile-preview preview-brutalist">
+          <div class="prev-nav">
+            <div class="prev-logo"></div>
+            <div class="prev-btn"></div>
+          </div>
+          <div class="prev-headline"></div>
+          <div class="prev-sub"></div>
+          <div class="prev-cards">
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+          </div>
+        </div>
+        <div class="profile-info">
+          <div class="profile-signal-tag">Light · Flat</div>
+          <div class="profile-name">Neo-Brutalist</div>
+          <div class="profile-desc">Directness · Honesty · Anti-polish</div>
+          <span class="profile-link">View demo →</span>
+        </div>
+      </a>
+
+      <a href="demo.html?theme=ai-gradient" class="profile-card">
+        <div class="profile-preview preview-ai">
+          <div class="prev-nav">
+            <div class="prev-logo"></div>
+            <div class="prev-btn"></div>
+          </div>
+          <div class="prev-headline"></div>
+          <div class="prev-hl2"></div>
+          <div class="prev-cards">
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+          </div>
+        </div>
+        <div class="profile-info">
+          <div class="profile-signal-tag">Dark · Gradient</div>
+          <div class="profile-name">AI Gradient</div>
+          <div class="profile-desc">Future · Ambition · Scale</div>
+          <span class="profile-link">View demo →</span>
+        </div>
+      </a>
+
+      <a href="demo.html?theme=playful" class="profile-card">
+        <div class="profile-preview preview-playful">
+          <div class="prev-nav">
+            <div class="prev-logo"></div>
+            <div class="prev-btn"></div>
+          </div>
+          <div class="prev-headline"></div>
+          <div class="prev-sub"></div>
+          <div class="prev-cards">
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+          </div>
+        </div>
+        <div class="profile-info">
+          <div class="profile-signal-tag">Light · Expressive</div>
+          <div class="profile-name">Playful</div>
+          <div class="profile-desc">Energy · Expression · Delight</div>
           <span class="profile-link">View demo →</span>
         </div>
       </a>

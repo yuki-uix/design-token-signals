@@ -1,0 +1,535 @@
+/* ═══════════════════════════════════════════════════
+   design-token-signals · all signal profiles
+   Switch via [data-theme] on <body>
+   ═══════════════════════════════════════════════════ */
+
+/* ── Shared spacing scale (4px base) ── */
+:root {
+  --space-1:   4px;
+  --space-2:   8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+}
+
+/* ─────────────────────────────────────────
+   CLEAN LIGHT · Trust · Professional · Clarity
+   Inspired by: Stripe
+───────────────────────────────────────── */
+[data-theme="clean-light"] {
+  --color-bg:            #f6f9fc;
+  --color-bg-secondary:  #eef3f9;
+  --color-bg-elevated:   #ffffff;
+  --color-border:        #e3e8ee;
+  --color-border-strong: #c1cada;
+  --color-accent:        #635bff;
+  --color-accent-hover:  #5851e5;
+  --color-text-1:        #0a2540;
+  --color-text-2:        #425466;
+  --color-text-3:        #8898aa;
+
+  --font-display: 'Inter', -apple-system, sans-serif;
+  --font-body:    -apple-system, 'Inter', sans-serif;
+  --text-xs:      11px;
+  --text-sm:      13px;
+  --text-base:    15px;
+  --text-lg:      18px;
+  --text-xl:      22px;
+  --text-2xl:     34px;
+  --text-3xl:     50px;
+  --weight-normal:  400;
+  --weight-medium:  500;
+  --weight-bold:    600;
+  --leading-base:   1.6;
+  --tracking-tight: -0.022em;
+
+  --radius-sm:  4px;
+  --radius-md:  6px;
+  --radius-lg:  8px;
+  --shadow-sm:  0 1px 3px rgba(50,50,93,.10), 0 1px 0 rgba(0,0,0,.02);
+  --shadow-md:  0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+}
+
+/* ─────────────────────────────────────────
+   MINIMAL DARK · Precision · Focus · Professional
+   Inspired by: Linear
+───────────────────────────────────────── */
+[data-theme="minimal-dark"] {
+  --color-bg:            #0e0e0f;
+  --color-bg-secondary:  #141415;
+  --color-bg-elevated:   #1c1c1e;
+  --color-border:        rgba(255,255,255,0.07);
+  --color-border-strong: rgba(255,255,255,0.14);
+  --color-accent:        #5e6ad2;
+  --color-accent-hover:  #4f5bbf;
+  --color-text-1:        #e5e5e6;
+  --color-text-2:        #8f8f8f;
+  --color-text-3:        #5a5a5a;
+
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --text-xs:      11px;
+  --text-sm:      13px;
+  --text-base:    14px;
+  --text-lg:      18px;
+  --text-xl:      22px;
+  --text-2xl:     32px;
+  --text-3xl:     48px;
+  --weight-normal:  400;
+  --weight-medium:  500;
+  --weight-bold:    600;
+  --leading-base:   1.5;
+  --tracking-tight: -0.02em;
+
+  --radius-sm:  4px;
+  --radius-md:  6px;
+  --radius-lg:  8px;
+  --shadow-sm:  0 1px 2px rgba(0,0,0,.40);
+  --shadow-md:  0 4px 16px rgba(0,0,0,.50);
+}
+
+/* ─────────────────────────────────────────
+   BOLD DARK · Power · Developer-native · Dramatic
+   Inspired by: Raycast
+───────────────────────────────────────── */
+[data-theme="bold-dark"] {
+  --color-bg:            #070809;
+  --color-bg-secondary:  #101111;
+  --color-bg-elevated:   #151617;
+  --color-border:        #1e2122;
+  --color-border-strong: #2e3133;
+  --color-accent:        #ff3a3a;
+  --color-accent-hover:  #e52e2e;
+  --color-text-1:        #f5f5f5;
+  --color-text-2:        #8a8f98;
+  --color-text-3:        #4a4f57;
+
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --text-xs:      11px;
+  --text-sm:      13px;
+  --text-base:    15px;
+  --text-lg:      18px;
+  --text-xl:      22px;
+  --text-2xl:     36px;
+  --text-3xl:     54px;
+  --weight-normal:  400;
+  --weight-medium:  500;
+  --weight-bold:    700;
+  --leading-base:   1.5;
+  --tracking-tight: -0.025em;
+
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --shadow-sm:  0 1px 4px rgba(0,0,0,.60);
+  --shadow-md:  0 8px 32px rgba(0,0,0,.80);
+}
+
+/* ─────────────────────────────────────────
+   WARM ORGANIC · Humanity · Warmth · Thoughtful
+   Inspired by: Craft
+───────────────────────────────────────── */
+[data-theme="warm-organic"] {
+  --color-bg:            #fafaf8;
+  --color-bg-secondary:  #f5f5f2;
+  --color-bg-elevated:   #ffffff;
+  --color-border:        #e8e8e4;
+  --color-border-strong: #d4d4ce;
+  --color-accent:        #e8643a;
+  --color-accent-hover:  #d4562e;
+  --color-text-1:        #1a1a18;
+  --color-text-2:        #6b6b65;
+  --color-text-3:        #9f9f98;
+
+  --font-display: 'Georgia', 'Times New Roman', serif;
+  --font-body:    system-ui, -apple-system, sans-serif;
+  --text-xs:      12px;
+  --text-sm:      13px;
+  --text-base:    16px;
+  --text-lg:      20px;
+  --text-xl:      26px;
+  --text-2xl:     40px;
+  --text-3xl:     56px;
+  --weight-normal:  400;
+  --weight-medium:  500;
+  --weight-bold:    600;
+  --leading-base:   1.65;
+  --tracking-tight: -0.01em;
+
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --shadow-sm:  0 1px 4px rgba(0,0,0,.06);
+  --shadow-md:  0 4px 16px rgba(0,0,0,.08), 0 1px 4px rgba(0,0,0,.04);
+}
+
+/* ─────────────────────────────────────────
+   PLAYFUL · Energy · Expression · Delight
+   Inspired by: Arc
+───────────────────────────────────────── */
+[data-theme="playful"] {
+  --color-bg:            #ffffff;
+  --color-bg-secondary:  #faf5ff;
+  --color-bg-elevated:   #ffffff;
+  --color-border:        rgba(124,58,237,.12);
+  --color-border-strong: rgba(124,58,237,.28);
+  --color-accent:        #7c3aed;
+  --color-accent-hover:  #6d28d9;
+  --color-text-1:        #18003d;
+  --color-text-2:        #5b21b6;
+  --color-text-3:        #a78bfa;
+
+  --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
+  --text-xs:      11px;
+  --text-sm:      13px;
+  --text-base:    15px;
+  --text-lg:      18px;
+  --text-xl:      24px;
+  --text-2xl:     36px;
+  --text-3xl:     52px;
+  --weight-normal:  400;
+  --weight-medium:  600;
+  --weight-bold:    800;
+  --leading-base:   1.6;
+  --tracking-tight: -0.03em;
+
+  --radius-sm:  12px;
+  --radius-md:  18px;
+  --radius-lg:  24px;
+  --shadow-sm:  0 2px 8px rgba(124,58,237,.08);
+  --shadow-md:  0 8px 32px rgba(124,58,237,.14), 0 2px 8px rgba(124,58,237,.06);
+}
+
+/* ─────────────────────────────────────────
+   NEO-BRUTALIST · Directness · Honesty · Anti-polish
+   Inspired by: Figma marketing, creative agencies
+───────────────────────────────────────── */
+[data-theme="neo-brutalist"] {
+  --color-bg:            #f9f6ef;
+  --color-bg-secondary:  #f0ece0;
+  --color-bg-elevated:   #ffffff;
+  --color-border:        #000000;
+  --color-border-strong: #000000;
+  --color-accent:        #f5e100;
+  --color-accent-hover:  #e8d400;
+  --color-text-1:        #000000;
+  --color-text-2:        #333333;
+  --color-text-3:        #888888;
+
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body:    system-ui, -apple-system, sans-serif;
+  --text-xs:      11px;
+  --text-sm:      13px;
+  --text-base:    15px;
+  --text-lg:      20px;
+  --text-xl:      26px;
+  --text-2xl:     40px;
+  --text-3xl:     60px;
+  --weight-normal:  400;
+  --weight-medium:  600;
+  --weight-bold:    800;
+  --leading-base:   1.4;
+  --tracking-tight: -0.01em;
+
+  --radius-sm:  0px;
+  --radius-md:  0px;
+  --radius-lg:  0px;
+  --shadow-sm:  2px 2px 0 #000;
+  --shadow-md:  4px 4px 0 #000;
+}
+
+/* ─────────────────────────────────────────
+   AI GRADIENT · Future · Ambition · Scale
+   Inspired by: Vercel AI, Cursor, Perplexity
+───────────────────────────────────────── */
+[data-theme="ai-gradient"] {
+  --color-bg:            #08080f;
+  --color-bg-secondary:  #0f0f1a;
+  --color-bg-elevated:   #141420;
+  --color-border:        rgba(139,92,246,.14);
+  --color-border-strong: rgba(139,92,246,.28);
+  --color-accent:        #8b5cf6;
+  --color-accent-hover:  #7c3aed;
+  --color-text-1:        #ffffff;
+  --color-text-2:        rgba(255,255,255,.55);
+  --color-text-3:        rgba(255,255,255,.28);
+
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --text-xs:      11px;
+  --text-sm:      13px;
+  --text-base:    14px;
+  --text-lg:      18px;
+  --text-xl:      22px;
+  --text-2xl:     34px;
+  --text-3xl:     52px;
+  --weight-normal:  400;
+  --weight-medium:  500;
+  --weight-bold:    600;
+  --leading-base:   1.55;
+  --tracking-tight: -0.02em;
+
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --shadow-sm:  0 0 12px rgba(139,92,246,.10);
+  --shadow-md:  0 0 40px rgba(139,92,246,.15), 0 8px 32px rgba(0,0,0,.6);
+}
+
+/* ─────────────────────────────────────────
+   CORPORATE BLUE · Trust · Compliance · Risk-averse
+   Inspired by: Salesforce, HubSpot, ServiceNow
+───────────────────────────────────────── */
+[data-theme="corporate-blue"] {
+  --color-bg:            #ffffff;
+  --color-bg-secondary:  #f4f6f9;
+  --color-bg-elevated:   #ffffff;
+  --color-border:        #dddbda;
+  --color-border-strong: #b0adab;
+  --color-accent:        #0070d2;
+  --color-accent-hover:  #005fb2;
+  --color-text-1:        #181818;
+  --color-text-2:        #54698d;
+  --color-text-3:        #9faab5;
+
+  --font-display: 'Inter', -apple-system, sans-serif;
+  --font-body:    -apple-system, 'Inter', sans-serif;
+  --text-xs:      11px;
+  --text-sm:      12px;
+  --text-base:    14px;
+  --text-lg:      18px;
+  --text-xl:      22px;
+  --text-2xl:     32px;
+  --text-3xl:     44px;
+  --weight-normal:  400;
+  --weight-medium:  500;
+  --weight-bold:    600;
+  --leading-base:   1.5;
+  --tracking-tight: -0.01em;
+
+  --radius-sm:  3px;
+  --radius-md:  4px;
+  --radius-lg:  4px;
+  --shadow-sm:  0 2px 4px rgba(0,0,0,.08);
+  --shadow-md:  0 4px 12px rgba(0,0,0,.12);
+}
+
+/* ─────────────────────────────────────────
+   MONOCHROME · Confidence · Timeless · Editorial
+   Inspired by: NYT, fashion agencies, Basecamp
+───────────────────────────────────────── */
+[data-theme="monochrome"] {
+  --color-bg:            #ffffff;
+  --color-bg-secondary:  #f7f7f7;
+  --color-bg-elevated:   #ffffff;
+  --color-border:        #e8e8e8;
+  --color-border-strong: #b8b8b8;
+  --color-accent:        #000000;
+  --color-accent-hover:  #333333;
+  --color-text-1:        #000000;
+  --color-text-2:        #555555;
+  --color-text-3:        #999999;
+
+  --font-display: 'Playfair Display', 'Georgia', serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --text-xs:      11px;
+  --text-sm:      13px;
+  --text-base:    16px;
+  --text-lg:      20px;
+  --text-xl:      28px;
+  --text-2xl:     44px;
+  --text-3xl:     66px;
+  --weight-normal:  400;
+  --weight-medium:  500;
+  --weight-bold:    700;
+  --leading-base:   1.7;
+  --tracking-tight: -0.02em;
+
+  --radius-sm:  2px;
+  --radius-md:  2px;
+  --radius-lg:  2px;
+  --shadow-sm:  none;
+  --shadow-md:  none;
+}
+
+/* ─────────────────────────────────────────
+   Theme-specific overrides: gradient text
+───────────────────────────────────────── */
+[data-theme="bold-dark"] .hero-h1-accent {
+  background: linear-gradient(90deg, #ff6363, #ff2c2c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="playful"] .hero-h1-accent {
+  background: linear-gradient(135deg, #7c3aed 0%, #e879f9 55%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="playful"] .btn-primary {
+  background: linear-gradient(135deg, #7c3aed, #e879f9);
+}
+[data-theme="playful"] .btn-primary:hover {
+  background: linear-gradient(135deg, #6d28d9, #d946ef);
+  opacity: 0.95;
+}
+
+/* Neo-brutalist: hard-shadow buttons + bordered elements */
+[data-theme="neo-brutalist"] nav {
+  border-bottom: 2px solid #000;
+}
+[data-theme="neo-brutalist"] .btn-primary {
+  background: var(--color-accent);
+  color: #000;
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0 #000;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+[data-theme="neo-brutalist"] .btn-primary:hover {
+  background: var(--color-accent);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000;
+}
+[data-theme="neo-brutalist"] .btn-ghost {
+  border: 2px solid #000;
+  box-shadow: 3px 3px 0 #000;
+  color: #000;
+}
+[data-theme="neo-brutalist"] .btn-ghost:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #000;
+}
+[data-theme="neo-brutalist"] .nav-cta {
+  background: #000;
+  color: #f5e100;
+  border-radius: 0;
+}
+[data-theme="neo-brutalist"] .nav-cta:hover { background: #333; }
+[data-theme="neo-brutalist"] .feature-card {
+  border: 2px solid #000;
+  box-shadow: 4px 4px 0 #000;
+}
+[data-theme="neo-brutalist"] .hero-badge {
+  border: 2px solid #000;
+  color: #000;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+[data-theme="neo-brutalist"] .features {
+  border-top: 2px solid #000;
+}
+[data-theme="neo-brutalist"] .cta-section {
+  border-top: 2px solid #000;
+}
+
+/* AI Gradient: mesh glow background + gradient text + glowing cards */
+[data-theme="ai-gradient"] body {
+  background-image:
+    radial-gradient(ellipse 90% 55% at 50% -5%, rgba(139,92,246,.18) 0%, transparent 58%),
+    radial-gradient(ellipse 45% 35% at 85% 55%, rgba(59,130,246,.10) 0%, transparent 50%);
+}
+[data-theme="ai-gradient"] .hero-h1-accent {
+  background: linear-gradient(120deg, #a78bfa 0%, #60a5fa 50%, #34d399 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+[data-theme="ai-gradient"] .btn-primary {
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  box-shadow: 0 0 20px rgba(139,92,246,.40);
+}
+[data-theme="ai-gradient"] .btn-primary:hover {
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  box-shadow: 0 0 28px rgba(139,92,246,.55);
+}
+[data-theme="ai-gradient"] .feature-card {
+  background: rgba(139,92,246,.04);
+  box-shadow: 0 0 0 1px rgba(139,92,246,.12) inset, 0 4px 24px rgba(0,0,0,.35);
+}
+[data-theme="ai-gradient"] .feature-card:hover {
+  border-color: rgba(139,92,246,.3);
+  box-shadow: 0 0 0 1px rgba(139,92,246,.2) inset, 0 0 24px rgba(139,92,246,.12), 0 8px 32px rgba(0,0,0,.4);
+}
+[data-theme="ai-gradient"] .hero-badge {
+  background: rgba(139,92,246,.12);
+  border-color: rgba(139,92,246,.3);
+}
+
+/* Corporate Blue: structured, enterprise-grade */
+[data-theme="corporate-blue"] body {
+  border-top: 3px solid #0070d2;
+}
+[data-theme="corporate-blue"] .btn-primary {
+  border: 1px solid #005fb2;
+}
+[data-theme="corporate-blue"] .feature-card {
+  border-left: 3px solid #0070d2;
+  border-radius: 0 4px 4px 0;
+}
+[data-theme="corporate-blue"] .hero-badge {
+  background: #e8f4fd;
+  border-color: #b8dcf8;
+  color: #0070d2;
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+}
+[data-theme="corporate-blue"] .features-label {
+  font-family: inherit;
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+/* Monochrome: no color, italic serif accent, editorial weight */
+[data-theme="monochrome"] .hero-h1-accent {
+  font-style: italic;
+}
+[data-theme="monochrome"] .btn-primary {
+  background: #000;
+  color: #fff;
+}
+[data-theme="monochrome"] .btn-primary:hover {
+  background: #333;
+}
+[data-theme="monochrome"] .nav-cta {
+  background: #000;
+  color: #fff;
+  border-radius: 2px;
+}
+[data-theme="monochrome"] .nav-cta:hover { background: #333; }
+[data-theme="monochrome"] .feature-card {
+  box-shadow: none;
+  border-color: #e8e8e8;
+}
+[data-theme="monochrome"] .hero-badge {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+  border-radius: 0;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 10px;
+}
+[data-theme="monochrome"] .features-label {
+  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-style: normal;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+[data-theme="monochrome"] .token-legend {
+  box-shadow: none;
+  border-color: #000;
+}
