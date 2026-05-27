@@ -46,9 +46,13 @@
 
     /* ── Hero ── */
     .hero {
-      max-width: 760px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 96px 40px 80px;
+      padding: 88px 60px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
     }
     .hero-eyebrow {
       display: inline-flex;
@@ -69,7 +73,7 @@
     }
     .hero h1 {
       font-family: 'Georgia', 'Times New Roman', serif;
-      font-size: clamp(36px, 5vw, 54px);
+      font-size: clamp(36px, 4vw, 52px);
       font-weight: normal;
       letter-spacing: -0.02em;
       line-height: 1.12;
@@ -84,7 +88,7 @@
       font-size: 17px;
       color: #6b6558;
       line-height: 1.7;
-      max-width: 520px;
+      max-width: 480px;
       margin-bottom: 40px;
     }
     .hero-actions {
@@ -111,11 +115,110 @@
     }
     .btn-ghost:hover { color: #1a1916; }
 
+    /* ── Hero Visual ── */
+    .hero-visual {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+    }
+    .swatch {
+      border-radius: 12px;
+      padding: 16px 14px 12px;
+      border: 1px solid rgba(0,0,0,0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .swatch:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.09);
+    }
+    .sw-btn {
+      height: 6px;
+      width: 36px;
+      border-radius: 3px;
+    }
+    .sw-lines { display: flex; flex-direction: column; gap: 4px; }
+    .sw-line {
+      height: 3px;
+      border-radius: 2px;
+      opacity: 0.25;
+    }
+    .sw-line.wide { width: 80%; }
+    .sw-line.mid  { width: 60%; }
+    .sw-name {
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-top: auto;
+    }
+
+    /* Swatch themes */
+    .sw-clean  { background: #f0f4f8; }
+    .sw-clean  .sw-btn  { background: #635bff; border-radius: 3px; }
+    .sw-clean  .sw-line { background: #0a2540; }
+    .sw-clean  .sw-name { color: #425466; }
+
+    .sw-minimal { background: #0e0e0f; border-color: rgba(255,255,255,0.08); }
+    .sw-minimal .sw-btn  { background: #5e6ad2; border-radius: 4px; }
+    .sw-minimal .sw-line { background: #e5e5e6; }
+    .sw-minimal .sw-name { color: #6b6b6b; }
+
+    .sw-bold   { background: #070809; border-color: rgba(255,255,255,0.06); }
+    .sw-bold   .sw-btn  { background: #ff3a3a; border-radius: 5px; }
+    .sw-bold   .sw-line { background: #f5f5f5; }
+    .sw-bold   .sw-name { color: #555; }
+
+    .sw-warm   { background: #fdfcf9; }
+    .sw-warm   .sw-btn  { background: #e8643a; border-radius: 10px; }
+    .sw-warm   .sw-line { background: #1a1a18; }
+    .sw-warm   .sw-name { color: #8c8070; }
+
+    .sw-corp   { background: #fff; border-top: 3px solid #0070d2 !important; }
+    .sw-corp   .sw-btn  { background: #0070d2; border-radius: 2px; }
+    .sw-corp   .sw-line { background: #181818; }
+    .sw-corp   .sw-name { color: #54698d; }
+
+    .sw-mono   { background: #fff; }
+    .sw-mono   .sw-btn  { background: #000; border-radius: 0; }
+    .sw-mono   .sw-line { background: #000; }
+    .sw-mono   .sw-name { color: #888; }
+
+    .sw-brut   { background: #f9f6ef; border: 2px solid #000 !important; }
+    .sw-brut   .sw-btn  { background: #f5e100; border-radius: 0; box-shadow: 2px 2px 0 #000; border: 1.5px solid #000; }
+    .sw-brut   .sw-line { background: #000; opacity: 0.9; }
+    .sw-brut   .sw-name { color: #000; }
+
+    .sw-ai     { background: #08080f; border-color: rgba(139,92,246,0.2); }
+    .sw-ai     .sw-btn  { background: linear-gradient(135deg, #8b5cf6, #6366f1); border-radius: 8px; box-shadow: 0 0 8px rgba(139,92,246,.5); }
+    .sw-ai     .sw-line { background: rgba(255,255,255,0.6); }
+    .sw-ai     .sw-name { color: #6b5fd4; }
+
+    .sw-play   { background: #faf5ff; }
+    .sw-play   .sw-btn  { background: linear-gradient(135deg, #7c3aed, #e879f9); border-radius: 14px; }
+    .sw-play   .sw-line { background: #18003d; }
+    .sw-play   .sw-name { color: #7c3aed; }
+
+    .visual-caption {
+      font-size: 11px;
+      color: #b0a898;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+
     /* ── Divider ── */
     .section-divider {
-      max-width: 760px;
+      max-width: 1200px;
       margin: 0 auto 48px;
-      padding: 0 40px;
+      padding: 0 60px;
       display: flex;
       align-items: center;
       gap: 16px;
@@ -137,9 +240,9 @@
 
     /* ── Profile Cards ── */
     .profiles-wrap {
-      max-width: 960px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 0 40px 80px;
+      padding: 0 60px 80px;
     }
     .profiles {
       display: grid;
@@ -303,44 +406,51 @@
 
     /* ── Concept ── */
     .concept-wrap {
-      max-width: 760px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 0 40px 80px;
+      padding: 0 60px 96px;
+    }
+    .concept-intro {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: clamp(20px, 2.5vw, 26px);
+      font-weight: normal;
+      font-style: italic;
+      color: #4a4540;
+      line-height: 1.5;
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 56px;
+      letter-spacing: -0.01em;
     }
     .concept {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
     }
     .concept-block {
-      padding: 28px;
+      padding: 32px 28px;
       background: #fff;
-      border-radius: 14px;
+      border-radius: 16px;
       border: 1px solid rgba(0,0,0,0.07);
       box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
-    .concept-block h3 {
-      font-size: 14px;
-      font-weight: 500;
-      color: #1a1916;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .concept-icon {
+      font-size: 20px;
+      margin-bottom: 16px;
+      line-height: 1;
     }
-    .concept-block h3 .icon {
-      width: 22px; height: 22px;
-      background: #f0eef8;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
+    .concept-block h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1a1916;
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
     }
     .concept-block p {
-      font-size: 13px;
+      font-size: 13.5px;
       color: #6b6558;
-      line-height: 1.7;
+      line-height: 1.75;
     }
     .concept-block code {
       font-family: 'SF Mono', 'Fira Code', monospace;
@@ -353,29 +463,97 @@
 
     /* ── Footer ── */
     footer {
-      max-width: 960px;
+      background: #1a1916;
+      color: #a09080;
+    }
+    .footer-main {
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 24px 40px 48px;
-      border-top: 1px solid rgba(0,0,0,0.07);
+      padding: 64px 60px 56px;
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr 1fr;
+      gap: 48px;
+    }
+    .footer-logo {
+      font-size: 14px;
+      font-weight: 500;
+      color: #f7f6f2;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
+    }
+    .footer-tagline {
+      font-size: 13px;
+      color: #6b6558;
+      line-height: 1.65;
+      margin-bottom: 24px;
+    }
+    .footer-gh {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #a09080;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-gh:hover { color: #f7f6f2; }
+    .footer-gh svg { opacity: 0.7; }
+
+    .footer-col-title {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #6b6558;
+      margin-bottom: 16px;
+    }
+    .footer-col a {
+      display: block;
+      font-size: 13px;
+      color: #a09080;
+      text-decoration: none;
+      margin-bottom: 10px;
+      transition: color 0.15s;
+    }
+    .footer-col a:hover { color: #f7f6f2; }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 60px;
+      border-top: 1px solid rgba(255,255,255,0.06);
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 12px;
-      color: #b0a898;
+      color: #4a4540;
     }
-    footer a { color: #a09080; text-decoration: none; }
-    footer a:hover { color: #1a1916; }
 
+    /* ── Responsive ── */
+    @media (max-width: 1060px) {
+      .hero { gap: 48px; padding: 72px 40px 64px; }
+      .concept-wrap { padding: 0 40px 80px; }
+      .profiles-wrap { padding: 0 40px 80px; }
+      .section-divider { padding: 0 40px; }
+      .footer-main { padding: 56px 40px 48px; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
+      .footer-bottom { padding: 20px 40px; }
+    }
     @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; gap: 48px; }
+      .hero-visual { display: none; }
+      .concept { grid-template-columns: 1fr 1fr; }
       .profiles { grid-template-columns: repeat(2, 1fr); }
+      .footer-main { grid-template-columns: 1fr 1fr; gap: 40px; }
     }
     @media (max-width: 700px) {
       nav { padding: 16px 20px; }
-      .hero { padding: 64px 20px 48px; }
+      .hero { padding: 56px 20px 48px; }
       .profiles-wrap, .concept-wrap { padding: 0 20px 60px; }
+      .section-divider { padding: 0 20px; }
       .profiles { grid-template-columns: 1fr; }
       .concept { grid-template-columns: 1fr; }
-      footer { padding: 20px; flex-direction: column; gap: 8px; }
+      .footer-main { padding: 40px 20px 32px; grid-template-columns: 1fr; gap: 32px; }
+      .footer-bottom { padding: 16px 20px; flex-direction: column; gap: 6px; text-align: center; }
     }
   </style>
 </head>
@@ -392,14 +570,67 @@
 
   <!-- Hero -->
   <section class="hero">
-    <div class="hero-eyebrow">Signal Research</div>
-    <h1>Tokens don't just store values.<br>They carry <em>meaning.</em></h1>
-    <p class="hero-desc">
-      Every token choice — a radius, a typeface, a color temperature — communicates something before the user reads a word. This repo maps those signals, and shows what happens when they conflict.
-    </p>
-    <div class="hero-actions">
-      <a href="https://github.com/yuki-uix/design-token-signals" class="btn-primary" target="_blank">View on GitHub</a>
-      <a href="#profiles" class="btn-ghost">Explore signal profiles ↓</a>
+    <div class="hero-left">
+      <div class="hero-eyebrow">Signal Research</div>
+      <h1>Tokens don't just store values.<br>They carry <em>meaning.</em></h1>
+      <p class="hero-desc">
+        Every token choice — a radius, a typeface, a color temperature — communicates something before the user reads a word. This repo maps those signals across 9 profiles, and shows what happens when they conflict.
+      </p>
+      <div class="hero-actions">
+        <a href="https://github.com/yuki-uix/design-token-signals" class="btn-primary" target="_blank">View on GitHub</a>
+        <a href="#profiles" class="btn-ghost">Explore signal profiles ↓</a>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-hidden="true">
+      <div class="swatch-grid">
+        <div class="swatch sw-clean">
+          <div class="sw-btn"></div>
+          <div class="sw-lines"><div class="sw-line wide"></div><div class="sw-line mid"></div></div>
+          <span class="sw-name">Clean Light</span>
+        </div>
+        <div class="swatch sw-minimal">
+          <div class="sw-btn"></div>
+          <div class="sw-lines"><div class="sw-line wide"></div><div class="sw-line mid"></div></div>
+          <span class="sw-name">Minimal Dark</span>
+        </div>
+        <div class="swatch sw-bold">
+          <div class="sw-btn"></div>
+          <div class="sw-lines"><div class="sw-line wide"></div><div class="sw-line mid"></div></div>
+          <span class="sw-name">Bold Dark</span>
+        </div>
+        <div class="swatch sw-warm">
+          <div class="sw-btn"></div>
+          <div class="sw-lines"><div class="sw-line wide"></div><div class="sw-line mid"></div></div>
+          <span class="sw-name">Warm Organic</span>
+        </div>
+        <div class="swatch sw-corp">
+          <div class="sw-btn"></div>
+          <div class="sw-lines"><div class="sw-line wide"></div><div class="sw-line mid"></div></div>
+          <span class="sw-name">Corporate Blue</span>
+        </div>
+        <div class="swatch sw-mono">
+          <div class="sw-btn"></div>
+          <div class="sw-lines"><div class="sw-line wide"></div><div class="sw-line mid"></div></div>
+          <span class="sw-name">Monochrome</span>
+        </div>
+        <div class="swatch sw-brut">
+          <div class="sw-btn"></div>
+          <div class="sw-lines"><div class="sw-line wide"></div><div class="sw-line mid"></div></div>
+          <span class="sw-name">Neo-Brutalist</span>
+        </div>
+        <div class="swatch sw-ai">
+          <div class="sw-btn"></div>
+          <div class="sw-lines"><div class="sw-line wide"></div><div class="sw-line mid"></div></div>
+          <span class="sw-name">AI Gradient</span>
+        </div>
+        <div class="swatch sw-play">
+          <div class="sw-btn"></div>
+          <div class="sw-lines"><div class="sw-line wide"></div><div class="sw-line mid"></div></div>
+          <span class="sw-name">Playful</span>
+        </div>
+      </div>
+      <p class="visual-caption">9 token profiles · one HTML structure</p>
     </div>
   </section>
 
@@ -618,24 +849,34 @@
   </div>
 
   <div class="concept-wrap">
+    <p class="concept-intro">
+      Users feel a design before they read it.<br>That feeling lives in your tokens.
+    </p>
     <div class="concept">
       <div class="concept-block">
-        <h3><span class="icon">◈</span> Tokens carry meaning</h3>
+        <div class="concept-icon">◎</div>
+        <h3>Every token casts a vote</h3>
         <p>
-          <code>border-radius: 4px</code> signals precision.<br>
-          <code>border-radius: 16px</code> signals approachability.<br>
-          <code>font-family: Georgia, serif</code> signals editorial tradition.<br>
-          <code>font-weight: 700</code> signals authority.<br><br>
-          None of these are wrong. But combining conflicting signals in the same interface creates dissonance — users feel it even when they can't name it.
+          <code>border-radius: 0</code> votes for precision.
+          <code>border-radius: 24px</code> votes for warmth.
+          <code>font-family: Georgia</code> votes for editorial tradition.<br><br>
+          None of these are wrong in isolation. But when tokens vote against each other — a cold accent on a warm background, a rigid radius paired with a friendly typeface — the interface fights itself. Users feel the contradiction even when they can't name it.
         </p>
       </div>
       <div class="concept-block">
-        <h3><span class="icon">⬡</span> Conflict is detectable at token level</h3>
+        <div class="concept-icon">◈</div>
+        <h3>Conflicts appear before components do</h3>
         <p>
-          Signal conflicts show up before a single component is built.
-          A warm <code>--color-bg: #fafaf8</code> combined with sharp <code>--radius: 0px</code> and a cold <code>--color-accent: #0ea5e9</code> pulls in three directions simultaneously.
-          <br><br>
-          The analysis in this repo traces "something feels off" back to the token choices causing it.
+          "Something feels off" isn't a layout problem or a component problem. It's a token problem — visible in the variables before a single element is built.<br><br>
+          This makes tokens the earliest possible intervention point. Catching a signal conflict at the token layer is cleaner and cheaper than discovering it in production. The dissonance is already there in the <code>:root</code>.
+        </p>
+      </div>
+      <div class="concept-block">
+        <div class="concept-icon">⬡</div>
+        <h3>Same structure, nine readings</h3>
+        <p>
+          Nine profiles. One HTML structure. Every demo is identical underneath — same layout, same content hierarchy, same components.<br><br>
+          Only the tokens change. But "only the tokens" turns out to mean: the implied audience, the emotional register, the level of formality, and the trust signals of the entire product. Token coherence is brand coherence.
         </p>
       </div>
     </div>
@@ -643,8 +884,47 @@
 
   <!-- Footer -->
   <footer>
-    <span>design-token-signals · <a href="https://github.com/yuki-uix">yuki-uix</a></span>
-    <a href="https://github.com/yuki-uix/design-token-signals" target="_blank">GitHub →</a>
+    <div class="footer-main">
+      <div class="footer-brand">
+        <div class="footer-logo">design-token-signals</div>
+        <p class="footer-tagline">Exploring design tokens as communication signals. Same HTML structure, nine distinct personalities.</p>
+        <a href="https://github.com/yuki-uix/design-token-signals" class="footer-gh" target="_blank">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+          yuki-uix/design-token-signals
+        </a>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Light profiles</div>
+        <a href="demo.html?theme=clean-light">Clean Light</a>
+        <a href="demo.html?theme=warm-organic">Warm Organic</a>
+        <a href="demo.html?theme=corporate-blue">Corporate Blue</a>
+        <a href="demo.html?theme=monochrome">Monochrome</a>
+        <a href="demo.html?theme=neo-brutalist">Neo-Brutalist</a>
+        <a href="demo.html?theme=playful">Playful</a>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Dark profiles</div>
+        <a href="demo.html?theme=minimal-dark">Minimal Dark</a>
+        <a href="demo.html?theme=bold-dark">Bold Dark</a>
+        <a href="demo.html?theme=ai-gradient">AI Gradient</a>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Project</div>
+        <a href="#profiles">All profiles</a>
+        <a href="https://github.com/yuki-uix/design-token-signals" target="_blank">Source code</a>
+        <a href="https://github.com/yuki-uix/design-token-signals/blob/main/tokens.css" target="_blank">tokens.css</a>
+        <a href="https://github.com/yuki-uix/design-token-signals/blob/main/demo.html" target="_blank">demo.html</a>
+        <a href="https://github.com/yuki-uix" target="_blank">By yuki-uix</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 yuki-uix · design-token-signals</span>
+      <span>HTML · CSS · GitHub Pages</span>
+    </div>
   </footer>
 
 </body>
