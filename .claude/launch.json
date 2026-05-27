@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "design-token-signals",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-p", "4200", "/Users/yuki/Documents/design-token-signals"],
+      "port": 4200
+    }
+  ]
+}

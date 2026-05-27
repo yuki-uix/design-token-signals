@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>design-token-signals</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f7f6f2;
+      color: #1a1916;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      background: #f7f6f2;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .nav-brand {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1a1916;
+      letter-spacing: -0.01em;
+    }
+    .nav-brand span { color: #a09070; font-weight: 400; }
+    .nav-gh {
+      font-size: 12px;
+      color: #8c8070;
+      text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+      transition: color 0.15s;
+    }
+    .nav-gh:hover { color: #1a1916; }
+    .nav-gh svg { opacity: 0.6; }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 96px 40px 80px;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #b07a50;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 20px; height: 1px;
+      background: #b07a50;
+    }
+    .hero h1 {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: clamp(36px, 5vw, 54px);
+      font-weight: normal;
+      letter-spacing: -0.02em;
+      line-height: 1.12;
+      color: #1a1916;
+      margin-bottom: 24px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: #6b5fd4;
+    }
+    .hero-desc {
+      font-size: 17px;
+      color: #6b6558;
+      line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 40px;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .btn-primary {
+      font-size: 13px;
+      font-weight: 500;
+      background: #1a1916;
+      color: #f7f6f2;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .btn-primary:hover { background: #333; }
+    .btn-ghost {
+      font-size: 13px;
+      color: #8c8070;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .btn-ghost:hover { color: #1a1916; }
+
+    /* ── Divider ── */
+    .section-divider {
+      max-width: 760px;
+      margin: 0 auto 48px;
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .section-divider::before, .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(0,0,0,0.08);
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: #a09080;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* ── Profile Cards ── */
+    .profiles-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+    }
+    .profiles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .profile-card {
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.07);
+      text-decoration: none;
+      display: block;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .profile-card:hover {
+      border-color: rgba(0,0,0,0.14);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+      transform: translateY(-3px);
+    }
+
+    .profile-preview {
+      height: 168px;
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Minimal Dark preview */
+    .preview-minimal { background: #0e0e0f; }
+    .preview-minimal .prev-nav { display: flex; justify-content: space-between; align-items: center; }
+    .preview-minimal .prev-logo { width: 40px; height: 6px; background: #e5e5e6; border-radius: 3px; }
+    .preview-minimal .prev-btn { width: 48px; height: 16px; background: #5e6ad2; border-radius: 4px; }
+    .preview-minimal .prev-headline { width: 70%; height: 8px; background: #e5e5e6; border-radius: 4px; margin-top: 8px; }
+    .preview-minimal .prev-sub { width: 55%; height: 5px; background: #3a3a3a; border-radius: 3px; }
+    .preview-minimal .prev-cards { display: flex; gap: 6px; margin-top: 4px; }
+    .preview-minimal .prev-card { flex: 1; height: 32px; background: #141415; border: 1px solid rgba(255,255,255,0.08); border-radius: 5px; }
+
+    /* Bold Dark preview */
+    .preview-bold { background: #070809; }
+    .preview-bold .prev-nav { display: flex; justify-content: space-between; align-items: center; }
+    .preview-bold .prev-logo { width: 48px; height: 7px; background: #f5f5f5; border-radius: 2px; }
+    .preview-bold .prev-btn { width: 52px; height: 18px; background: #ff3a3a; border-radius: 6px; }
+    .preview-bold .prev-headline { width: 68%; height: 10px; background: #f5f5f5; border-radius: 3px; margin-top: 8px; }
+    .preview-bold .prev-hl2 { width: 45%; height: 10px; background: linear-gradient(90deg,#ff6363,#ff2c2c); border-radius: 3px; }
+    .preview-bold .prev-cards { display: flex; gap: 6px; margin-top: 6px; }
+    .preview-bold .prev-card { flex: 1; height: 34px; background: #101111; border: 1px solid #242728; border-radius: 8px; }
+
+    /* Warm Organic preview */
+    .preview-warm { background: #fafaf8; border-bottom: 1px solid #eae9e4; }
+    .preview-warm .prev-nav { display: flex; justify-content: space-between; align-items: center; }
+    .preview-warm .prev-logo { width: 44px; height: 7px; background: #1a1a18; border-radius: 3px; opacity: 0.8; }
+    .preview-warm .prev-btn { width: 52px; height: 18px; background: #e8643a; border-radius: 10px; }
+    .preview-warm .prev-headline { width: 65%; height: 9px; background: #1a1a18; border-radius: 4px; margin-top: 8px; opacity: 0.85; }
+    .preview-warm .prev-sub { width: 50%; height: 6px; background: #6b6b65; border-radius: 3px; opacity: 0.5; }
+    .preview-warm .prev-cards { display: flex; gap: 6px; margin-top: 4px; }
+    .preview-warm .prev-card { flex: 1; height: 34px; background: #fff; border: 1px solid #e8e8e4; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+
+    .profile-info {
+      padding: 18px 20px;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .profile-signal-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: #a09080;
+      margin-bottom: 6px;
+    }
+    .profile-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1a1916;
+      margin-bottom: 3px;
+    }
+    .profile-desc {
+      font-size: 12px;
+      color: #a09080;
+      line-height: 1.5;
+    }
+    .profile-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: #6b5fd4;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .profile-link:hover { text-decoration: underline; }
+
+    /* ── Concept ── */
+    .concept-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 40px 80px;
+    }
+    .concept {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    .concept-block {
+      padding: 28px;
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.07);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .concept-block h3 {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1a1916;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .concept-block h3 .icon {
+      width: 22px; height: 22px;
+      background: #f0eef8;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+    .concept-block p {
+      font-size: 13px;
+      color: #6b6558;
+      line-height: 1.7;
+    }
+    .concept-block code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 11px;
+      background: #f0eef8;
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #6b5fd4;
+    }
+
+    /* ── Footer ── */
+    footer {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 24px 40px 48px;
+      border-top: 1px solid rgba(0,0,0,0.07);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #b0a898;
+    }
+    footer a { color: #a09080; text-decoration: none; }
+    footer a:hover { color: #1a1916; }
+
+    @media (max-width: 700px) {
+      nav { padding: 16px 20px; }
+      .hero { padding: 64px 20px 48px; }
+      .profiles-wrap, .concept-wrap { padding: 0 20px 60px; }
+      .profiles { grid-template-columns: 1fr; }
+      .concept { grid-template-columns: 1fr; }
+      footer { padding: 20px; flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-brand">design-token-signals <span>/ by yuki-uix</span></div>
+    <a href="https://github.com/yuki-uix/design-token-signals" class="nav-gh" target="_blank">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+      GitHub
+    </a>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-eyebrow">Signal Research</div>
+    <h1>Tokens don't just store values.<br>They carry <em>meaning.</em></h1>
+    <p class="hero-desc">
+      Every token choice — a radius, a typeface, a color temperature — communicates something before the user reads a word. This repo maps those signals, and shows what happens when they conflict.
+    </p>
+    <div class="hero-actions">
+      <a href="https://github.com/yuki-uix/design-token-signals" class="btn-primary" target="_blank">View on GitHub</a>
+      <a href="#profiles" class="btn-ghost">Explore signal profiles ↓</a>
+    </div>
+  </section>
+
+  <!-- Profiles -->
+  <div class="section-divider" id="profiles">
+    <span class="section-label">Signal Profiles — same structure, different tokens</span>
+  </div>
+
+  <div class="profiles-wrap">
+    <div class="profiles">
+
+      <a href="profiles/minimal-dark/demo.html" class="profile-card">
+        <div class="profile-preview preview-minimal">
+          <div class="prev-nav">
+            <div class="prev-logo"></div>
+            <div class="prev-btn"></div>
+          </div>
+          <div class="prev-headline"></div>
+          <div class="prev-sub"></div>
+          <div class="prev-cards">
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+          </div>
+        </div>
+        <div class="profile-info">
+          <div class="profile-signal-tag">Dark · Restrained</div>
+          <div class="profile-name">Minimal Dark</div>
+          <div class="profile-desc">Precision · Focus · Professional</div>
+          <span class="profile-link">View demo →</span>
+        </div>
+      </a>
+
+      <a href="profiles/bold-dark/demo.html" class="profile-card">
+        <div class="profile-preview preview-bold">
+          <div class="prev-nav">
+            <div class="prev-logo"></div>
+            <div class="prev-btn"></div>
+          </div>
+          <div class="prev-headline"></div>
+          <div class="prev-hl2"></div>
+          <div class="prev-cards">
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+          </div>
+        </div>
+        <div class="profile-info">
+          <div class="profile-signal-tag">Dark · High contrast</div>
+          <div class="profile-name">Bold Dark</div>
+          <div class="profile-desc">Power · Developer-native · Dramatic</div>
+          <span class="profile-link">View demo →</span>
+        </div>
+      </a>
+
+      <a href="profiles/warm-organic/demo.html" class="profile-card">
+        <div class="profile-preview preview-warm">
+          <div class="prev-nav">
+            <div class="prev-logo"></div>
+            <div class="prev-btn"></div>
+          </div>
+          <div class="prev-headline"></div>
+          <div class="prev-sub"></div>
+          <div class="prev-cards">
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+            <div class="prev-card"></div>
+          </div>
+        </div>
+        <div class="profile-info">
+          <div class="profile-signal-tag">Light · Organic</div>
+          <div class="profile-name">Warm Organic</div>
+          <div class="profile-desc">Humanity · Warmth · Thoughtful</div>
+          <span class="profile-link">View demo →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Concept -->
+  <div class="section-divider">
+    <span class="section-label">The idea</span>
+  </div>
+
+  <div class="concept-wrap">
+    <div class="concept">
+      <div class="concept-block">
+        <h3><span class="icon">◈</span> Tokens carry meaning</h3>
+        <p>
+          <code>border-radius: 4px</code> signals precision.<br>
+          <code>border-radius: 16px</code> signals approachability.<br>
+          <code>font-family: Georgia, serif</code> signals editorial tradition.<br>
+          <code>font-weight: 700</code> signals authority.<br><br>
+          None of these are wrong. But combining conflicting signals in the same interface creates dissonance — users feel it even when they can't name it.
+        </p>
+      </div>
+      <div class="concept-block">
+        <h3><span class="icon">⬡</span> Conflict is detectable at token level</h3>
+        <p>
+          Signal conflicts show up before a single component is built.
+          A warm <code>--color-bg: #fafaf8</code> combined with sharp <code>--radius: 0px</code> and a cold <code>--color-accent: #0ea5e9</code> pulls in three directions simultaneously.
+          <br><br>
+          The analysis in this repo traces "something feels off" back to the token choices causing it.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <span>design-token-signals · <a href="https://github.com/yuki-uix">yuki-uix</a></span>
+    <a href="https://github.com/yuki-uix/design-token-signals" target="_blank">GitHub →</a>
+  </footer>
+
+</body>
+</html>

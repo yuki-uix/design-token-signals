@@ -1,0 +1,51 @@
+/* ─────────────────────────────────────────
+   SIGNAL PROFILE: Bold Dark
+   Inspired by: Raycast
+   Signal: Power · Developer-native · Dramatic
+───────────────────────────────────────── */
+
+:root {
+  /* Color */
+  --color-bg:           #070809;
+  --color-bg-secondary: #0d0d0d;
+  --color-bg-elevated:  #101111;
+  --color-border:       #242728;
+  --color-border-strong:#2e3133;
+  --color-accent:       #ff3a3a;
+  --color-accent-hover: #ff5555;
+  --color-text-1:       #f5f5f5;
+  --color-text-2:       #888888;
+  --color-text-3:       #555555;
+
+  /* Typography */
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --text-xs:    11px;
+  --text-sm:    13px;
+  --text-base:  15px;
+  --text-lg:    18px;
+  --text-xl:    24px;
+  --text-2xl:   32px;
+  --text-3xl:   48px;
+  --weight-normal:  400;
+  --weight-medium:  500;
+  --weight-bold:    700;
+  --leading-base:   1.5;
+  --tracking-tight: -0.03em;
+  --tracking-base:  -0.01em;
+
+  /* Form */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.6);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.6);
+}
