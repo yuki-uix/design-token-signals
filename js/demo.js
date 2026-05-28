@@ -240,6 +240,9 @@ const THEMES = {
   }
 };
 
+// Timer ref for copy-css-btn reset — declared here so applyTheme can clearTimeout safely
+let _copyCssBtnTimer = null;
+
 // ─── Core: apply a theme ──────────────────────────────
 function applyTheme(theme) {
   const data = THEMES[theme];
@@ -287,11 +290,17 @@ function applyTheme(theme) {
     </div>
   `).join('');
 
+  clearTimeout(_copyCssBtnTimer); // cancel any pending reset from previous button instance
   document.getElementById('token-legend').innerHTML = `
     <div class="legend-title">Signal · ${data.label}</div>
     ${tokenRows}
-    <a href="index.html" class="legend-back">← all profiles</a>
+    <div class="legend-footer">
+      <a href="index.html" class="legend-back">← all profiles</a>
+      <button class="copy-css-btn" id="copy-css-btn">复制 CSS</button>
+    </div>
   `;
+  // Re-bind after innerHTML replacement
+  document.getElementById('copy-css-btn').addEventListener('click', handleCopyCss);
 
   // Update trigger button
   const accentVal = data.tokens['--color-accent'].val;
@@ -421,6 +430,80 @@ async function copyToClipboard(text) {
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
+  }
+}
+
+// ─── S2: Copy CSS variables ───────────────────────────
+
+// Format token object → :root { } block
+function formatCSSVars(tokens) {
+  const lines = Object.entries(tokens).map(([k, v]) => `  ${k}: ${v};`).join('\n');
+  return `:root {\n${lines}\n}`;
+}
+
+// Clipboard with boolean return (AC-4: visible fallback on false)
+async function tryCopyToClipboard(text) {
+  if (navigator.clipboard?.writeText) {
+    try { await navigator.clipboard.writeText(text); return true; } catch { /* fall through */ }
+  }
+  try {
+    const el = Object.assign(document.createElement('textarea'), {
+      value: text,
+      style: 'position:fixed;opacity:0;pointer-events:none',
+    });
+    document.body.appendChild(el);
+    el.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(el);
+    if (ok) return true;
+  } catch { /* fall through */ }
+  return false;
+}
+
+// Fallback modal — shown when both clipboard paths fail (AC-4)
+function showCSSFallback(css) {
+  const modal    = document.getElementById('css-fallback');
+  const textarea = document.getElementById('css-fallback-textarea');
+  textarea.value = css;
+  modal.hidden   = false;
+  textarea.focus();
+  textarea.select();
+}
+
+document.getElementById('css-fallback-close').addEventListener('click', () => {
+  document.getElementById('css-fallback').hidden = true;
+});
+
+// Main copy handler — re-bound each time applyTheme renders the button
+async function handleCopyCss() {
+  const btn = document.getElementById('copy-css-btn');
+  if (btn?.dataset.state === 'copied') return; // AC-2: no re-trigger during cooldown
+
+  const theme = document.body.getAttribute('data-theme');
+
+  let css;
+  try {
+    const tokens = await parseThemeTokens(theme);  // AC-3: always fresh, no cache
+    css = formatCSSVars(tokens);
+  } catch {
+    // fetch failed (network error / file not found) — surface to user, don't hang
+    btn.textContent = '复制失败';
+    setTimeout(() => { btn.textContent = '复制 CSS'; }, 2000);
+    return;
+  }
+
+  const ok = await tryCopyToClipboard(css);
+
+  if (ok) {
+    btn.textContent       = '已复制 ✓';
+    btn.dataset.state     = 'copied';           // AC-2: data-state="copied"
+    _copyCssBtnTimer = setTimeout(() => {
+      btn.textContent   = '复制 CSS';
+      delete btn.dataset.state;
+      _copyCssBtnTimer  = null;
+    }, 2000);
+  } else {
+    showCSSFallback(css);                        // AC-4: visible fallback, not silent
   }
 }
 
