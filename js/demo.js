@@ -314,8 +314,9 @@ function applyTheme(theme) {
     if (check) check.textContent = isActive ? '✓' : '';
   });
 
-  // Update URL without reload (hash takes priority; query param kept for compatibility)
-  window.location.hash = theme;
+  // Sync URL hash without creating a new history entry (back/forward is handled
+  // by history.pushState in the panel click handler)
+  history.replaceState(null, '', '#' + theme);
 }
 
 // ─── Utility: parse all CSS custom properties for a
@@ -362,6 +363,7 @@ Object.entries(THEMES).forEach(([key, data]) => {
     <span class="check"></span>
   `;
   btn.addEventListener('click', () => {
+    history.pushState(null, '', '#' + key);  // push history entry for back/forward
     applyTheme(key);
     document.getElementById('switcher').classList.remove('open');
     document.getElementById('switcher-trigger').setAttribute('aria-expanded', 'false');
@@ -394,4 +396,47 @@ document.addEventListener('click', () => {
 
 document.getElementById('switcher-panel').addEventListener('click', (e) => {
   e.stopPropagation();
+});
+
+// ─── AC-4: Back / forward navigation ─────────────────
+function applyFromHash() {
+  const hash = location.hash.slice(1);
+  const current = document.body.getAttribute('data-theme');
+  const target = THEMES[hash] ? hash : 'minimal-dark';
+  if (target !== current) applyTheme(target);
+}
+window.addEventListener('hashchange', applyFromHash);
+window.addEventListener('popstate',   applyFromHash);
+
+// ─── Clipboard utility (shared by S1 share link + S2 copy CSS) ──
+async function copyToClipboard(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+  } else {
+    // execCommand fallback for non-HTTPS / older browsers
+    const el = document.createElement('textarea');
+    el.value = text;
+    el.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+  }
+}
+
+// ─── AC-5: Share link button ──────────────────────────
+document.getElementById('share-btn').addEventListener('click', async () => {
+  const btn = document.getElementById('share-btn');
+  try {
+    await copyToClipboard(window.location.href);
+    btn.textContent = '已复制 ✓';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = '复制链接';
+      btn.classList.remove('copied');
+    }, 2000);
+  } catch {
+    btn.textContent = '复制失败';
+    setTimeout(() => { btn.textContent = '复制链接'; }, 2000);
+  }
 });
