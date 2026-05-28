@@ -7,6 +7,13 @@ const THEMES = {
   'clean-light': {
     label: 'Clean Light',
     signal: 'Trust · Professional · Clarity',
+    meta: {
+      tagline: 'Trust · Professional · Clarity',
+      useCases: ['SaaS 产品官网', '金融/支付工具', 'B2B 管理平台', '团队协作工具'],
+      antiCases: ['游戏/娱乐产品', '强品牌个性的消费类应用'],
+      rationale: '低饱和度蓝紫 accent + 浅灰白背景 + 中等字重，传递可信赖感；8px 圆角保持亲和而不失专业',
+      brandExamples: ['Stripe', 'Linear', 'Notion'],
+    },
     navCta: 'Get started',
     badge: 'Now available · Public beta',
     h1Line1: 'The infrastructure for',
@@ -33,6 +40,13 @@ const THEMES = {
   'minimal-dark': {
     label: 'Minimal Dark',
     signal: 'Precision · Focus · Professional',
+    meta: {
+      tagline: 'Precision · Focus · Professional',
+      useCases: ['开发者工具', 'CLI/IDE 类产品', '数据分析平台', '专业工作流工具'],
+      antiCases: ['面向普通消费者的产品', '需要暖色调或亲和感的品牌'],
+      rationale: '近黑背景 + 冷色调蓝紫 accent，降低视觉噪音；高对比度文字层次强化信息密度感',
+      brandExamples: ['Vercel', 'GitHub Dark', 'Raycast'],
+    },
     navCta: 'Get started',
     badge: 'Now in public beta',
     h1Line1: 'The workspace for',
@@ -59,6 +73,13 @@ const THEMES = {
   'bold-dark': {
     label: 'Bold Dark',
     signal: 'Power · Developer-native · Dramatic',
+    meta: {
+      tagline: 'Power · Developer-native · Dramatic',
+      useCases: ['开发者平台', 'CLI/终端工具', '安全/监控产品', '高性能计算类产品'],
+      antiCases: ['企业合规类产品', '医疗/金融等需低调可信形象的场景'],
+      rationale: '极暗背景 + 高饱和红色 accent + 粗字重，制造强烈对比；12px 圆角平衡现代感与力量感',
+      brandExamples: ['Vercel Edge', 'Tailscale', 'Fly.io'],
+    },
     navCta: 'Get started →',
     badge: '↯ Public beta',
     h1Line1: 'Command your',
@@ -85,6 +106,13 @@ const THEMES = {
   'warm-organic': {
     label: 'Warm Organic',
     signal: 'Humanity · Warmth · Thoughtful',
+    meta: {
+      tagline: 'Humanity · Warmth · Thoughtful',
+      useCases: ['个人知识管理工具', '写作/博客平台', '健康/生活方式产品', '教育类工具'],
+      antiCases: ['金融/合规类产品', '需要高密度信息展示的后台'],
+      rationale: '米白暖底色 + 橙棕 accent + 衬线字体，创造纸质质感；16px 大圆角和宽行距营造放松节奏',
+      brandExamples: ['Bear', 'iA Writer', 'Readwise'],
+    },
     navCta: 'Start writing',
     badge: '✦ Made for how you think',
     h1Line1: 'Work that feels',
@@ -111,6 +139,13 @@ const THEMES = {
   'playful': {
     label: 'Playful',
     signal: 'Energy · Expression · Delight',
+    meta: {
+      tagline: 'Energy · Expression · Delight',
+      useCases: ['消费类 App', '创意工具', '社区/社交产品', '年轻用户向的 SaaS'],
+      antiCases: ['企业采购决策场景', '合规/安全类产品', '信息密度高的数据工具'],
+      rationale: '纯白底色 + 高饱和紫色 + 超大圆角 + 重字重，制造张力感；字体选择放大活力信号',
+      brandExamples: ['Framer', 'Lemon Squeezy', 'Superhuman'],
+    },
     navCta: 'Try it free ✦',
     badge: '✦ Something new is here',
     h1Line1: 'Work you\'ll',
@@ -137,6 +172,13 @@ const THEMES = {
   'neo-brutalist': {
     label: 'Neo-Brutalist',
     signal: 'Directness · Honesty · Anti-polish',
+    meta: {
+      tagline: 'Directness · Honesty · Anti-polish',
+      useCases: ['独立开发者产品', '技术博客/文档站', '反设计风格的工具产品', '开源项目官网'],
+      antiCases: ['企业销售场景', '需要第一印象建立信任的 B2B 产品'],
+      rationale: '0px 圆角 + 纯黑描边阴影 + 高对比黄色 accent，拒绝视觉粉饰；Space Grotesk 字体强化反主流气质',
+      brandExamples: ['Pika', 'Gumroad', 'Tinybird'],
+    },
     navCta: 'Start now',
     badge: '→ BETA',
     h1Line1: 'No fluff.',
@@ -163,6 +205,13 @@ const THEMES = {
   'corporate-blue': {
     label: 'Corporate Blue',
     signal: 'Trust · Compliance · Risk-averse',
+    meta: {
+      tagline: 'Trust · Compliance · Risk-averse',
+      useCases: ['企业级 SaaS', '政府/合规类平台', '金融服务产品', '医疗健康平台'],
+      antiCases: ['面向年轻消费者的产品', '创意类或个性化品牌'],
+      rationale: '纯白背景 + 深蓝 accent + 极小圆角(4px)，传递可预期性和机构感；避免任何视觉意外',
+      brandExamples: ['Salesforce', 'ServiceNow', 'DocuSign'],
+    },
     navCta: 'Schedule a demo',
     badge: 'Trusted by 50,000+ companies',
     h1Line1: 'Grow your business',
@@ -189,6 +238,13 @@ const THEMES = {
   'monochrome': {
     label: 'Monochrome',
     signal: 'Confidence · Timeless · Editorial',
+    meta: {
+      tagline: 'Confidence · Timeless · Editorial',
+      useCases: ['高端品牌官网', '投资组合/作品集', '出版/媒体平台', '奢侈品类产品'],
+      antiCases: ['需要多色彩表达品牌活力的产品', '信息架构复杂的管理后台'],
+      rationale: '纯黑白 + 衬线字体(Playfair Display) + 大行距，通过克制传递自信；2px 圆角接近无圆角，强调正式感',
+      brandExamples: ['Are.na', 'The Economist', 'MSCHF'],
+    },
     navCta: 'Begin',
     badge: 'Est. 2024',
     h1Line1: 'The discipline of',
@@ -215,6 +271,13 @@ const THEMES = {
   'ai-gradient': {
     label: 'AI Gradient',
     signal: 'Future · Ambition · Scale',
+    meta: {
+      tagline: 'Future · Ambition · Scale',
+      useCases: ['AI 产品官网', '技术基础设施平台', 'Web3/前沿技术产品', '融资路演式落地页'],
+      antiCases: ['需要建立长期信任的传统行业', '日常工具类产品（gradient 疲劳风险）'],
+      rationale: '接近纯黑底色 + 紫色渐变 accent + 大圆角，传递科技感和未来主义；与 minimal-dark 的区别在于动感而非静止',
+      brandExamples: ['Replicate', 'Runway', 'ElevenLabs'],
+    },
     navCta: 'Get early access',
     badge: '✦ Powered by AI',
     h1Line1: 'The future of work',
@@ -290,9 +353,33 @@ function applyTheme(theme) {
     </div>
   `).join('');
 
+  // Render signal meta accordion (if meta data exists)
+  const m = data.meta;
+  const metaAccordion = m ? `
+    <details class="signal-meta">
+      <summary class="signal-meta-summary">${m.tagline}</summary>
+      <div class="signal-meta-body">
+        <p class="signal-meta-rationale">${m.rationale}</p>
+        <div class="signal-meta-section">
+          <span class="signal-meta-label">适合</span>
+          <span class="signal-meta-tags">${m.useCases.map(u => `<span class="signal-tag signal-tag--use">${u}</span>`).join('')}</span>
+        </div>
+        <div class="signal-meta-section">
+          <span class="signal-meta-label">不适合</span>
+          <span class="signal-meta-tags">${m.antiCases.map(a => `<span class="signal-tag signal-tag--anti">${a}</span>`).join('')}</span>
+        </div>
+        ${m.brandExamples ? `<div class="signal-meta-section">
+          <span class="signal-meta-label">参考品牌</span>
+          <span class="signal-meta-tags">${m.brandExamples.map(b => `<span class="signal-tag signal-tag--brand">${b}</span>`).join('')}</span>
+        </div>` : ''}
+      </div>
+    </details>
+  ` : '';
+
   clearTimeout(_copyCssBtnTimer); // cancel any pending reset from previous button instance
   document.getElementById('token-legend').innerHTML = `
     <div class="legend-title">Signal · ${data.label}</div>
+    ${metaAccordion}
     ${tokenRows}
     <div class="legend-footer">
       <a href="index.html" class="legend-back">← all profiles</a>
