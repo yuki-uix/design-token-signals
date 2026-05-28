@@ -384,12 +384,14 @@ function applyTheme(theme) {
     <div class="legend-footer">
       <a href="index.html" class="legend-back">← all profiles</a>
       <div class="legend-actions">
+        <button class="export-signal-btn" id="export-signal-btn">导出 .signal.md</button>
         <button class="export-json-btn" id="export-json-btn">导出 JSON</button>
         <button class="copy-css-btn" id="copy-css-btn">复制 CSS</button>
       </div>
     </div>
   `;
   // Re-bind after innerHTML replacement
+  document.getElementById('export-signal-btn').addEventListener('click', handleExportSignalMd);
   document.getElementById('export-json-btn').addEventListener('click', handleExportJson);
   document.getElementById('copy-css-btn').addEventListener('click', handleCopyCss);
 
@@ -619,6 +621,69 @@ async function handleExportJson() {
   const a    = Object.assign(document.createElement('a'), {
     href: url,
     download: `${theme}-tokens.json`,
+  });
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ─── S7: Export .signal.md ───────────────────────────
+async function handleExportSignalMd() {
+  // Snapshot theme + meta at click time before any async work (AC-5: race guard)
+  const theme = document.body.getAttribute('data-theme');
+  const data  = THEMES[theme];
+  const btn   = document.getElementById('export-signal-btn');
+
+  if (!data?.meta) return;
+
+  let tokens;
+  try {
+    tokens = await parseThemeTokens(theme);  // same source as S2/S3
+  } catch {
+    btn.textContent = '导出失败';
+    setTimeout(() => { btn.textContent = '导出 .signal.md'; }, 2000);
+    return;
+  }
+
+  const m = data.meta;
+
+  const tokenLines = Object.entries(tokens)
+    .map(([k, v]) => `${k}: ${v};`)
+    .join('\n');
+
+  const useCaseList  = m.useCases.map(u => `- ${u}`).join('\n');
+  const antiCaseList = m.antiCases.map(a => `- ${a}`).join('\n');
+  const brandLine    = m.brandExamples?.length ? m.brandExamples.join(' · ') : null;
+
+  const sections = [
+    `# Design Signal — ${data.label}`,
+    `<!-- AI: This file defines the visual design system for this project.`,
+    `     Apply these CSS variables when generating UI components. -->`,
+    ``,
+    `## Signal`,
+    m.tagline,
+    ``,
+    `## When to use`,
+    useCaseList,
+    ``,
+    `## When to avoid`,
+    antiCaseList,
+    ``,
+    `## Why these tokens`,
+    m.rationale,
+    ``,
+    ...(brandLine ? [`## Reference brands`, brandLine, ``] : []),
+    `## Tokens`,
+    '```css',
+    tokenLines,
+    '```',
+  ];
+
+  const content = sections.join('\n');
+  const blob    = new Blob([content], { type: 'text/markdown' });
+  const url     = URL.createObjectURL(blob);
+  const a       = Object.assign(document.createElement('a'), {
+    href:     url,
+    download: `${theme}.signal.md`,
   });
   a.click();
   URL.revokeObjectURL(url);
