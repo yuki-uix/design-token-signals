@@ -33,7 +33,7 @@
   --color-accent-hover:  #5851e5;
   --color-text-1:        #0a2540;
   --color-text-2:        #425466;
-  --color-text-3:        #8898aa;
+  --color-text-3:        #738595;
 
   --font-display: 'Inter', -apple-system, sans-serif;
   --font-body:    -apple-system, 'Inter', sans-serif;
@@ -71,7 +71,7 @@
   --color-accent-hover:  #4f5bbf;
   --color-text-1:        #e5e5e6;
   --color-text-2:        #8f8f8f;
-  --color-text-3:        #5a5a5a;
+  --color-text-3:        #696969;
 
   --font-display: 'Inter', system-ui, sans-serif;
   --font-body:    'Inter', system-ui, sans-serif;
@@ -109,7 +109,7 @@
   --color-accent-hover:  #e52e2e;
   --color-text-1:        #f5f5f5;
   --color-text-2:        #8a8f98;
-  --color-text-3:        #4a4f57;
+  --color-text-3:        #676d76;
 
   --font-display: 'Inter', system-ui, sans-serif;
   --font-body:    'Inter', system-ui, sans-serif;
@@ -147,7 +147,7 @@
   --color-accent-hover:  #d4562e;
   --color-text-1:        #1a1a18;
   --color-text-2:        #6b6b65;
-  --color-text-3:        #9f9f98;
+  --color-text-3:        #7d7d76;
 
   --font-display: 'Georgia', 'Times New Roman', serif;
   --font-body:    system-ui, -apple-system, sans-serif;
@@ -185,7 +185,7 @@
   --color-accent-hover:  #6d28d9;
   --color-text-1:        #18003d;
   --color-text-2:        #5b21b6;
-  --color-text-3:        #a78bfa;
+  --color-text-3:        #8e68e8;
 
   --font-display: 'Plus Jakarta Sans', system-ui, sans-serif;
   --font-body:    'Plus Jakarta Sans', system-ui, sans-serif;
@@ -261,7 +261,7 @@
   --color-accent-hover:  #7c3aed;
   --color-text-1:        #ffffff;
   --color-text-2:        rgba(255,255,255,.55);
-  --color-text-3:        rgba(255,255,255,.28);
+  --color-text-3:        rgba(255,255,255,.40);
 
   --font-display: 'Inter', system-ui, sans-serif;
   --font-body:    'Inter', system-ui, sans-serif;
@@ -299,7 +299,7 @@
   --color-accent-hover:  #005fb2;
   --color-text-1:        #181818;
   --color-text-2:        #54698d;
-  --color-text-3:        #9faab5;
+  --color-text-3:        #7d8fa0;
 
   --font-display: 'Inter', -apple-system, sans-serif;
   --font-body:    -apple-system, 'Inter', sans-serif;
@@ -337,7 +337,7 @@
   --color-accent-hover:  #333333;
   --color-text-1:        #000000;
   --color-text-2:        #555555;
-  --color-text-3:        #999999;
+  --color-text-3:        #8c8c8c;
 
   --font-display: 'Playfair Display', 'Georgia', serif;
   --font-body:    'Inter', system-ui, sans-serif;
