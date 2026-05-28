@@ -379,14 +379,14 @@ function applyTheme(theme) {
   clearTimeout(_copyCssBtnTimer); // cancel any pending reset from previous button instance
   document.getElementById('token-legend').innerHTML = `
     <div class="legend-title">Signal · ${data.label}</div>
+    <button class="export-signal-btn" id="export-signal-btn">导出 .signal.md</button>
     ${metaAccordion}
     ${tokenRows}
     <div class="legend-footer">
       <a href="index.html" class="legend-back">← all profiles</a>
       <div class="legend-actions">
-        <button class="export-signal-btn" id="export-signal-btn">导出 .signal.md</button>
-        <button class="export-json-btn" id="export-json-btn">导出 JSON</button>
-        <button class="copy-css-btn" id="copy-css-btn">复制 CSS</button>
+        <button class="export-json-btn" id="export-json-btn">JSON</button>
+        <button class="copy-css-btn" id="copy-css-btn">CSS</button>
       </div>
     </div>
   `;
@@ -582,7 +582,7 @@ async function handleCopyCss() {
   } catch {
     // fetch failed (network error / file not found) — surface to user, don't hang
     btn.textContent = '复制失败';
-    setTimeout(() => { btn.textContent = '复制 CSS'; }, 2000);
+    setTimeout(() => { btn.textContent = 'CSS'; }, 2000);
     return;
   }
 
@@ -592,7 +592,7 @@ async function handleCopyCss() {
     btn.textContent       = '已复制 ✓';
     btn.dataset.state     = 'copied';           // AC-2: data-state="copied"
     _copyCssBtnTimer = setTimeout(() => {
-      btn.textContent   = '复制 CSS';
+      btn.textContent   = 'CSS';
       delete btn.dataset.state;
       _copyCssBtnTimer  = null;
     }, 2000);
@@ -611,7 +611,7 @@ async function handleExportJson() {
     tokens = await parseThemeTokens(theme);  // always fresh, same source as copy-css
   } catch {
     btn.textContent = '导出失败';
-    setTimeout(() => { btn.textContent = '导出 JSON'; }, 2000);
+    setTimeout(() => { btn.textContent = 'JSON'; }, 2000);
     return;
   }
 

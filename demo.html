@@ -390,12 +390,12 @@
       border: 1px solid var(--color-border-strong);
       border-radius: var(--radius-lg);
       padding: var(--space-4);
-      width: 226px;
+      width: 248px;
       box-shadow: var(--shadow-md);
       transition: background-color 0.25s, border-color 0.25s, border-radius 0.25s;
     }
     .legend-title {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: var(--weight-medium);
       color: var(--color-text-3);
       letter-spacing: 0.07em;
@@ -412,13 +412,13 @@
       margin-bottom: var(--space-2);
     }
     .legend-key {
-      font-size: 10px;
+      font-size: 11px;
       font-family: 'SF Mono', 'Fira Code', monospace;
       color: var(--color-text-2);
       transition: color 0.25s;
     }
     .legend-val {
-      font-size: 10px;
+      font-size: 11px;
       font-family: 'SF Mono', 'Fira Code', monospace;
       color: var(--color-accent);
       transition: color 0.25s;
@@ -439,7 +439,7 @@
       transition: border-color 0.25s;
     }
     .legend-back {
-      font-size: 10px;
+      font-size: 11px;
       color: var(--color-text-3);
       text-decoration: none;
       transition: color 0.15s;
@@ -455,7 +455,7 @@
       transition: border-color 0.25s;
     }
     .signal-meta-summary {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: var(--weight-medium);
       color: var(--color-text-3);
       padding: 6px 8px;
@@ -496,7 +496,7 @@
       gap: 6px;
     }
     .signal-meta-label {
-      font-size: 9px;
+      font-size: 11px;
       font-weight: var(--weight-medium);
       color: var(--color-text-3);
       white-space: nowrap;
@@ -509,7 +509,7 @@
       gap: 3px;
     }
     .signal-tag {
-      font-size: 9px;
+      font-size: 11px;
       padding: 1px 5px;
       border-radius: 3px;
       line-height: 1.6;
@@ -533,20 +533,25 @@
       gap: 10px;
     }
     .export-signal-btn {
-      font-size: 10px;
+      display: block;
+      width: 100%;
+      height: 28px;
+      font-size: 11px;
       font-weight: var(--weight-medium);
-      color: var(--color-text-3);
-      background: transparent;
+      color: #fff;
+      background: var(--color-accent);
       border: none;
+      border-radius: calc(var(--radius-lg) / 2);
       cursor: pointer;
       font-family: inherit;
-      padding: 0;
+      padding: 0 var(--space-3);
       line-height: 1;
-      transition: color 0.15s;
+      margin-bottom: var(--space-2);
+      transition: opacity 0.15s, border-radius 0.25s, background 0.25s;
     }
-    .export-signal-btn:hover { color: var(--color-text-2); }
+    .export-signal-btn:hover { opacity: 0.85; }
     .export-json-btn {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: var(--weight-medium);
       color: var(--color-text-3);
       background: transparent;
@@ -559,7 +564,7 @@
     }
     .export-json-btn:hover { color: var(--color-text-2); }
     .copy-css-btn {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: var(--weight-medium);
       color: var(--color-accent);
       background: transparent;
