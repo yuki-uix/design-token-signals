@@ -501,6 +501,7 @@ document.getElementById('switcher-panel').addEventListener('click', (e) => {
 // ─── AC-4: Back / forward navigation ─────────────────
 function applyFromHash() {
   const hash = location.hash.slice(1);
+  if (!hash) return; // ignore href="#" clicks — empty hash should not reset the theme
   const current = document.body.getAttribute('data-theme');
   const target = THEMES[hash] ? hash : 'minimal-dark';
   if (target !== current) applyTheme(target);
