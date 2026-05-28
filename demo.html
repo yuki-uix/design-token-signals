@@ -429,18 +429,89 @@
       border: 1px solid var(--color-border-strong);
       flex-shrink: 0;
     }
-    .legend-back {
-      display: block;
+    .legend-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       margin-top: var(--space-3);
       padding-top: var(--space-2);
       border-top: 1px solid var(--color-border);
+      transition: border-color 0.25s;
+    }
+    .legend-back {
       font-size: 10px;
       color: var(--color-text-3);
       text-decoration: none;
-      text-align: center;
-      transition: color 0.15s, border-color 0.25s;
+      transition: color 0.15s;
     }
     .legend-back:hover { color: var(--color-text-2); }
+    .copy-css-btn {
+      font-size: 10px;
+      font-weight: var(--weight-medium);
+      color: var(--color-accent);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 0;
+      line-height: 1;
+      transition: opacity 0.15s;
+    }
+    .copy-css-btn:hover { opacity: 0.75; }
+    .copy-css-btn[data-state="copied"] { color: #4ade80; cursor: default; }
+    /* ── CSS Fallback Modal ── */
+    .css-fallback {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+    .css-fallback[hidden] { display: none; }
+    .css-fallback-box {
+      background: #1a1a1f;
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 12px;
+      padding: 16px;
+      width: min(520px, calc(100vw - 32px));
+      box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+    }
+    .css-fallback-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+    }
+    .css-fallback-close {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,0.45);
+      font-size: 18px;
+      line-height: 1;
+      padding: 0;
+      transition: color 0.15s;
+    }
+    .css-fallback-close:hover { color: rgba(255,255,255,0.9); }
+    .css-fallback-textarea {
+      width: 100%;
+      height: 240px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-size: 11px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: rgba(255,255,255,0.8);
+      resize: none;
+      line-height: 1.6;
+      outline: none;
+      box-sizing: border-box;
+    }
 
     /* ── Responsive ── */
     @media (max-width: 640px) {
@@ -513,6 +584,17 @@
       </div>
     </div>
     <aside class="token-legend" id="token-legend"></aside>
+  </div>
+
+  <!-- AC-4: CSS copy fallback modal (shown when clipboard API unavailable) -->
+  <div class="css-fallback" id="css-fallback" hidden>
+    <div class="css-fallback-box">
+      <div class="css-fallback-header">
+        <span>无法自动复制，请手动全选复制</span>
+        <button class="css-fallback-close" id="css-fallback-close" aria-label="关闭">×</button>
+      </div>
+      <textarea class="css-fallback-textarea" id="css-fallback-textarea" readonly spellcheck="false"></textarea>
+    </div>
   </div>
 
   <script src="js/demo.js"></script>
