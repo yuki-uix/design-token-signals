@@ -296,10 +296,14 @@ function applyTheme(theme) {
     ${tokenRows}
     <div class="legend-footer">
       <a href="index.html" class="legend-back">← all profiles</a>
-      <button class="copy-css-btn" id="copy-css-btn">复制 CSS</button>
+      <div class="legend-actions">
+        <button class="export-json-btn" id="export-json-btn">导出 JSON</button>
+        <button class="copy-css-btn" id="copy-css-btn">复制 CSS</button>
+      </div>
     </div>
   `;
   // Re-bind after innerHTML replacement
+  document.getElementById('export-json-btn').addEventListener('click', handleExportJson);
   document.getElementById('copy-css-btn').addEventListener('click', handleCopyCss);
 
   // Update trigger button
@@ -505,6 +509,31 @@ async function handleCopyCss() {
   } else {
     showCSSFallback(css);                        // AC-4: visible fallback, not silent
   }
+}
+
+// ─── S3: Export Token JSON ────────────────────────────
+async function handleExportJson() {
+  const btn = document.getElementById('export-json-btn');
+  const theme = document.body.getAttribute('data-theme');
+
+  let tokens;
+  try {
+    tokens = await parseThemeTokens(theme);  // always fresh, same source as copy-css
+  } catch {
+    btn.textContent = '导出失败';
+    setTimeout(() => { btn.textContent = '导出 JSON'; }, 2000);
+    return;
+  }
+
+  const json = JSON.stringify(tokens, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = Object.assign(document.createElement('a'), {
+    href: url,
+    download: `${theme}-tokens.json`,
+  });
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 // ─── AC-5: Share link button ──────────────────────────
