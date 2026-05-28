@@ -445,6 +445,88 @@
       transition: color 0.15s;
     }
     .legend-back:hover { color: var(--color-text-2); }
+
+    /* ── Signal meta accordion ── */
+    .signal-meta {
+      margin-bottom: var(--space-2);
+      border: 1px solid var(--color-border);
+      border-radius: calc(var(--radius-lg) / 2);
+      overflow: hidden;
+      transition: border-color 0.25s;
+    }
+    .signal-meta-summary {
+      font-size: 10px;
+      font-weight: var(--weight-medium);
+      color: var(--color-text-3);
+      padding: 6px 8px;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      user-select: none;
+      transition: color 0.15s, background 0.15s;
+    }
+    .signal-meta-summary::-webkit-details-marker { display: none; }
+    .signal-meta-summary::before {
+      content: '▶';
+      font-size: 7px;
+      transition: transform 0.15s;
+      display: inline-block;
+    }
+    details[open] .signal-meta-summary::before { transform: rotate(90deg); }
+    .signal-meta-summary:hover { color: var(--color-text-2); background: var(--color-bg-secondary); }
+    .signal-meta-body {
+      padding: 8px;
+      border-top: 1px solid var(--color-border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: border-color 0.25s;
+    }
+    .signal-meta-rationale {
+      font-size: 10px;
+      color: var(--color-text-2);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .signal-meta-section {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .signal-meta-label {
+      font-size: 9px;
+      font-weight: var(--weight-medium);
+      color: var(--color-text-3);
+      white-space: nowrap;
+      padding-top: 2px;
+      min-width: 36px;
+    }
+    .signal-meta-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+    }
+    .signal-tag {
+      font-size: 9px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      line-height: 1.6;
+    }
+    .signal-tag--use {
+      background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+      color: var(--color-accent);
+    }
+    .signal-tag--anti {
+      background: color-mix(in srgb, var(--color-text-3) 10%, transparent);
+      color: var(--color-text-3);
+    }
+    .signal-tag--brand {
+      background: color-mix(in srgb, var(--color-text-2) 8%, transparent);
+      color: var(--color-text-2);
+    }
+
     .legend-actions {
       display: flex;
       align-items: center;
