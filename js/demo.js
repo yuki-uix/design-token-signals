@@ -687,6 +687,43 @@ async function handleExportSignalMd() {
   });
   a.click();
   URL.revokeObjectURL(url);
+
+  // S9: show post-export guidance (AC-1)
+  showSignalGuide();
+}
+
+// ─── S9: Post-export guidance ─────────────────────────
+const SIGNAL_GUIDE_PROMPT = '参考项目中的 .signal.md 作为 UI 风格约束';
+
+function showSignalGuide() {
+  // Idempotent — don't insert twice (AC-5: no interference)
+  if (document.getElementById('signal-guide')) return;
+
+  const guide = document.createElement('div');
+  guide.id        = 'signal-guide';
+  guide.className = 'signal-guide';
+  guide.innerHTML = `
+    <p class="signal-guide-step">① 将文件放入项目根目录</p>
+    <p class="signal-guide-step">② 在 prompt 中引用：</p>
+    <code class="signal-guide-code">${SIGNAL_GUIDE_PROMPT}</code>
+    <button class="signal-guide-copy-btn" id="signal-guide-copy-btn">复制 prompt</button>
+  `;
+
+  // Insert between export-signal-btn and signal meta accordion (AC-1)
+  const exportBtn = document.getElementById('export-signal-btn');
+  if (exportBtn) exportBtn.insertAdjacentElement('afterend', guide);
+
+  document.getElementById('signal-guide-copy-btn')
+    .addEventListener('click', handleCopyGuidePrompt);
+}
+
+async function handleCopyGuidePrompt() {
+  const btn = document.getElementById('signal-guide-copy-btn');
+  const ok  = await tryCopyToClipboard(SIGNAL_GUIDE_PROMPT);
+  if (ok) {
+    btn.textContent = '已复制 ✓';                         // AC-3
+    setTimeout(() => { btn.textContent = '复制 prompt'; }, 2000);
+  }
 }
 
 // ─── AC-5: Share link button ──────────────────────────
