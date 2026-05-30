@@ -86,7 +86,8 @@
 | 状态 | 功能 |
 |---|---|
 | ✅ 部分 | README 中的 signal 维度框架、/analysis、/conflicts 目录 |
-| 🔲 进行中 | IA × Token 参考页：7 种产品形态 → token 选型指南（Issue #29）|
+| ✅ 完成 | IA × Token 参考页：7 种产品形态 → token 选型指南（ia.html）|
+| 🔲 待做 | ia.html 交互增强：锚点导航 scrollspy + mobile pill + a11y（Issue #31）|
 | 🔲 待做 | Signal 理论文章（radius 影响亲和感、accent 饱和度影响信任感……）|
 | 🔲 待做 | 每套主题的深度解读 |
 
@@ -110,6 +111,7 @@
                   北星场景完整可走通：搜索 → 主题 → 下载 .signal.md → 使用引导
 
 当前          →  ✅ Epic 3 主要项目完成（context badge + legend 全 token 展开）
+              →  ✅ Epic 2 第一个内容页完成（ia.html · IA × Token 参考指南）
 
 中期          →  Epic 2: Docs 板块（先上线 1 篇，不等写满）
                   选择一个已有内容最扎实的 signal 维度开始写
