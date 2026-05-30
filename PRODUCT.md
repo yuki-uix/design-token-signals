@@ -86,7 +86,7 @@
 | 状态 | 功能 |
 |---|---|
 | ✅ 部分 | README 中的 signal 维度框架、/analysis、/conflicts 目录 |
-| 🔲 待做 | Docs 板块（独立页面）|
+| 🔲 进行中 | IA × Token 参考页：7 种产品形态 → token 选型指南（Issue #29）|
 | 🔲 待做 | Signal 理论文章（radius 影响亲和感、accent 饱和度影响信任感……）|
 | 🔲 待做 | 每套主题的深度解读 |
 
