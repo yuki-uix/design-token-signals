@@ -408,6 +408,9 @@ function applyTheme(theme) {
   const triggerLabel = document.getElementById('trigger-label');
   if (triggerLabel) triggerLabel.textContent = data.label;
 
+  const contextThemeName = document.getElementById('context-theme-name');
+  if (contextThemeName) contextThemeName.textContent = data.label;
+
   // Update panel active states
   document.querySelectorAll('.theme-btn').forEach(btn => {
     const isActive = btn.dataset.t === theme;
