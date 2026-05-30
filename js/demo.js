@@ -303,17 +303,20 @@ const THEMES = {
   }
 };
 
-// Timer ref for copy-css-btn reset — declared here so applyTheme can clearTimeout safely
-let _copyCssBtnTimer = null;
+// Timer refs — declared here so applyTheme can clearTimeout safely
+let _copyCssBtnTimer    = null;
+let _opacityTimer       = null;
+let _shareBtnTimer      = null;
 
 // ─── Core: apply a theme ──────────────────────────────
 function applyTheme(theme) {
   const data = THEMES[theme];
   if (!data) return;
 
-  // Brief fade for font-family switch
+  // Brief fade for font-family switch — clearTimeout guards rapid switching
   document.body.style.opacity = '0.92';
-  setTimeout(() => { document.body.style.opacity = '1'; }, 120);
+  clearTimeout(_opacityTimer);
+  _opacityTimer = setTimeout(() => { document.body.style.opacity = '1'; }, 120);
 
   // Set data-theme
   document.body.setAttribute('data-theme', theme);
@@ -513,22 +516,6 @@ function applyFromHash() {
 }
 window.addEventListener('hashchange', applyFromHash);
 window.addEventListener('popstate',   applyFromHash);
-
-// ─── Clipboard utility (shared by S1 share link + S2 copy CSS) ──
-async function copyToClipboard(text) {
-  if (navigator.clipboard?.writeText) {
-    await navigator.clipboard.writeText(text);
-  } else {
-    // execCommand fallback for non-HTTPS / older browsers
-    const el = document.createElement('textarea');
-    el.value = text;
-    el.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-  }
-}
 
 // ─── S2: Copy CSS variables ───────────────────────────
 
@@ -732,16 +719,12 @@ async function handleCopyGuidePrompt() {
 // ─── AC-5: Share link button ──────────────────────────
 document.getElementById('share-btn').addEventListener('click', async () => {
   const btn = document.getElementById('share-btn');
-  try {
-    await copyToClipboard(window.location.href);
-    btn.textContent = '已复制 ✓';
-    btn.classList.add('copied');
-    setTimeout(() => {
-      btn.textContent = '复制链接';
-      btn.classList.remove('copied');
-    }, 2000);
-  } catch {
-    btn.textContent = '复制失败';
-    setTimeout(() => { btn.textContent = '复制链接'; }, 2000);
-  }
+  const ok  = await tryCopyToClipboard(window.location.href);
+  btn.textContent = ok ? '已复制 ✓' : '复制失败';
+  if (ok) btn.classList.add('copied');
+  clearTimeout(_shareBtnTimer);
+  _shareBtnTimer = setTimeout(() => {
+    btn.textContent = '复制链接';
+    btn.classList.remove('copied');
+  }, 2000);
 });
