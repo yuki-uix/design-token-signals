@@ -561,6 +561,9 @@
       .footer-bottom { padding: 16px 20px; flex-direction: column; gap: 6px; text-align: center; }
     }
 
+    /* Enforce hidden attribute — overrides display:block on .profile-card */
+    [hidden] { display: none !important; }
+
     /* ── Search ── */
     .search-wrap {
       margin-bottom: 24px;
