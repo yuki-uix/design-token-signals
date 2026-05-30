@@ -622,6 +622,48 @@
     }
     .signal-guide-copy-btn:hover { opacity: 0.75; }
 
+    /* ── Token expand (all 29 vars) ── */
+    .tokens-expand {
+      margin-bottom: var(--space-2);
+      border: 1px solid var(--color-border);
+      border-radius: calc(var(--radius-lg) / 2);
+      overflow: hidden;
+      transition: border-color 0.25s;
+    }
+    .tokens-expand-summary {
+      font-size: 11px;
+      font-weight: var(--weight-medium);
+      color: var(--color-text-3);
+      padding: 6px 8px;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      user-select: none;
+      transition: color 0.15s, background 0.15s;
+    }
+    .tokens-expand-summary::-webkit-details-marker { display: none; }
+    .tokens-expand-summary::before {
+      content: '▶';
+      font-size: 7px;
+      transition: transform 0.15s;
+      display: inline-block;
+    }
+    details[open].tokens-expand .tokens-expand-summary::before { transform: rotate(90deg); }
+    .tokens-expand-summary:hover { color: var(--color-text-2); background: var(--color-bg-secondary); }
+    .tokens-expand-body {
+      padding: 0 var(--space-2) var(--space-2);
+      border-top: 1px solid var(--color-border);
+      transition: border-color 0.25s;
+    }
+    .tokens-expand-loading {
+      display: block;
+      font-size: 10px;
+      color: var(--color-text-3);
+      padding: var(--space-2) 0;
+    }
+
     /* ── CSS Fallback Modal ── */
     .css-fallback {
       position: fixed;

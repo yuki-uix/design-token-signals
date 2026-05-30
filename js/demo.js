@@ -385,6 +385,12 @@ function applyTheme(theme) {
     <button class="export-signal-btn" id="export-signal-btn">导出 .signal.md</button>
     ${metaAccordion}
     ${tokenRows}
+    <details class="tokens-expand" id="tokens-expand">
+      <summary class="tokens-expand-summary">全部 29 个 token</summary>
+      <div class="tokens-expand-body" id="tokens-expand-body">
+        <span class="tokens-expand-loading">加载中…</span>
+      </div>
+    </details>
     <div class="legend-footer">
       <a href="index.html" class="legend-back">← all profiles</a>
       <div class="legend-actions">
@@ -397,6 +403,33 @@ function applyTheme(theme) {
   document.getElementById('export-signal-btn').addEventListener('click', handleExportSignalMd);
   document.getElementById('export-json-btn').addEventListener('click', handleExportJson);
   document.getElementById('copy-css-btn').addEventListener('click', handleCopyCss);
+
+  // Lazy-load full token list on first expand
+  const tokensExpand = document.getElementById('tokens-expand');
+  if (tokensExpand) {
+    tokensExpand.addEventListener('toggle', async function onToggle() {
+      if (!this.open) return;
+      this.removeEventListener('toggle', onToggle); // load once per theme apply
+      const body = document.getElementById('tokens-expand-body');
+      const currentTheme = document.body.getAttribute('data-theme');
+      let allTokens;
+      try { allTokens = await parseThemeTokens(currentTheme); } catch {
+        body.innerHTML = '<span class="tokens-expand-loading">加载失败</span>';
+        return;
+      }
+      body.innerHTML = Object.entries(allTokens).map(([k, v]) => `
+        <div class="legend-row">
+          <span class="legend-key">${k}</span>
+          ${k.startsWith('--color-')
+            ? `<div style="display:flex;align-items:center;gap:4px">
+                 <div class="legend-swatch" style="background:${v}"></div>
+                 <span class="legend-val">${v}</span>
+               </div>`
+            : `<span class="legend-val">${v}</span>`}
+        </div>
+      `).join('');
+    });
+  }
 
   // Update trigger button
   const accentVal = data.tokens['--color-accent'].val;
