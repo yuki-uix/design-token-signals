@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>design-token-signals</title>
+  <script src="js/index.js" defer></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -559,6 +560,59 @@
       .footer-main { padding: 40px 20px 32px; grid-template-columns: 1fr; gap: 32px; }
       .footer-bottom { padding: 16px 20px; flex-direction: column; gap: 6px; text-align: center; }
     }
+
+    /* ── Search ── */
+    .search-wrap {
+      margin-bottom: 24px;
+    }
+    .theme-search-input {
+      width: 100%;
+      max-width: 400px;
+      height: 38px;
+      padding: 0 14px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #1a1916;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+      -webkit-appearance: none;
+    }
+    .theme-search-input::placeholder {
+      color: #b0a898;
+    }
+    .theme-search-input:focus {
+      border-color: rgba(0,0,0,0.28);
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
+    }
+    .search-empty {
+      padding: 48px 0 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .search-empty-msg {
+      font-size: 14px;
+      color: #8c8070;
+    }
+    .search-clear-btn {
+      font-size: 13px;
+      font-family: inherit;
+      font-weight: 500;
+      color: #1a1916;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.14);
+      border-radius: 6px;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .search-clear-btn:hover {
+      background: #f0ede8;
+    }
   </style>
 </head>
 <body>
@@ -644,9 +698,21 @@
   </div>
 
   <div class="profiles-wrap">
+
+    <div class="search-wrap">
+      <input type="search" id="theme-search" class="theme-search-input"
+        placeholder="搜索风格意图…例：商务、温暖、开发工具"
+        autocomplete="off" spellcheck="false">
+    </div>
+
+    <div id="search-empty" class="search-empty" hidden>
+      <p class="search-empty-msg">没有找到匹配的主题</p>
+      <button id="search-clear-btn" class="search-clear-btn">清除搜索</button>
+    </div>
+
     <div class="profiles">
 
-      <a href="demo.html?theme=clean-light" class="profile-card">
+      <a href="demo.html?theme=clean-light" class="profile-card" data-keywords="saas 官网 金融 支付 b2b 管理 团队协作 信任 专业 清晰 简洁 浅色 light corporate stripe linear notion 工具 商务 产品 工作效率 协作 轻量 明亮 clean professional trust clarity 商务办公">
         <div class="profile-preview preview-clean">
           <div class="prev-nav">
             <div class="prev-logo"></div>
@@ -668,7 +734,7 @@
         </div>
       </a>
 
-      <a href="demo.html?theme=minimal-dark" class="profile-card">
+      <a href="demo.html?theme=minimal-dark" class="profile-card" data-keywords="开发者 开发工具 cli ide 数据分析 工作流 专注 精准 深色 暗色 dark minimal vercel github raycast 程序员 工程师 终端 developer precision focus professional tool 简约 低噪音 安静">
         <div class="profile-preview preview-minimal">
           <div class="prev-nav">
             <div class="prev-logo"></div>
@@ -690,7 +756,7 @@
         </div>
       </a>
 
-      <a href="demo.html?theme=bold-dark" class="profile-card">
+      <a href="demo.html?theme=bold-dark" class="profile-card" data-keywords="开发者 平台 cli 终端 安全 监控 高性能 力量 戏剧 深色 暗色 dark bold power dramatic developer infra tailscale 激进 强烈 高对比 黑色 红色 power-user developer-native 视觉冲击 强对比">
         <div class="profile-preview preview-bold">
           <div class="prev-nav">
             <div class="prev-logo"></div>
@@ -712,7 +778,7 @@
         </div>
       </a>
 
-      <a href="demo.html?theme=warm-organic" class="profile-card">
+      <a href="demo.html?theme=warm-organic" class="profile-card" data-keywords="温暖 人文 知识管理 写作 博客 健康 生活方式 教育 有机 warm organic bear 笔记 个人 柔和 放松 thoughtful humanity 衬线 温和 亲切 cozy personal 不严肃 轻松 宜人">
         <div class="profile-preview preview-warm">
           <div class="prev-nav">
             <div class="prev-logo"></div>
@@ -734,7 +800,7 @@
         </div>
       </a>
 
-      <a href="demo.html?theme=corporate-blue" class="profile-card">
+      <a href="demo.html?theme=corporate-blue" class="profile-card" data-keywords="企业 合规 政府 金融服务 医疗 大公司 b2b enterprise 蓝色 corporate blue salesforce 正式 严肃 商务 稳重 传统 机构 docusign 办公 商务办公 规范 安全 可信 enterprise-grade institutional">
         <div class="profile-preview preview-corporate">
           <div class="prev-nav">
             <div class="prev-logo"></div>
@@ -756,7 +822,7 @@
         </div>
       </a>
 
-      <a href="demo.html?theme=monochrome" class="profile-card">
+      <a href="demo.html?theme=monochrome" class="profile-card" data-keywords="高端 品牌 作品集 出版 媒体 奢侈品 黑白 简约 editorial timeless confident portfolio luxury 克制 正式 单色 无色彩 经典 传统 杂志 艺术 art design minimal monochrome">
         <div class="profile-preview preview-mono">
           <div class="prev-nav">
             <div class="prev-logo"></div>
@@ -778,7 +844,7 @@
         </div>
       </a>
 
-      <a href="demo.html?theme=neo-brutalist" class="profile-card">
+      <a href="demo.html?theme=neo-brutalist" class="profile-card" data-keywords="粗犷 直接 诚实 反设计 独立开发者 技术博客 文档 开源 indie brutal 无圆角 反主流 个性 黄色 直白 raw honest direct anti-polish gumroad 独立 hacky 不一样 前卫 另类 quirky stark">
         <div class="profile-preview preview-brutalist">
           <div class="prev-nav">
             <div class="prev-logo"></div>
@@ -800,7 +866,7 @@
         </div>
       </a>
 
-      <a href="demo.html?theme=ai-gradient" class="profile-card">
+      <a href="demo.html?theme=ai-gradient" class="profile-card" data-keywords="ai 人工智能 渐变 未来 科技 基础设施 web3 前沿 融资 路演 gradient future ambition replicate runway 深色 暗色 紫色 tech startup 科技感 未来主义 创业 ai-native llm 大模型 智能">
         <div class="profile-preview preview-ai">
           <div class="prev-nav">
             <div class="prev-logo"></div>
@@ -822,7 +888,7 @@
         </div>
       </a>
 
-      <a href="demo.html?theme=playful" class="profile-card">
+      <a href="demo.html?theme=playful" class="profile-card" data-keywords="活泼 有趣 消费 创意 社区 社交 年轻 能量 framer 好玩 彩色 expressive delight 不严肃 轻松 年轻化 playful consumer creative energetic 欢快 表达 有活力 lively fun colorful 娱乐">
         <div class="profile-preview preview-playful">
           <div class="prev-nav">
             <div class="prev-logo"></div>
