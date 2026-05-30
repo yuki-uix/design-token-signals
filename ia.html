@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>形态指南 — design-token-signals</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f7f6f2;
+      color: #1a1916;
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── Skip link ── */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 20px;
+      background: #1a1916;
+      color: #f7f6f2;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      text-decoration: none;
+      z-index: 999;
+      transition: top 0.15s;
+    }
+    .skip-link:focus { top: 8px; }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      background: #f7f6f2;
+      position: sticky; top: 0; z-index: 10;
+    }
+    .nav-brand {
+      font-size: 13px;
+      font-weight: 500;
+      color: #1a1916;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+    .nav-brand span { color: #a09070; font-weight: 400; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .nav-link {
+      font-size: 12px;
+      color: #8c8070;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-link:hover { color: #1a1916; }
+    .nav-link.active { color: #1a1916; font-weight: 500; }
+    .nav-gh {
+      font-size: 12px;
+      color: #8c8070;
+      text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+      transition: color 0.15s;
+    }
+    .nav-gh:hover { color: #1a1916; }
+    .nav-gh svg { opacity: 0.6; }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 64px 40px 56px;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: #b07a50;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 16px; height: 1px;
+      background: #b07a50;
+    }
+    .hero h1 {
+      font-size: clamp(26px, 3.5vw, 36px);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      color: #1a1916;
+      margin-bottom: 16px;
+    }
+    .hero-desc {
+      font-size: 16px;
+      color: #6b6558;
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    /* ── Main content ── */
+    .content {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 40px 96px;
+    }
+
+    /* ── Super-category ── */
+    .ia-category {
+      margin-bottom: 64px;
+    }
+    .ia-category-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #a09080;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .ia-category-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(0,0,0,0.08);
+    }
+
+    /* ── IA Card ── */
+    .ia-card {
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,0.07);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      padding: 28px 32px;
+      margin-bottom: 16px;
+    }
+
+    .ia-card-header {
+      margin-bottom: 24px;
+    }
+    .ia-name-row {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+    .ia-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1916;
+      letter-spacing: -0.01em;
+    }
+    .ia-name-en {
+      font-size: 12px;
+      color: #a09080;
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+    .ia-desc {
+      font-size: 14px;
+      color: #6b6558;
+      line-height: 1.6;
+    }
+
+    /* ── Token section ── */
+    .ia-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: #a09080;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .ia-tokens {
+      margin-bottom: 20px;
+    }
+    .ia-token-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .ia-token-list li {
+      font-size: 13px;
+      color: #6b6558;
+      line-height: 1.5;
+    }
+    .ia-token-list code {
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 11.5px;
+      color: #6b5fd4;
+      background: #f0eef8;
+      padding: 1px 5px;
+      border-radius: 3px;
+    }
+
+    /* ── Theme chips ── */
+    .ia-themes {}
+    .ia-chip-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .ia-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #1a1916;
+      background: #f7f6f2;
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 20px;
+      text-decoration: none;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .ia-chip:hover {
+      background: #1a1916;
+      color: #f7f6f2;
+      border-color: #1a1916;
+    }
+    .ia-chip::after {
+      content: '→';
+      font-size: 10px;
+      opacity: 0.5;
+    }
+    .ia-chip:hover::after { opacity: 1; }
+
+    /* ── Scope note ── */
+    .ia-scope-note {
+      margin-top: 16px;
+      padding: 10px 14px;
+      background: #f7f6f2;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #a09080;
+      line-height: 1.55;
+    }
+    .ia-scope-note strong { color: #6b6558; font-weight: 500; }
+
+    /* ── Divider between sections within card ── */
+    .ia-card-divider {
+      height: 1px;
+      background: rgba(0,0,0,0.06);
+      margin: 20px 0;
+    }
+
+    /* ── Footer ── */
+    footer {
+      background: #1a1916;
+      color: #a09080;
+    }
+    .footer-bottom {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 24px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #4a4540;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 700px) {
+      nav { padding: 16px 20px; }
+      .hero { padding: 48px 20px 40px; }
+      .content { padding: 0 20px 64px; }
+      .ia-card { padding: 22px 20px; }
+      .footer-bottom { padding: 20px; flex-direction: column; gap: 6px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">跳到主内容</a>
+
+  <!-- Nav -->
+  <nav>
+    <a href="./" class="nav-brand">design-token-signals <span>/ by yuki-uix</span></a>
+    <div class="nav-links">
+      <a href="ia.html" class="nav-link active">形态指南</a>
+      <a href="https://github.com/yuki-uix/design-token-signals" class="nav-gh" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-eyebrow">Signal × IA</div>
+    <h1>按产品形态选 token</h1>
+    <p class="hero-desc">
+      不同的产品形态对设计 token 的要求截然不同。找到你的产品类型，了解哪些 token 决定了这种形态的视觉气质——以及该选哪套主题作为起点。
+    </p>
+  </div>
+
+  <!-- Main -->
+  <main id="main-content" class="content">
+
+    <!-- ── 展示型 ── -->
+    <div class="ia-category">
+      <div class="ia-category-label">展示型</div>
+
+      <article class="ia-card" id="landing-page">
+        <div class="ia-card-header">
+          <div class="ia-name-row">
+            <h2 class="ia-name">落地页</h2>
+            <span class="ia-name-en">Landing Page</span>
+          </div>
+          <p class="ia-desc">单页滚动，目标是转化，视觉优先于信息密度</p>
+        </div>
+        <div class="ia-card-divider"></div>
+        <div class="ia-tokens">
+          <div class="ia-section-label">关键 token</div>
+          <ul class="ia-token-list">
+            <li><code>--radius-lg</code>: 大（12–24px）— 大圆角传递亲和感，让陌生用户降低防御</li>
+            <li><code>--font-display</code>: 展示型字体 — 标题字体是落地页最强的品牌信号</li>
+            <li><code>--leading-base</code>: 1.65+ — 宽行距让单页滚动节奏舒适，不显拥挤</li>
+            <li><code>--shadow-md</code>: 明显投影 — 卡片层次感增强视觉深度，辅助引导视线</li>
+          </ul>
+        </div>
+        <div class="ia-card-divider"></div>
+        <div class="ia-themes">
+          <div class="ia-section-label">推荐主题</div>
+          <div class="ia-chip-list">
+            <a href="demo.html?theme=warm-organic" class="ia-chip" aria-label="查看 Warm Organic 主题 demo">Warm Organic</a>
+            <a href="demo.html?theme=playful" class="ia-chip" aria-label="查看 Playful 主题 demo">Playful</a>
+            <a href="demo.html?theme=clean-light" class="ia-chip" aria-label="查看 Clean Light 主题 demo">Clean Light</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- ── 内容型 ── -->
+    <div class="ia-category">
+      <div class="ia-category-label">内容型</div>
+
+      <article class="ia-card" id="docs">
+        <div class="ia-card-header">
+          <div class="ia-name-row">
+            <h2 class="ia-name">内容 / 文档站</h2>
+            <span class="ia-name-en">Docs</span>
+          </div>
+          <p class="ia-desc">多页层级，阅读为核心，导航结构支撑信息发现</p>
+        </div>
+        <div class="ia-card-divider"></div>
+        <div class="ia-tokens">
+          <div class="ia-section-label">关键 token</div>
+          <ul class="ia-token-list">
+            <li><code>--text-base</code>: 15–16px — 正文字号偏大，长时间阅读不疲劳</li>
+            <li><code>--leading-base</code>: 1.65+ — 宽行距是长文可读性的基础条件</li>
+            <li><code>--font-body</code>: 可读性强 — 文档站里正文字体比标题字体更重要</li>
+            <li><code>--color-text-1/2/3</code>: 层级清晰 — 三层文字色支撑标题 / 正文 / 注释结构</li>
+          </ul>
+        </div>
+        <div class="ia-card-divider"></div>
+        <div class="ia-themes">
+          <div class="ia-section-label">推荐主题</div>
+          <div class="ia-chip-list">
+            <a href="demo.html?theme=warm-organic" class="ia-chip" aria-label="查看 Warm Organic 主题 demo">Warm Organic</a>
+            <a href="demo.html?theme=monochrome" class="ia-chip" aria-label="查看 Monochrome 主题 demo">Monochrome</a>
+            <a href="demo.html?theme=clean-light" class="ia-chip" aria-label="查看 Clean Light 主题 demo">Clean Light</a>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- ── 产品型 ── -->
+    <div class="ia-category">
+      <div class="ia-category-label">产品型</div>
+
+      <article class="ia-card" id="saas-tool">
+        <div class="ia-card-header">
+          <div class="ia-name-row">
+            <h2 class="ia-name">SaaS 工具</h2>
+            <span class="ia-name-en">SaaS Tool</span>
+          </div>
+          <p class="ia-desc">任务导向，功能页多，中等信息密度，需要清晰的导航层级</p>
+        </div>
+        <div class="ia-card-divider"></div>
+        <div class="ia-tokens">
+          <div class="ia-section-label">关键 token</div>
+          <ul class="ia-token-list">
+            <li><code>--color-bg-secondary</code>: 激活 — 侧边栏与主内容区的空间区分靠它建立</li>
+            <li><code>--color-border</code>: 清晰可见 — IA 复杂后 border 从装饰变功能，对比度要达标</li>
+            <li><code>--radius-lg</code>: 中等（6–10px）— 在功能感和亲和感之间取平衡</li>
+            <li><code>--shadow-sm/md</code>: 两档阴影 — 小阴影做卡片，中阴影做 modal，语义需分工</li>
+          </ul>
+        </div>
+        <div class="ia-card-divider"></div>
+        <div class="ia-themes">
+          <div class="ia-section-label">推荐主题</div>
+          <div class="ia-chip-list">
+            <a href="demo.html?theme=clean-light" class="ia-chip" aria-label="查看 Clean Light 主题 demo">Clean Light</a>
+            <a href="demo.html?theme=minimal-dark" class="ia-chip" aria-label="查看 Minimal Dark 主题 demo">Minimal Dark</a>
+            <a href="demo.html?theme=corporate-blue" class="ia-chip" aria-label="查看 Corporate Blue 主题 demo">Corporate Blue</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ia-card" id="dashboard">
+        <div class="ia-card-header">
+          <div class="ia-name-row">
+            <h2 class="ia-name">数据面板</h2>
+            <span class="ia-name-en">Dashboard</span>
+          </div>
+          <p class="ia-desc">数据消费为核心，高信息密度，图表和数字主导视觉</p>
+        </div>
+        <div class="ia-card-divider"></div>
+        <div class="ia-tokens">
+          <div class="ia-section-label">关键 token</div>
+          <ul class="ia-token-list">
+            <li><code>--text-base</code>: 13–14px — 紧凑字号是高密度数据展示的基础</li>
+            <li><code>--leading-base</code>: 1.4–1.5 — 行距压缩与字号配合，数据列表不浪费空间</li>
+            <li><code>--color-border</code>: 高频使用 — 分割线承担数据网格和区块边界的结构职责</li>
+            <li><code>--radius-sm</code>: 优先于 lg — 小圆角让数据组件紧凑，不抢数字的视觉焦点</li>
+          </ul>
+        </div>
+        <div class="ia-card-divider"></div>
+        <div class="ia-themes">
+          <div class="ia-section-label">推荐主题</div>
+          <div class="ia-chip-list">
+            <a href="demo.html?theme=minimal-dark" class="ia-chip" aria-label="查看 Minimal Dark 主题 demo">Minimal Dark</a>
+            <a href="demo.html?theme=corporate-blue" class="ia-chip" aria-label="查看 Corporate Blue 主题 demo">Corporate Blue</a>
+            <a href="demo.html?theme=bold-dark" class="ia-chip" aria-label="查看 Bold Dark 主题 demo">Bold Dark</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ia-card" id="dev-tool">
+        <div class="ia-card-header">
+          <div class="ia-name-row">
+            <h2 class="ia-name">开发者工具</h2>
+            <span class="ia-name-en">Dev Tool</span>
+          </div>
+          <p class="ia-desc">以输出反馈 / 代码展示为核心，降噪比易用性更重要</p>
+        </div>
+        <div class="ia-card-divider"></div>
+        <div class="ia-tokens">
+          <div class="ia-section-label">关键 token</div>
+          <ul class="ia-token-list">
+            <li><code>--color-bg</code>: 接近纯黑 — 深色背景减少长时间盯屏的眼部疲劳</li>
+            <li><code>--color-border</code>: 低对比度 — rgba 透明边框减少视觉噪音，专注内容</li>
+            <li><code>--weight-bold</code>: 强调关键输出 — 命令结果 / 错误通过粗字重突出，不依赖颜色</li>
+            <li><code>--font-display</code>: 系统字体 — 无装饰感是工具可信度的基础</li>
+          </ul>
+        </div>
+        <div class="ia-card-divider"></div>
+        <div class="ia-themes">
+          <div class="ia-section-label">推荐主题</div>
+          <div class="ia-chip-list">
+            <a href="demo.html?theme=minimal-dark" class="ia-chip" aria-label="查看 Minimal Dark 主题 demo">Minimal Dark</a>
+            <a href="demo.html?theme=bold-dark" class="ia-chip" aria-label="查看 Bold Dark 主题 demo">Bold Dark</a>
+            <a href="demo.html?theme=neo-brutalist" class="ia-chip" aria-label="查看 Neo-Brutalist 主题 demo">Neo-Brutalist</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="ia-card" id="consumer-app">
+        <div class="ia-card-header">
+          <div class="ia-name-row">
+            <h2 class="ia-name">消费类应用</h2>
+            <span class="ia-name-en">Consumer App</span>
+          </div>
+          <p class="ia-desc">情感化，品牌感强，以年轻向应用为代表</p>
+        </div>
+        <div class="ia-card-divider"></div>
+        <div class="ia-tokens">
+          <div class="ia-section-label">关键 token</div>
+          <ul class="ia-token-list">
+            <li><code>--color-accent</code>: 高饱和度 — 鲜艳 accent 是传递活力的主要手段</li>
+            <li><code>--radius-lg</code>: 大（16–24px）— 超大圆角创造柔和、年轻的视觉气质</li>
+            <li><code>--weight-bold</code>: 800 — 超粗字重配合大圆角制造张力，是这类产品的视觉语言</li>
+            <li><code>--font-display</code>: 个性化字体 — 字体选择是品牌差异化最直接的 token</li>
+          </ul>
+        </div>
+        <div class="ia-card-divider"></div>
+        <div class="ia-themes">
+          <div class="ia-section-label">推荐主题</div>
+          <div class="ia-chip-list">
+            <a href="demo.html?theme=playful" class="ia-chip" aria-label="查看 Playful 主题 demo">Playful</a>
+            <a href="demo.html?theme=ai-gradient" class="ia-chip" aria-label="查看 AI Gradient 主题 demo">AI Gradient</a>
+            <a href="demo.html?theme=warm-organic" class="ia-chip" aria-label="查看 Warm Organic 主题 demo">Warm Organic</a>
+          </div>
+        </div>
+        <div class="ia-scope-note">
+          <strong>范围说明：</strong>本形态以品牌感强的年轻向应用为代表，不覆盖电商、游戏、社交等子类型——这些场景的 token 需求差异显著，需单独评估。
+        </div>
+      </article>
+
+      <article class="ia-card" id="enterprise">
+        <div class="ia-card-header">
+          <div class="ia-name-row">
+            <h2 class="ia-name">企业平台</h2>
+            <span class="ia-name-en">Enterprise</span>
+          </div>
+          <p class="ia-desc">合规导向，机构感，B2B 采购决策，可预期性比创意感更重要</p>
+        </div>
+        <div class="ia-card-divider"></div>
+        <div class="ia-tokens">
+          <div class="ia-section-label">关键 token</div>
+          <ul class="ia-token-list">
+            <li><code>--color-accent</code>: 低饱和蓝 — 低饱和暗示可靠，避免视觉刺激</li>
+            <li><code>--radius-lg</code>: 极小（2–4px）— 极小圆角传递规范感，而非亲和感</li>
+            <li><code>--color-border</code>: 清晰可见 — 明确边框划定信息区域，满足用户对结构的期待</li>
+            <li><code>--weight-bold</code>: 600 — 适中粗度，不需要超粗的张力，专业即可</li>
+          </ul>
+        </div>
+        <div class="ia-card-divider"></div>
+        <div class="ia-themes">
+          <div class="ia-section-label">推荐主题</div>
+          <div class="ia-chip-list">
+            <a href="demo.html?theme=corporate-blue" class="ia-chip" aria-label="查看 Corporate Blue 主题 demo">Corporate Blue</a>
+            <a href="demo.html?theme=clean-light" class="ia-chip" aria-label="查看 Clean Light 主题 demo">Clean Light</a>
+            <a href="demo.html?theme=monochrome" class="ia-chip" aria-label="查看 Monochrome 主题 demo">Monochrome</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+    <!-- end 产品型 -->
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-bottom">
+      <span>© 2026 yuki-uix · design-token-signals</span>
+      <a href="./" style="color:#4a4540;text-decoration:none;transition:color 0.15s;" onmouseover="this.style.color='#a09080'" onmouseout="this.style.color='#4a4540'">← 返回所有主题</a>
+    </div>
+  </footer>
+
+</body>
+</html>
