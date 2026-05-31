@@ -99,6 +99,9 @@
 | ✅ 完成 | Legend 面板信息层级重设计（主 CTA 突出、字号可读性、宽度扩展）|
 | ✅ 完成 | Demo 页上下文锚点（fixed badge：当前主题名 + 返回 index 链接）|
 | ✅ 完成 | 完整 token 预览（legend 可展开查看全部 29 个变量，懒加载）|
+| ✅ 完成 | 浮窗 Legend Panel → 固定 Sidebar（6 个信号维度视觉化 · #33）|
+| ✅ 完成 | Sidebar 收起 / 展开 + 窄屏 overlay 模式（#34）|
+| ✅ 完成 | Sidebar → Export Section 跳转 · 完整 token 内联展示 + JSON/CSS Tab（#35）|
 | 🔲 低优先级 | Demo 页「这是什么」说明（用户从搜索引擎直接进入时缺乏页面意义说明）|
 | 已决策不做 | 多格式导出（W3C Design Token 格式）— 服务非核心用户群 |
 
@@ -107,15 +110,19 @@
 ## 当前 Roadmap
 
 ```
-当前          →  ✅ Epic 1 完成（S6 merged 2026-05-30）
+完成          →  ✅ Epic 1 完成（S6 merged 2026-05-30）
                   北星场景完整可走通：搜索 → 主题 → 下载 .signal.md → 使用引导
 
-当前          →  ✅ Epic 3 主要项目完成（context badge + legend 全 token 展开）
-              →  ✅ Epic 2 第一个内容页完成（ia.html · IA × Token 参考指南）
+完成          →  ✅ Epic 2 第一个内容页完成（ia.html · IA × Token 参考指南）
 
-中期          →  Epic 2: Docs 板块（先上线 1 篇，不等写满）
-                  选择一个已有内容最扎实的 signal 维度开始写
-                  写完第一篇 → 同步做 Eleventy 迁移（不提前动）
+完成          →  ✅ Epic 3 完成（2026-05-31）
+                  Sidebar 重设计：6 维度视觉化 · 收起展开 · Export 跳转联动
+                  Demo 体验无断点，截图 / GIF 录制友好
+
+当前          →  Epic 2: Docs 板块第一篇理论文章
+                  候选维度：radius 与亲和感 / accent 饱和度与信任感
+                  先上线 1 篇，不等写满
+                  写完第一篇 → 同步评估 Eleventy 迁移时机
 
 长期          →  更多主题 / 支持用户自定义 signal
               →  传播动作（Docs 内容是最好的传播载体）
@@ -148,4 +155,4 @@
 
 ---
 
-*最后更新：2026-05-30（Epic 1 ✅ · Epic 3 主要项目 ✅；下一步 Epic 2 Docs 第一篇）*
+*最后更新：2026-05-31（Epic 1 ✅ · Epic 2 ia.html ✅ · Epic 3 ✅；当前：Epic 2 Docs 第一篇理论文章）*
