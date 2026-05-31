@@ -502,6 +502,17 @@ Object.entries(THEMES).forEach(([key, data]) => {
   panelOptions.appendChild(btn);
 });
 
+// ─── Sidebar collapse / expand ───────────────────────
+document.getElementById('sidebar-toggle').addEventListener('click', () => {
+  const sidebar  = document.getElementById('token-sidebar');
+  const btn      = document.getElementById('sidebar-toggle');
+  const isNowCollapsed = sidebar.classList.toggle('collapsed');
+  document.body.classList.toggle('sidebar-collapsed', isNowCollapsed);
+  btn.textContent = isNowCollapsed ? '›' : '‹';
+  btn.setAttribute('aria-expanded', String(!isNowCollapsed));
+  btn.setAttribute('aria-label', isNowCollapsed ? '展开 Sidebar' : '收起 Sidebar');
+});
+
 // ─── Bind sidebar export buttons once (static DOM, not re-rendered) ──
 document.getElementById('export-signal-btn').addEventListener('click', handleExportSignalMd);
 document.getElementById('export-json-btn').addEventListener('click', handleExportJson);
