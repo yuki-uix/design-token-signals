@@ -594,7 +594,7 @@ document.getElementById('sidebar-toggle').addEventListener('click', () => {
   const btn      = document.getElementById('sidebar-toggle');
   const isNowCollapsed = sidebar.classList.toggle('collapsed');
   document.body.classList.toggle('sidebar-collapsed', isNowCollapsed);
-  btn.textContent = isNowCollapsed ? '›' : '‹';
+  btn.textContent = isNowCollapsed ? '‹' : '›';
   btn.setAttribute('aria-expanded', String(!isNowCollapsed));
   btn.setAttribute('aria-label', isNowCollapsed ? '展开 Sidebar' : '收起 Sidebar');
 });
