@@ -413,6 +413,14 @@ function applyTheme(theme) {
   // Update sidebar labels (visuals update automatically via CSS custom properties)
   updateSidebarLabels(data);
 
+  // Reset export section — stale data from previous profile should not persist
+  const exportCode = document.getElementById('export-section-code');
+  if (exportCode && !exportCode.textContent.startsWith('点击')) {
+    exportCode.textContent = '点击 Sidebar 中的"查看完整 token →"加载';
+    const profileEl = document.getElementById('export-section-profile');
+    if (profileEl) profileEl.textContent = '—';
+  }
+
   // Reset CSS copy button if it was in "copied" state from previous theme
   const cssBtn = document.getElementById('copy-css-btn');
   if (cssBtn && cssBtn.dataset.state === 'copied') {
@@ -501,6 +509,84 @@ Object.entries(THEMES).forEach(([key, data]) => {
   });
   panelOptions.appendChild(btn);
 });
+
+// ─── Export Section ──────────────────────────────────
+let _exportActiveTab = 'json'; // persists across theme switches
+
+async function loadExportSection() {
+  const theme   = document.body.getAttribute('data-theme');
+  const codeEl  = document.getElementById('export-section-code');
+  const profileEl = document.getElementById('export-section-profile');
+
+  codeEl.textContent = '加载中…';
+  if (profileEl) profileEl.textContent = THEMES[theme]?.label ?? theme;
+
+  let tokens;
+  try {
+    tokens = await parseThemeTokens(theme);
+  } catch {
+    codeEl.textContent = '加载失败，请重试';
+    return;
+  }
+
+  codeEl.textContent = _exportActiveTab === 'json'
+    ? JSON.stringify(tokens, null, 2)
+    : formatCSSVars(tokens);
+}
+
+function setExportTab(tab) {
+  _exportActiveTab = tab;
+  document.getElementById('export-tab-json').classList.toggle('active', tab === 'json');
+  document.getElementById('export-tab-css').classList.toggle('active', tab === 'css');
+  loadExportSection();
+}
+
+// Jump from sidebar to export section
+async function jumpToExport() {
+  // Always activate JSON tab on jump (AC: "Export 默认展示当前激活 profile 的 JSON Tab")
+  _exportActiveTab = 'json';
+  document.getElementById('export-tab-json').classList.add('active');
+  document.getElementById('export-tab-css').classList.remove('active');
+
+  // Scroll first so user sees movement immediately
+  document.getElementById('export-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Load content for current profile
+  await loadExportSection();
+}
+
+// Tab buttons
+document.getElementById('export-tab-json').addEventListener('click', () => setExportTab('json'));
+document.getElementById('export-tab-css').addEventListener('click',  () => setExportTab('css'));
+
+// Download button — re-uses existing export handlers based on active tab
+document.getElementById('export-section-download').addEventListener('click', () => {
+  if (_exportActiveTab === 'json') handleExportJson();
+  else {
+    // Trigger CSS download via blob
+    const theme = document.body.getAttribute('data-theme');
+    parseThemeTokens(theme).then(tokens => {
+      const blob = new Blob([formatCSSVars(tokens)], { type: 'text/css' });
+      const url  = URL.createObjectURL(blob);
+      const a    = Object.assign(document.createElement('a'), { href: url, download: `${theme}-tokens.css` });
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+  }
+});
+
+// Copy button
+document.getElementById('export-section-copy').addEventListener('click', async () => {
+  const btn = document.getElementById('export-section-copy');
+  const text = document.getElementById('export-section-code').textContent;
+  if (!text || text.startsWith('点击') || text.startsWith('加载')) return;
+  const ok = await tryCopyToClipboard(text);
+  btn.textContent = ok ? '已复制 ✓' : '复制失败';
+  setTimeout(() => { btn.textContent = '复制到剪贴板'; }, 2000);
+});
+
+// Sidebar jump button
+document.getElementById('full-token-btn').addEventListener('click', jumpToExport);
 
 // ─── Sidebar collapse / expand ───────────────────────
 document.getElementById('sidebar-toggle').addEventListener('click', () => {
