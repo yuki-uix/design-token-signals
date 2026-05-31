@@ -879,6 +879,122 @@
       .context-badge { top: 12px; left: 14px; padding: 5px 10px; }
     }
 
+    /* ── Export Section ── */
+    .export-section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: var(--space-16) var(--space-8) var(--space-20);
+      border-top: 1px solid var(--color-border);
+      transition: border-color 0.25s;
+    }
+    .export-section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: var(--space-6);
+    }
+    .export-section-title {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-tight);
+      color: var(--color-text-1);
+      transition: color 0.25s;
+    }
+    .export-section-profile {
+      font-size: var(--text-sm);
+      color: var(--color-text-3);
+      font-weight: var(--weight-medium);
+      transition: color 0.25s;
+    }
+    .export-section-tabs {
+      display: flex;
+      gap: 2px;
+      margin-bottom: var(--space-4);
+      border-bottom: 1px solid var(--color-border);
+      transition: border-color 0.25s;
+    }
+    .export-section-tab {
+      padding: 6px 14px 8px;
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      font-family: inherit;
+      color: var(--color-text-3);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .export-section-tab:hover { color: var(--color-text-1); }
+    .export-section-tab.active {
+      color: var(--color-accent);
+      border-bottom-color: var(--color-accent);
+    }
+    .export-section-code {
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      font-size: 12px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: var(--color-text-2);
+      line-height: 1.65;
+      overflow-x: auto;
+      max-height: 360px;
+      overflow-y: auto;
+      white-space: pre;
+      transition: background 0.25s, border-color 0.25s, border-radius 0.25s, color 0.25s;
+    }
+    .export-section-actions {
+      display: flex;
+      gap: var(--space-3);
+      margin-top: var(--space-4);
+    }
+    .export-section-btn {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      font-family: inherit;
+      padding: var(--space-2) var(--space-5);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: opacity 0.15s, background 0.25s, border-color 0.25s, border-radius 0.25s;
+    }
+    .export-section-btn.primary {
+      background: var(--color-accent);
+      color: #fff;
+      border-color: var(--color-accent);
+    }
+    .export-section-btn.primary:hover { opacity: 0.85; }
+    .export-section-btn.secondary {
+      background: transparent;
+      color: var(--color-text-2);
+      border-color: var(--color-border-strong);
+    }
+    .export-section-btn.secondary:hover { color: var(--color-text-1); border-color: var(--color-text-3); }
+
+    /* Sidebar full-token jump link */
+    .sidebar-full-token-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      font-size: 11px;
+      font-weight: var(--weight-medium);
+      font-family: inherit;
+      color: var(--color-accent);
+      background: transparent;
+      border: 1px solid var(--color-border-strong);
+      border-radius: calc(var(--radius-lg) / 2);
+      padding: 6px 10px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.25s, color 0.25s, border-radius 0.25s;
+    }
+    .sidebar-full-token-btn:hover {
+      background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+    }
+
     /* ── Context Badge ── */
     .context-badge {
       position: fixed;
@@ -966,6 +1082,23 @@
     <a href="#" class="btn-primary" id="btn-cta">Start for free</a>
   </section>
 
+  <!-- Export Section: full token values for current profile -->
+  <section class="export-section" id="export-section">
+    <div class="export-section-header">
+      <h2 class="export-section-title">完整 Token</h2>
+      <span class="export-section-profile" id="export-section-profile">—</span>
+    </div>
+    <div class="export-section-tabs">
+      <button class="export-section-tab active" id="export-tab-json">JSON</button>
+      <button class="export-section-tab" id="export-tab-css">CSS</button>
+    </div>
+    <pre class="export-section-code" id="export-section-code">点击 Sidebar 中的"查看完整 token →"加载</pre>
+    <div class="export-section-actions">
+      <button class="export-section-btn primary" id="export-section-download">下载文件</button>
+      <button class="export-section-btn secondary" id="export-section-copy">复制到剪贴板</button>
+    </div>
+  </section>
+
   <!-- Side Controls: switcher only, fixed bottom-right of content area -->
   <div class="side-controls">
     <div class="theme-switcher" id="switcher">
@@ -1047,6 +1180,7 @@
         <button class="export-json-btn" id="export-json-btn">JSON</button>
         <button class="copy-css-btn" id="copy-css-btn">CSS</button>
       </div>
+      <button class="sidebar-full-token-btn" id="full-token-btn">查看完整 token →</button>
       <a href="index.html" class="legend-back">← all profiles</a>
     </div>
     </div><!-- /.sidebar-inner -->
