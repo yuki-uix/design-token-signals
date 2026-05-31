@@ -7,6 +7,7 @@ const THEMES = {
   'clean-light': {
     label: 'Clean Light',
     signal: 'Trust · Professional · Clarity',
+    motion: '200ms · ease',
     meta: {
       tagline: 'Trust · Professional · Clarity',
       useCases: ['SaaS 产品官网', '金融/支付工具', 'B2B 管理平台', '团队协作工具'],
@@ -40,6 +41,7 @@ const THEMES = {
   'minimal-dark': {
     label: 'Minimal Dark',
     signal: 'Precision · Focus · Professional',
+    motion: '200ms · ease',
     meta: {
       tagline: 'Precision · Focus · Professional',
       useCases: ['开发者工具', 'CLI/IDE 类产品', '数据分析平台', '专业工作流工具'],
@@ -73,6 +75,7 @@ const THEMES = {
   'bold-dark': {
     label: 'Bold Dark',
     signal: 'Power · Developer-native · Dramatic',
+    motion: '150ms · linear',
     meta: {
       tagline: 'Power · Developer-native · Dramatic',
       useCases: ['开发者平台', 'CLI/终端工具', '安全/监控产品', '高性能计算类产品'],
@@ -106,6 +109,7 @@ const THEMES = {
   'warm-organic': {
     label: 'Warm Organic',
     signal: 'Humanity · Warmth · Thoughtful',
+    motion: '300ms · ease-in-out',
     meta: {
       tagline: 'Humanity · Warmth · Thoughtful',
       useCases: ['个人知识管理工具', '写作/博客平台', '健康/生活方式产品', '教育类工具'],
@@ -139,6 +143,7 @@ const THEMES = {
   'playful': {
     label: 'Playful',
     signal: 'Energy · Expression · Delight',
+    motion: '400ms · spring',
     meta: {
       tagline: 'Energy · Expression · Delight',
       useCases: ['消费类 App', '创意工具', '社区/社交产品', '年轻用户向的 SaaS'],
@@ -172,6 +177,7 @@ const THEMES = {
   'neo-brutalist': {
     label: 'Neo-Brutalist',
     signal: 'Directness · Honesty · Anti-polish',
+    motion: '0ms · none',
     meta: {
       tagline: 'Directness · Honesty · Anti-polish',
       useCases: ['独立开发者产品', '技术博客/文档站', '反设计风格的工具产品', '开源项目官网'],
@@ -205,6 +211,7 @@ const THEMES = {
   'corporate-blue': {
     label: 'Corporate Blue',
     signal: 'Trust · Compliance · Risk-averse',
+    motion: '200ms · ease',
     meta: {
       tagline: 'Trust · Compliance · Risk-averse',
       useCases: ['企业级 SaaS', '政府/合规类平台', '金融服务产品', '医疗健康平台'],
@@ -238,6 +245,7 @@ const THEMES = {
   'monochrome': {
     label: 'Monochrome',
     signal: 'Confidence · Timeless · Editorial',
+    motion: '250ms · ease',
     meta: {
       tagline: 'Confidence · Timeless · Editorial',
       useCases: ['高端品牌官网', '投资组合/作品集', '出版/媒体平台', '奢侈品类产品'],
@@ -271,6 +279,7 @@ const THEMES = {
   'ai-gradient': {
     label: 'AI Gradient',
     signal: 'Future · Ambition · Scale',
+    motion: '400ms · ease-out',
     meta: {
       tagline: 'Future · Ambition · Scale',
       useCases: ['AI 产品官网', '技术基础设施平台', 'Web3/前沿技术产品', '融资路演式落地页'],
@@ -308,6 +317,65 @@ let _copyCssBtnTimer    = null;
 let _opacityTimer       = null;
 let _shareBtnTimer      = null;
 
+// ─── Sidebar: update text labels on theme change ──────
+// Visual dimensions (color, radius, shadow) update automatically
+// via CSS custom properties — only text labels need JS.
+function updateSidebarLabels(data) {
+  const t = data.tokens;
+
+  // Header
+  document.getElementById('sidebar-profile-name').textContent = data.label;
+  document.getElementById('sidebar-signal').textContent       = data.signal;
+
+  // Color: accent hex value
+  document.getElementById('dim-accent-val').textContent = t['--color-accent'].val;
+
+  // Radius: value label
+  document.getElementById('dim-radius-val').textContent = t['--radius-lg']?.val ?? '—';
+
+  // Typography: sample text in profile's display font + weight
+  const fontRaw    = t['--font-display'].val;
+  const fontName   = fontRaw.replace(/['"]/g, '').split(',')[0].trim();
+  const weightVal  = t['--weight-bold'].val;
+  const sample     = document.getElementById('dim-type-sample');
+  sample.style.fontFamily = fontRaw + ', system-ui';
+  sample.style.fontWeight = weightVal;
+  document.getElementById('dim-type-meta').innerHTML = `${fontName}<br>${weightVal}`;
+
+  // Leading: gap between bars reflects line-height scale
+  const leadingVal = t['--leading-base']?.val ?? '1.5';
+  const leadingNum = parseFloat(leadingVal);
+  const barGap     = Math.max(2, Math.round((leadingNum - 1) * 18)) + 'px';
+  document.getElementById('dim-leading-bars').style.gap = barGap;
+  document.getElementById('dim-leading-val').textContent = `leading ${leadingVal}`;
+
+  // Motion: easing label
+  document.getElementById('dim-motion-val').textContent = data.motion ?? '—';
+
+  // Meta accordion (use cases, anti-cases, brands)
+  const m = data.meta;
+  document.getElementById('sidebar-meta-wrap').innerHTML = m ? `
+    <details class="signal-meta">
+      <summary class="signal-meta-summary">${m.tagline}</summary>
+      <div class="signal-meta-body">
+        <p class="signal-meta-rationale">${m.rationale}</p>
+        <div class="signal-meta-section">
+          <span class="signal-meta-label">适合</span>
+          <span class="signal-meta-tags">${m.useCases.map(u => `<span class="signal-tag signal-tag--use">${u}</span>`).join('')}</span>
+        </div>
+        <div class="signal-meta-section">
+          <span class="signal-meta-label">不适合</span>
+          <span class="signal-meta-tags">${m.antiCases.map(a => `<span class="signal-tag signal-tag--anti">${a}</span>`).join('')}</span>
+        </div>
+        ${m.brandExamples ? `<div class="signal-meta-section">
+          <span class="signal-meta-label">参考品牌</span>
+          <span class="signal-meta-tags">${m.brandExamples.map(b => `<span class="signal-tag signal-tag--brand">${b}</span>`).join('')}</span>
+        </div>` : ''}
+      </div>
+    </details>
+  ` : '';
+}
+
 // ─── Core: apply a theme ──────────────────────────────
 function applyTheme(theme) {
   const data = THEMES[theme];
@@ -342,93 +410,15 @@ function applyTheme(theme) {
     </div>
   `).join('');
 
-  // Render legend
-  const tokenRows = Object.entries(data.tokens).map(([key, t]) => `
-    <div class="legend-row">
-      <span class="legend-key">${key}</span>
-      ${t.swatch
-        ? `<div style="display:flex;align-items:center;gap:4px">
-             <div class="legend-swatch" style="background:${t.val}"></div>
-             <span class="legend-val">${t.val}</span>
-           </div>`
-        : `<span class="legend-val">${t.val}</span>`
-      }
-    </div>
-  `).join('');
+  // Update sidebar labels (visuals update automatically via CSS custom properties)
+  updateSidebarLabels(data);
 
-  // Render signal meta accordion (if meta data exists)
-  const m = data.meta;
-  const metaAccordion = m ? `
-    <details class="signal-meta">
-      <summary class="signal-meta-summary">${m.tagline}</summary>
-      <div class="signal-meta-body">
-        <p class="signal-meta-rationale">${m.rationale}</p>
-        <div class="signal-meta-section">
-          <span class="signal-meta-label">适合</span>
-          <span class="signal-meta-tags">${m.useCases.map(u => `<span class="signal-tag signal-tag--use">${u}</span>`).join('')}</span>
-        </div>
-        <div class="signal-meta-section">
-          <span class="signal-meta-label">不适合</span>
-          <span class="signal-meta-tags">${m.antiCases.map(a => `<span class="signal-tag signal-tag--anti">${a}</span>`).join('')}</span>
-        </div>
-        ${m.brandExamples ? `<div class="signal-meta-section">
-          <span class="signal-meta-label">参考品牌</span>
-          <span class="signal-meta-tags">${m.brandExamples.map(b => `<span class="signal-tag signal-tag--brand">${b}</span>`).join('')}</span>
-        </div>` : ''}
-      </div>
-    </details>
-  ` : '';
-
-  clearTimeout(_copyCssBtnTimer); // cancel any pending reset from previous button instance
-  document.getElementById('token-legend').innerHTML = `
-    <div class="legend-title">Signal · ${data.label}</div>
-    <button class="export-signal-btn" id="export-signal-btn">导出 .signal.md</button>
-    ${metaAccordion}
-    ${tokenRows}
-    <details class="tokens-expand" id="tokens-expand">
-      <summary class="tokens-expand-summary">全部 29 个 token</summary>
-      <div class="tokens-expand-body" id="tokens-expand-body">
-        <span class="tokens-expand-loading">加载中…</span>
-      </div>
-    </details>
-    <div class="legend-footer">
-      <a href="index.html" class="legend-back">← all profiles</a>
-      <div class="legend-actions">
-        <button class="export-json-btn" id="export-json-btn">JSON</button>
-        <button class="copy-css-btn" id="copy-css-btn">CSS</button>
-      </div>
-    </div>
-  `;
-  // Re-bind after innerHTML replacement
-  document.getElementById('export-signal-btn').addEventListener('click', handleExportSignalMd);
-  document.getElementById('export-json-btn').addEventListener('click', handleExportJson);
-  document.getElementById('copy-css-btn').addEventListener('click', handleCopyCss);
-
-  // Lazy-load full token list on first expand
-  const tokensExpand = document.getElementById('tokens-expand');
-  if (tokensExpand) {
-    tokensExpand.addEventListener('toggle', async function onToggle() {
-      if (!this.open) return;
-      this.removeEventListener('toggle', onToggle); // load once per theme apply
-      const body = document.getElementById('tokens-expand-body');
-      const currentTheme = document.body.getAttribute('data-theme');
-      let allTokens;
-      try { allTokens = await parseThemeTokens(currentTheme); } catch {
-        body.innerHTML = '<span class="tokens-expand-loading">加载失败</span>';
-        return;
-      }
-      body.innerHTML = Object.entries(allTokens).map(([k, v]) => `
-        <div class="legend-row">
-          <span class="legend-key">${k}</span>
-          ${k.startsWith('--color-')
-            ? `<div style="display:flex;align-items:center;gap:4px">
-                 <div class="legend-swatch" style="background:${v}"></div>
-                 <span class="legend-val">${v}</span>
-               </div>`
-            : `<span class="legend-val">${v}</span>`}
-        </div>
-      `).join('');
-    });
+  // Reset CSS copy button if it was in "copied" state from previous theme
+  const cssBtn = document.getElementById('copy-css-btn');
+  if (cssBtn && cssBtn.dataset.state === 'copied') {
+    clearTimeout(_copyCssBtnTimer);
+    cssBtn.textContent = 'CSS';
+    delete cssBtn.dataset.state;
   }
 
   // Update trigger button
@@ -512,6 +502,11 @@ Object.entries(THEMES).forEach(([key, data]) => {
   panelOptions.appendChild(btn);
 });
 
+// ─── Bind sidebar export buttons once (static DOM, not re-rendered) ──
+document.getElementById('export-signal-btn').addEventListener('click', handleExportSignalMd);
+document.getElementById('export-json-btn').addEventListener('click', handleExportJson);
+document.getElementById('copy-css-btn').addEventListener('click', handleCopyCss);
+
 // ─── Init: hash → query param → default ──────────────
 const hashTheme  = window.location.hash.slice(1);
 const queryTheme = new URLSearchParams(window.location.search).get('theme');
@@ -591,7 +586,7 @@ document.getElementById('css-fallback-close').addEventListener('click', () => {
   document.getElementById('css-fallback').hidden = true;
 });
 
-// Main copy handler — re-bound each time applyTheme renders the button
+// Main copy handler (button is static in sidebar, bound once at init)
 async function handleCopyCss() {
   const btn = document.getElementById('copy-css-btn');
   if (btn?.dataset.state === 'copied') return; // AC-2: no re-trigger during cooldown
