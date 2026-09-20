@@ -118,12 +118,13 @@ Source of the hypothesis: the primary filled and secondary outlined button treat
 
 The supporting specimens are authored examples with expected outcomes, not external validation. They make the hypotheses reviewable and expose counterexamples; they do not measure precision, recall, or user benefit.
 
-Next: build the visual before/after case in [#40](https://github.com/yuki-uix/design-token-signals/issues/40), implement the scoped prototype in [#45](https://github.com/yuki-uix/design-token-signals/issues/45), then collect external-project evidence and a continue/narrow/stop decision in [#47](https://github.com/yuki-uix/design-token-signals/issues/47). A token-only prototype may legitimately return `insufficient-information` for both rules.
+The [visual before/after case](case-01-playful-meets-formal.md) now supplies a runnable SIG-001 specimen and rendered evidence; independent human review in [#40](https://github.com/yuki-uix/design-token-signals/issues/40) is still pending. Next: implement the scoped prototype in [#45](https://github.com/yuki-uix/design-token-signals/issues/45), then collect external-project evidence and a continue/narrow/stop decision in [#47](https://github.com/yuki-uix/design-token-signals/issues/47). A token-only prototype may legitimately return `insufficient-information` for both rules.
 
 ## Revision log
 
 | Version | Change | Evidence boundary |
 | --- | --- | --- |
 | 0.1 · 2026-09-20 | Two goal-dependent candidates, each with a supporting specimen, counterexample, and missing-input case | Author-constructed specimens and local source inspection only; no field validation |
+| 0.1 evidence update · 2026-09-20 | Add runnable SIG-001 comparison; rule conditions unchanged | Browser measurements establish construction, not perceived quality; human review pending |
 
 Keep IDs stable. Record changed conditions, reasons, and effects on prior examples when revising a rule. Do not silently redefine a failing example to make a rule pass.

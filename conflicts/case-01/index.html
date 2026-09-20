@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reading rhythm · SIG-001 visual case</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#comparison">Skip to comparison</a>
+  <main>
+    <header class="page-header">
+      <a class="back-link" href="../../index.html">← Design token signals</a>
+      <p class="eyebrow">CASE 01 / SIG-001 / CANDIDATE RULE</p>
+      <h1>Warmth does not set the reading pace.</h1>
+      <p class="intro">The same words, colors, and card shape. Compare body spacing, then check a compact title that leaves the reading surface unchanged.</p>
+    </header>
+    <aside class="brief" aria-labelledby="brief-title">
+      <h2 id="brief-title">The brief for this constructed example</h2>
+      <p>An unhurried reading card. Its author-defined body baseline is <strong>16px text, at least 1.65 line height, and 16px between paragraphs</strong>. It applies to the body in all three panels at the same viewport. It is not a universal design threshold.</p>
+    </aside>
+    <section class="comparison" id="comparison" aria-label="Three versions of the same reading card">
+      <section class="case-panel" data-case="before" aria-labelledby="before-title">
+        <header class="panel-header"><span class="panel-index">01</span><h2 id="before-title">Original spacing</h2><p>Both body values fall below the brief.</p></header>
+        <article class="reading-card">
+          <span class="reading-category">FIELD NOTES · 3 MIN READ</span>
+          <h3 class="reading-title">A little room<br>to think</h3>
+          <div class="reading-copy">
+            <p>A notebook can be a place to leave a thought before deciding what it means. Write a few lines, close the page, and return when there is something more to say.</p>
+            <p>Not every idea needs a title or a plan. Some begin as a question from a conversation, a detail noticed on a walk, or a sentence you want to keep.</p>
+            <p>When you return, read what is already there. Keep the useful parts. Let the rest remain unfinished for a while.</p>
+          </div>
+        </article>
+        <dl class="token-readout"><div><dt>Body leading</dt><dd>1.10 · 17.6px</dd></div><div><dt>Paragraph gap</dt><dd>4px</dd></div><div><dt>Title leading</dt><dd>1.40</dd></div></dl>
+        <p class="interpretation"><strong>Potential conflict with this brief.</strong> The warm surface and rounded corners do not change the compressed reading rhythm.</p>
+      </section>
+      <section class="case-panel" data-case="after" aria-labelledby="after-title">
+        <header class="panel-header"><span class="panel-index">02</span><h2 id="after-title">Restore the baseline</h2><p>Change only two body-spacing tokens.</p></header>
+        <article class="reading-card">
+          <span class="reading-category">FIELD NOTES · 3 MIN READ</span>
+          <h3 class="reading-title">A little room<br>to think</h3>
+          <div class="reading-copy">
+            <p>A notebook can be a place to leave a thought before deciding what it means. Write a few lines, close the page, and return when there is something more to say.</p>
+            <p>Not every idea needs a title or a plan. Some begin as a question from a conversation, a detail noticed on a walk, or a sentence you want to keep.</p>
+            <p>When you return, read what is already there. Keep the useful parts. Let the rest remain unfinished for a while.</p>
+          </div>
+        </article>
+        <dl class="token-readout"><div><dt>Body leading</dt><dd>1.65 · 26.4px</dd></div><div><dt>Paragraph gap</dt><dd>16px</dd></div><div><dt>Title leading</dt><dd>1.40</dd></div></dl>
+        <p class="interpretation"><strong>The body meets the brief.</strong> The tradeoff is a taller card and less content visible at once. That may not suit a dense workspace.</p>
+      </section>
+      <section class="case-panel" data-case="counterexample" aria-labelledby="counter-title">
+        <header class="panel-header"><span class="panel-index">03</span><h2 id="counter-title">A compact title can fit</h2><p>Keep the body baseline; tighten the title.</p></header>
+        <article class="reading-card">
+          <span class="reading-category">FIELD NOTES · 3 MIN READ</span>
+          <h3 class="reading-title">A little room<br>to think</h3>
+          <div class="reading-copy">
+            <p>A notebook can be a place to leave a thought before deciding what it means. Write a few lines, close the page, and return when there is something more to say.</p>
+            <p>Not every idea needs a title or a plan. Some begin as a question from a conversation, a detail noticed on a walk, or a sentence you want to keep.</p>
+            <p>When you return, read what is already there. Keep the useful parts. Let the rest remain unfinished for a while.</p>
+          </div>
+        </article>
+        <dl class="token-readout"><div><dt>Body leading</dt><dd>1.65 · 26.4px</dd></div><div><dt>Paragraph gap</dt><dd>16px</dd></div><div><dt>Title leading</dt><dd>1.10</dd></div></dl>
+        <p class="interpretation"><strong>No conflict found in the body scope.</strong> A compact title serves a different role. Mixed line heights are not inherently inconsistent.</p>
+      </section>
+    </section>
+    <footer class="page-footer">
+      <h2>What this comparison can tell us</h2>
+      <p>The CSS and rendered spacing can be checked. Whether the change feels better or helps readers still needs human review. These labels are author interpretations, not output from an audit tool or results of user research.</p>
+      <p>Try resizing the page: desktop shows three equal-width columns; narrow screens stack the same specimens. Compare within one viewport, not across different widths.</p>
+      <a href="../case-01-playful-meets-formal.md">Read the case, source values, and review status →</a>
+    </footer>
+  </main>
+</body>
+</html>

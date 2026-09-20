@@ -74,7 +74,7 @@ A token choice can contribute to how an interface feels. Smaller corners may rei
 | Typography | Formal or friendly? Traditional or modern? |
 | Form | Dense or airy? Restrained or playful? |
 
-These are interpretive lenses, not measured universal laws. Different radii can correctly express component hierarchy, and contrasting styles can be intentional. A combination needs context before it can be called a conflict. The [conflicts directory](conflicts/) contains two unvalidated candidate rules and illustrative counterexamples; visual cases and external validation are still pending.
+These are interpretive lenses, not measured universal laws. Different radii can correctly express component hierarchy, and contrasting styles can be intentional. A combination needs context before it can be called a conflict. The [conflicts directory](conflicts/) contains two unvalidated candidate rules and illustrative counterexamples; a [runnable reading-rhythm comparison](conflicts/case-01/index.html) is available, while human review and external validation are still pending.
 
 Product analyses draw on DevTools inspection and [getdesign.md](https://getdesign.md). Signal interpretations are the author's design judgments.
 
