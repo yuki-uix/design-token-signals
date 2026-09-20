@@ -43,4 +43,6 @@ The sample styles use only defined custom properties. The example has no runtime
 
 Issue #48 also requires someone unfamiliar with the project to explain its purpose and complete the flow. That has **not** been verified by this implementation session. Keep the issue open until a real trial is recorded.
 
+Use the [five-minute trial task and record](research/first-use-trial.md) to collect that evidence.
+
 Suggested trial: send only the README to a new user, ask what they expect the tool to do, then observe them choose, export, and explicitly reference a profile in their own project. Record completion, confusion, needed help, and whether the result was useful. Do not count the author's or implementation assistant's self-check as that trial.

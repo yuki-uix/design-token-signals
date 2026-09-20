@@ -9,9 +9,11 @@ This directory investigates whether a small set of contextual rules can identify
 
 The rules are unvalidated hypotheses. There is no runnable audit or installable Skill yet. Token-only input is insufficient for these candidates because component use, intent, and rendering matter.
 
+- [Reading-rhythm visual case](case-01-playful-meets-formal.md): runnable original, restored baseline, and compact-title counterexample; independent human review pending.
+
 ## Next experiments
 
-- [#40: visual before/after case](https://github.com/yuki-uix/design-token-signals/issues/40), starting with a reading surface and its declared goal. The proposed playful/formal combination is a hypothesis to investigate, not a predetermined error.
+- [#40: human review of the visual case](https://github.com/yuki-uix/design-token-signals/issues/40). Record whether the proposed change fits the reading goal, including disagreement.
 - [#45: scoped audit prototype](https://github.com/yuki-uix/design-token-signals/issues/45).
 - [#47: external-project validation](https://github.com/yuki-uix/design-token-signals/issues/47), including counterexamples and user feedback before deciding whether to productize.
 
