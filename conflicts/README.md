@@ -1,24 +1,27 @@
-# Conflicts
+# Conflict audit experiment
 
-> Token-level signal conflicts — cases where design choices send contradictory messages.
+This directory investigates whether a small set of contextual rules can identify token choices that undermine a declared design goal. Contrasting colors, radii, or type styles are not automatically conflicts.
 
-Signal conflicts don't announce themselves. Users experience them as "something feels off" without being able to say why. This section traces that feeling back to the token layer.
+## Available now
 
----
+- [Two candidate rules](rules.md): required inputs, checkable conditions, exceptions, possible changes, and tradeoffs.
+- [Supporting specimens and counterexamples](examples/candidate-inputs.md): authored examples with explicit provenance and expected outcomes, including missing-information cases.
 
-## Coming soon
+The rules are unvalidated hypotheses. There is no runnable audit or installable Skill yet. Token-only input is insufficient for these candidates because component use, intent, and rendering matter.
 
-- `case-01-playful-meets-formal.md` — warm round radius + condensed tight typography + dark serious palette
-- `case-02-premium-meets-cluttered` — generous spacing tokens undermined by high-density color usage
-- `case-03-minimal-meets-decorative` — monochrome palette with high-saturation accent used too broadly
+## Next experiments
 
----
+- [#40: visual before/after case](https://github.com/yuki-uix/design-token-signals/issues/40), starting with a reading surface and its declared goal. The proposed playful/formal combination is a hypothesis to investigate, not a predetermined error.
+- [#45: scoped audit prototype](https://github.com/yuki-uix/design-token-signals/issues/45).
+- [#47: external-project validation](https://github.com/yuki-uix/design-token-signals/issues/47), including counterexamples and user feedback before deciding whether to productize.
 
-## How to read a conflict
+Additional density and decorative-accent cases remain later candidates. They need usage/rendering evidence; token definitions alone cannot establish how much color is on screen.
 
-Each case follows the same structure:
+## How to read a case
 
-1. **The feeling** — what users perceive ("feels inconsistent", "looks cheap", "I can't trust this")
-2. **The conflicting axes** — which signal dimensions are pulling in opposite directions
-3. **The specific tokens** — exactly which values create the conflict
-4. **The resolution** — which token(s) to adjust, and what the tradeoff is
+1. **The feeling** — state the desired experience and the observed or hypothesized mismatch. Do not present the author's impression as user research.
+2. **The conflicting axes** — explain the relevant dimensions in this component's context.
+3. **The specific tokens** — identify original values and where they are actually consumed.
+4. **The resolution** — propose the smallest change, its cost, and a reasonable exception or alternative.
+
+A case should include the design brief, comparable before/after renders, source evidence, and what remains uncertain. Rule revisions are tracked in [rules.md](rules.md#revision-log).
