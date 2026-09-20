@@ -1,0 +1,141 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+#
+# design-token-signals 的 CodeRabbit 配置。
+#
+# 这个仓库的代码量不大（一个无构建的静态站），真正会出事的不是 JS 边界条件，而是三件事：
+#   1. 文档说的和仓库实际的状态对不上（已经真实发生过一次，见 README path_instructions）
+#   2. 主题数据出现第二份副本，两边不一致而没人发现
+#   3. 判断类内容（冲突案例、规则）给出无出处、不可证伪的结论
+# path_instructions 的作用就是把 review 的注意力从语法掰到这三件事上。
+language: zh-CN
+enable_free_tier: true
+
+tone_instructions: >-
+  直接指出问题，不要先铺垫优点。不确定时说不确定，不要用「建议考虑」包装一个你也没把握的判断。
+  如果一处改动看起来没问题，就不要为了凑数留评论。
+
+reviews:
+  profile: assertive
+  request_changes_workflow: false
+  high_level_summary: true
+  review_status: true
+  collapse_walkthrough: true
+  changed_files_summary: true
+  sequence_diagrams: false
+  poem: false
+  in_progress_fortune: false
+
+  # 本仓库的 PR 都带 Closes #X，issue 正文里是可勾选的 AC 清单。
+  # 这两项让 review 去核对「AC 说要做的，代码里是不是真做了」。
+  assess_linked_issues: true
+  related_issues: true
+
+  # 不拦合并，只在 AC 没被满足时出一条警告。
+  pre_merge_checks:
+    issue_assessment:
+      mode: warning
+
+  # 公开仓库：仓库开放贡献后拦低质量 PR。
+  slop_detection:
+    enabled: true
+
+  path_filters:
+    - "!node_modules/**"
+
+  path_instructions:
+    - path: "data/signals.json"
+      instructions: >-
+        这是 9 套主题的唯一真相源，站点和 skill 都读它。核对外部事实，不是 JSON 语法：
+
+        1. 每套主题必须同时具备 meta.antiCases（不适合用在哪）和 meta.rationale（为什么这么选）。
+           这两个字段是本项目区别于同类工具的全部所在——同赛道竞品只做提取和生成，
+           没有一个回答「该不该这么配」。**新增主题缺这两项是功能退化，不是小疏漏，请直接指出。**
+        2. antiCases 必须是可判定的场景，不能是「不适合不合适的项目」这种同义反复。
+        3. 主题在各信号轴上的坐标改动，要检查是否与 conflicts/rules.md 里引用它的规则冲突。
+        4. 数量要实际去数，不要假设。README 和 PRODUCT.md 曾长期写着 3 套，实际是 9 套。
+
+    - path: "js/**/*.js"
+      instructions: >-
+        1. **最重要**：检查是否有主题数据被重新内联回 JS。data/signals.json 落地后，
+           仓库里不允许存在第二份主题数据。这类回归不会让任何东西报错，只会让两边悄悄不一致。
+        2. 技术约束见 PRODUCT.md：纯静态站、无构建工具、无框架、无后端。
+           引入打包器、框架或服务端依赖的改动需要先质疑，而不是先 review 实现细节。
+        3. PRODUCT.md 末尾有一张「暂不做（已决策）」表。如果 PR 做了表里的事，
+           请指出它推翻了一条既有决策，并要求 PR 说明前提变了什么。
+        4. 不要纠结 vanilla JS 的风格问题（没有 lint、没有构建，这是有意的）。
+
+    - path: "conflicts/rules.md"
+      instructions: >-
+        这是冲突判定规则表，skill 的判断全部建立在它上面。每条规则检查四件事：
+
+        1. **触发条件是否可判定**。「偏暖」「过于圆润」这类措辞无法判定，必须落到具体的
+           token 值域或组合。读完一条规则，你应该能拿它去判一个真实站点而不产生歧义。
+        2. **是否写了「典型误判」**。命中规则但其实没问题的情况必须写出来，否则 skill 会疯狂误报，
+           而误报比漏报更快毁掉信任。这一项留空的规则请直接要求补。
+        3. **依据是否有出处**。每条规则应引用某套主题的 antiCases 作为来源，注明来自哪套。
+           无出处的规则是个人偏好，不是可复用的判断。
+        4. 新增规则时，检查 conflicts/ 下已有案例是否需要同步更新引用编号。
+
+    - path: "conflicts/case-*.md"
+      instructions: >-
+        冲突案例是本项目的核心内容资产，也是最容易写成不可证伪的地方。检查：
+
+        1. 四段结构是否齐全，段落标题与 conflicts/README.md 里定义的完全一致
+           （The feeling / The conflicting axes / The specific tokens / The resolution）。
+        2. **是否引用了 rules.md 的规则编号**。没有编号的案例是一篇观后感，
+           读者无法判断它是通用规律还是作者个人口味。
+        3. 「The specific tokens」一节是否精确到变量名和值，而不是描述性的「圆角偏大」。
+        4. **结论是否说明了取舍**。只说「改成 X 更好」而不说改了会失去什么，
+           是把判断包装成了事实。本项目的立场是「两者都不错，但混用会发出矛盾信号」，
+           案例的写法要守住这个立场。
+        5. 如果附了复现样例，实际打开它是否真的能看到所描述的那种「怪」。
+
+    - path: ".claude/skills/**/*.md"
+      instructions: >-
+        这是 skill 定义。最重要的一条：**prompt 表达意图，出口闸保证性质。**
+
+        1. 找出那些只写在 prompt 里、没有任何输出侧校验的约束。典型的是
+           「没有发现冲突时必须明确说没有冲突，不要编造问题」——这种约束模型一定会违反，
+           必须在输出侧再校验一遍。只写在 SKILL.md 里等于没写，请直接指出。
+        2. description 字段决定触发准确度。检查它是否同时覆盖了正例（该触发的说法）
+           和排除了反例（不该触发的场景）。
+        3. 检查 skill 是否复用了站点已有的 .signal.md 模板，而不是另写了一份格式。
+           两份格式迟早会漂移。
+
+    - path: "README.md"
+      instructions: >-
+        README 是陌生人的唯一入口，它的失效方式是「描述的是几个月前的仓库」。
+
+        此前真实出过：README 的状态表写着三个产品全部「🔄 In progress」、结构图里只有 3 个
+        profile，而实际已有 9 套主题、两个 Epic 完成；同时 README 通篇没有提到 .signal.md
+        和 AI 这条线——项目最有卖点的能力在门面上一个字都没有。
+
+        因此，凡是改变了功能、主题数量或工作流的 PR，都要检查 README 是否同步。
+        **README 与仓库实际状态不符时，请把它当成缺陷指出，不要当成文档待办。**
+        同时确认安装命令仍然出现在靠前位置且可执行。
+
+    - path: "PRODUCT.md"
+      instructions: >-
+        这是产品北极星文档，不是实现记录。检查两件事：
+
+        1. 如果 PR 推翻了「暂不做（已决策）」表里的某条决策，文档里要写清楚前提变了什么。
+           有记录的改判是决策，没记录的改判是漂移。
+        2. 「当前 Roadmap」和底部的最后更新日期是否与实际进度一致。
+
+    - path: "**/*.html"
+      instructions: >-
+        这些是演示页，含大量内联样式，index.html 和 demo.html 都超过 1000 行。
+        不要对内联样式、类名风格、HTML 结构做风格性建议——这是有意的无构建静态站。
+
+        只关注两件事：
+        1. 硬编码的颜色、圆角、间距值是否应该改用 token 变量（主题切换会失效）。
+        2. 9 套主题的 demo 页之间是否出现了结构性分叉（它们应当同构，只有 token 不同）。
+
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - main
+
+chat:
+  auto_reply: true
