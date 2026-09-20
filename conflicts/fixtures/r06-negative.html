@@ -1,0 +1,32 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>R-06 负例 · accent 克制使用</title>
+<link rel="stylesheet" href="_shared.css">
+<!--
+  R-06 的负例：accent 只用在主 CTA 的背景上，一处。
+  这是 minimal-dark「降低视觉噪音」和 bold-dark「制造强烈对比」所描述的克制用法。
+  探针跑这个页面时 R-06 必须不触发——否则规则在正常设计上误报。
+-->
+<h1>Forma</h1>
+<p class="sub">accent 只出现在主 CTA 上。</p>
+<div class="row">
+  <button style="background:#7c3aed;color:#fff">开始使用</button>
+  <button class="btn-secondary">查看文档</button>
+</div>
+<h2>你的项目</h2>
+<div class="card">
+  <div class="row">
+    <span class="badge">进行中</span>
+    <a href="#">设计系统重构</a>
+  </div>
+  <table>
+    <tr><th>名称</th><th>状态</th></tr>
+    <tr><td>Token 梳理</td><td><span class="badge">已完成</span></td></tr>
+    <tr><td>组件迁移</td><td><span class="badge">进行中</span></td></tr>
+  </table>
+</div>
+<h2>订阅更新</h2>
+<div class="row">
+  <input placeholder="you@example.com">
+  <button class="btn-secondary">订阅</button>
+</div>

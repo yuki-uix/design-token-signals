@@ -22,22 +22,27 @@
   const _cv = document.createElement('canvas'); _cv.width = _cv.height = 1;
   const _ctx = _cv.getContext('2d', { willReadFrequently: true });
   let unparsedColors = 0;
+  /** 双哨兵：两个不同起始值下结果一致，才说明这个颜色值被解析器接受了。
+   *  旧写法用「结果是否等于 #000 + 黑色白名单正则」判断，而正则要求逗号，
+   *  于是合法的 `rgb(0 0 0)` / `rgba(0 0 0 / 1)` 被误计为无法解析。 */
+  const accepted = css => {
+    _ctx.fillStyle = '#010203'; _ctx.fillStyle = css; const a = _ctx.fillStyle;
+    _ctx.fillStyle = '#040506'; _ctx.fillStyle = css; const b = _ctx.fillStyle;
+    return a === b;
+  };
   const rgb = css => {
     const v = String(css).trim();
     if (!v || v === 'none' || v === 'transparent') return null;
     try {
+      if (!accepted(v)) { unparsedColors++; return null; }
       _ctx.clearRect(0, 0, 1, 1);
-      _ctx.fillStyle = '#000';
       _ctx.fillStyle = v;
-      // fillStyle 未变且输入不是黑色，说明这个值没被接受
-      if (_ctx.fillStyle === '#000' && !/^#0{3,6}$|^black$|^rgba?\(0,\s*0,\s*0/i.test(v)) {
-        unparsedColors++; return null;
-      }
       _ctx.fillRect(0, 0, 1, 1);
       const d = _ctx.getImageData(0, 0, 1, 1).data;
       const a = +(d[3] / 255).toFixed(3);
       if (a < 0.05) return null;
-      return { r: d[0], g: d[1], b: d[2], a,
+      // 半透明色光栅化后 RGB 会被底色稀释，色相饱和度不可信
+      return { r: d[0], g: d[1], b: d[2], a, diluted: a < 0.3,
         hex: '#' + [d[0], d[1], d[2]].map(x => x.toString(16).padStart(2, '0')).join('') };
     } catch (e) { unparsedColors++; return null; }
   };
@@ -146,10 +151,25 @@
   }
 
   // ── accent 第 2 来源：首屏内面积最大、背景非中性的按钮 ──
+  /**
+   * 可见性：不能只看尺寸和位置。
+   * linear.app 的「Skip to content」跳转链接位于顶部、有尺寸、带品牌色，
+   * 旧筛选条件直接把它当成主 CTA——而任何带 skip link 的站点都会中招，
+   * 这是系统性偏差，不是偶然。用 elementFromPoint 确认它确实被画在最上层。
+   */
+  const visible = (el, r) => {
+    const cs = getComputedStyle(el);
+    if (cs.visibility === 'hidden' || parseFloat(cs.opacity) < 0.1) return false;
+    if (r.bottom <= 0 || r.right <= 0 || r.left >= innerWidth || r.top >= innerHeight) return false;
+    const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    return !!hit && (hit === el || el.contains(hit) || hit.contains(el));
+  };
+
   const ctaCandidates = [];
   for (const el of document.querySelectorAll('button, a, [role="button"]')) {
     const r = el.getBoundingClientRect();
     if (r.top > 900 || r.width < 60 || r.height < 24) continue;
+    if (!visible(el, r)) continue;
     const c = rgb(getComputedStyle(el).backgroundColor);
     if (!c) continue;
     const H = hsl(c);
@@ -186,12 +206,17 @@
         if (role === 'text' && !ownText(el)) continue;      // 继承来的文字色不算使用
         if (role === 'border' && parseFloat(cs.borderTopWidth) === 0) continue;
         const k = c.hex;
-        colorUse[k] = colorUse[k] || { hex: c.hex, ...H, roles: new Set(), tags: new Set(), area: 0, onControl: 0, n: 0 };
+        colorUse[k] = colorUse[k] || { hex: c.hex, ...H, roles: new Set(), tags: new Set(), rects: [], onControl: 0, n: 0 };
         colorUse[k].roles.add(role);
         colorUse[k].tags.add(tag);
         colorUse[k].n++;
         if (interactive) colorUse[k].onControl++;
-        if (role === 'bg' && rect.width > 0) colorUse[k].area += rect.width * rect.height;
+        // 只收裁进视口的矩形，面积在输出时按并集算（见 coverage）
+        if (role === 'bg') {
+          const x1 = Math.max(rect.left, 0), y1 = Math.max(rect.top, 0);
+          const x2 = Math.min(rect.right, innerWidth), y2 = Math.min(rect.bottom, innerHeight);
+          if (x2 > x1 && y2 > y1) colorUse[k].rects.push([x1, y1, x2, y2]);
+        }
       }
     }
 
@@ -249,6 +274,25 @@
   const median = a => a.length ? a.slice().sort((x, y) => x - y)[Math.floor(a.length / 2)] : null;
   const viewport = innerWidth * innerHeight;
 
+  /**
+   * 覆盖率 = 视口内并集面积 / 视口面积。
+   * 旧实现是「每个元素盒面积直接累加」，既不裁视口也不去重叠：
+   * gumroad.com 的 6 个 #ffc900 元素全在首屏之外，真实首屏覆盖率为 0，
+   * 旧算法却报 0.513——规则写的是「覆盖首屏可见面积」，测的却完全是另一个量。
+   * 这里按 8px 网格求并集，误差上界是一个网格的边长。
+   */
+  const GRID = 8;
+  /** 纯函数，便于在 node 里定点测试：矩形并集面积，按 grid 网格采样 */
+  const unionArea = (rects, grid) => {
+    if (!rects || !rects.length) return 0;
+    const cells = new Set();
+    for (const [x1, y1, x2, y2] of rects)
+      for (let x = Math.floor(x1 / grid); x < Math.ceil(x2 / grid); x++)
+        for (let y = Math.floor(y1 / grid); y < Math.ceil(y2 / grid); y++) cells.add(x + ',' + y);
+    return cells.size * grid * grid;
+  };
+  const coverage = rects => +(unionArea(rects, GRID) / viewport).toFixed(3);
+
   const accent = accentVars.length ? { ...accentVars[0], source: 'css-var' }
     : ctaCandidates.length ? { ...ctaCandidates[0], source: 'primary-cta' }
     : (() => {
@@ -272,13 +316,14 @@
       .map(c => ({ hex: c.hex, h: c.h, s: c.s, l: c.l, n: c.n,
         roles: [...c.roles], roleCount: c.roles.size,
         tags: [...c.tags].slice(0, 6), tagCount: c.tags.size,
-        onControl: c.onControl, areaShare: +(c.area / viewport).toFixed(3) }))
+        onControl: c.onControl, coverage: coverage(c.rects) }))
       .sort((a, b) => b.n - a.n).slice(0, 8),
     fontClasses,
     headWeightMedian: median(weights),
     bodyLeadingMedian: median(leadings),
     shadows, borders, gradients,
     _note: 'accent.source 为 none 时，依赖 accent 的规则无输入，应报告无法判定而不是判否；'
+         + 'coverage 是视口内并集覆盖率，不是盒面积累加。'
          + 'fontClasses 为 unknown 时同理。unreadableSheets / unparsedColors > 0 表示有输入未被读到，'
          + '结论的覆盖面相应缩小，不要当成"没有问题"。',
   };

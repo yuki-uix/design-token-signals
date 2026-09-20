@@ -1,0 +1,40 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>R-06 正例 · accent 用量失控</title>
+<link rel="stylesheet" href="_shared.css">
+<!--
+  R-06 的正例：同一个 accent(#7c3aed) 被用在
+  背景（按钮、徽章、区块）、文字（链接、图标、表头）、描边（输入框、卡片）三种角色上，
+  承载它的标签横跨 button / a / span / input / div / th 六种。
+  版面与负例完全相同，唯一的差别就是 accent 的用量——
+  这样两者的对比里只有一个变量。
+-->
+<h1 style="color:#7c3aed">Forma</h1>
+<p class="sub">同一个紫色出现在背景、文字、描边上，横跨六种标签。</p>
+<div class="row">
+  <button style="background:#7c3aed;color:#fff">开始使用</button>
+  <button class="btn-secondary" style="border-color:#7c3aed;color:#7c3aed">查看文档</button>
+</div>
+<div style="background:#7c3aed;color:#fff;padding:26px;border-radius:10px;margin:18px 0">
+  <strong>限时</strong> 年付立减 30%
+</div>
+<h2 style="color:#7c3aed">你的项目</h2>
+<div class="card" style="border-color:#7c3aed">
+  <div class="row">
+    <span class="badge" style="background:#7c3aed;color:#fff">进行中</span>
+    <a href="#" style="color:#7c3aed">设计系统重构</a>
+    <span class="icon" style="color:#7c3aed">★</span>
+  </div>
+  <table>
+    <tr><th style="color:#7c3aed;border-bottom-color:#7c3aed">名称</th>
+        <th style="color:#7c3aed;border-bottom-color:#7c3aed">状态</th></tr>
+    <tr><td>Token 梳理</td><td><span class="badge" style="background:#7c3aed;color:#fff">已完成</span></td></tr>
+    <tr><td><a href="#" style="color:#7c3aed">组件迁移</a></td>
+        <td><span class="badge" style="background:#7c3aed;color:#fff">进行中</span></td></tr>
+  </table>
+</div>
+<h2 style="color:#7c3aed">订阅更新</h2>
+<div class="row">
+  <input placeholder="you@example.com" style="border-color:#7c3aed;color:#7c3aed">
+  <button style="background:#7c3aed;color:#fff">订阅</button>
+</div>

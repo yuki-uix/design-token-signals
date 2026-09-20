@@ -1,0 +1,29 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>accent 识别 · 跳转链接不得被当成主 CTA</title>
+<link rel="stylesheet" href="_shared.css">
+<!--
+  回归 linear.app 上暴露的问题：accent 第 2 步「首屏内面积最大的彩色按钮」
+  选中了「Skip to content」跳转链接。那不是运气不好——跳转链接是 DOM 里的第一个 a，
+  通常带品牌色、有尺寸、位于顶部，任何带 skip link 的站点都会中招。
+
+  这个页面里：
+    - 跳转链接用青色 #00b8d4，尺寸比主 CTA 大，但被 transform 移出屏幕
+    - 真正的主 CTA 用紫色 #7c3aed
+  探针必须选中紫色。选中青色即为回归。
+-->
+<style>
+  .skip { position: absolute; top: 0; left: 0; width: 260px; height: 48px;
+          background: #00b8d4; color: #fff; display: flex; align-items: center;
+          justify-content: center; transform: translateY(-120%); }
+  .skip:focus { transform: none; }
+</style>
+<a class="skip" href="#main">跳到主要内容</a>
+<main id="main">
+  <h1>Forma</h1>
+  <p class="sub">主 CTA 是紫色的那个。</p>
+  <div class="row">
+    <button style="background:#7c3aed;color:#fff">开始使用</button>
+    <button class="btn-secondary">查看文档</button>
+  </div>
+</main>
