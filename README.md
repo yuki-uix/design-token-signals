@@ -4,11 +4,17 @@ Choose a visual style, understand its design choices, and export tokens your AI 
 
 **[Try the live demo](https://yuki-uix.github.io/design-token-signals/)** · [Open Minimal Dark](https://yuki-uix.github.io/design-token-signals/demo.html#minimal-dark) · [Use the sample](examples/minimal-dark/)
 
-![Actual Minimal Dark demo with its live token sidebar and export controls](docs/images/minimal-dark-demo.png)
+![Actual Clean Light, Minimal Dark, and Warm Organic demo heroes, showing light, dark, and warm visual styles](docs/images/theme-comparison.png)
+
+The same demo template in three profiles. Both theme tokens and profile copy change; these are real browser captures.
 
 Nine profiles for developers who know how an interface should feel but need help choosing colors, typography, corners, and shadows. Each profile includes suggested uses, tradeoffs, and exports. No installation or account is needed to browse and export.
 
 ## Use it in three steps
+
+![Browser recording: search for minimal, open Minimal Dark, export its signal Markdown, and see the usage guidance](docs/images/choose-and-export.gif)
+
+The recording shows an actual `.signal.md` download. Static walkthrough: [choose a profile](https://yuki-uix.github.io/design-token-signals/) → [open its demo and export](docs/images/minimal-dark-demo.png) → [reference the downloaded file](examples/minimal-dark/minimal-dark.signal.md) in your project.
 
 1. **Choose a profile.** Open the [gallery](https://yuki-uix.github.io/design-token-signals/), search for an intent such as `professional` or `warm`, and open a theme. The demo switcher lets you explore all nine profiles.
 2. **Export the reference.** Click **导出 .signal.md** in the demo sidebar. The Markdown file contains the profile's intent, suggested uses, rationale, and 29 theme variables. CSS and JSON exports are also available.
