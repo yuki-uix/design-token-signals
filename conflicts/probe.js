@@ -113,6 +113,21 @@
     };
   };
 
+  /**
+   * 「控件」与「小形状元素」是两个不同的集合，必须分开：
+   *  - onControl 与 radius 用控件集合。旧写法 /btn|button|input|select/ 只匹配 className，
+   *    而原生 <input> / <select> / <textarea> 的 className 通常为空，按标签根本进不来；
+   *    [role="button"] 也进不来——但它在 CTA 扫描里是被收的，两个口径因此不一致。
+   *  - radiusSmallElements 用小形状集合。R-07 明确写的是「按钮、输入框、卡片」，
+   *    而卡片不是控件，旧写法把它整个排除在外。
+   */
+  const CONTROL_SEL = 'button, a, input, select, textarea, [role="button"], [role="link"]';
+  const isControl = (el, cls) => {
+    try { if (el.matches(CONTROL_SEL)) return true; } catch (e) { /* SVG 等没有 matches */ }
+    return /btn|button/i.test(cls);
+  };
+  const isSmallShape = (el, cls) => isControl(el, cls) || /card|tile|panel/i.test(cls);
+
   const isDecorative = el =>
     /svg|canvas|picture|img/i.test(el.tagName) ||
     el.closest('svg, figure, [aria-hidden="true"], [role="presentation"]');
@@ -121,6 +136,12 @@
     for (const n of el.childNodes) if (n.nodeType === 3 && n.textContent.trim()) return true;
     return false;
   };
+
+  const EDGE_PROPS = [
+    ['borderTopWidth', 'borderTopColor'], ['borderRightWidth', 'borderRightColor'],
+    ['borderBottomWidth', 'borderBottomColor'], ['borderLeftWidth', 'borderLeftColor'],
+    ['outlineWidth', 'outlineColor'],
+  ];
 
   const buckets = { pill: 0, '0px': 0, '1-4px': 0, '5-12px': 0, '13-24px': 0, '>24px': 0 };
   const smallBuckets = { ...buckets };        // 只统计按钮/输入框/卡片这类小元素（R-07）
@@ -173,7 +194,9 @@
     const c = rgb(getComputedStyle(el).backgroundColor);
     if (!c) continue;
     const H = hsl(c);
-    if (H.s < 15) continue;                        // 中性色不是 accent
+    // 明度护栏必须和 colorUsage 用同一道：近黑/近白色的 HSL 饱和度不可信
+    // （rgb(1,0,16) 算出来是 100%），否则一个近黑的大按钮能凭假饱和度当上主 CTA。
+    if (!inBand(H) || H.s < 15) continue;          // 区间外不判定；中性色不是 accent
     ctaCandidates.push({ area: Math.round(r.width * r.height), hex: c.hex, ...H, text: (el.textContent || '').trim().slice(0, 24) });
   }
   ctaCandidates.sort((a, b) => b.area - a.area);
@@ -182,18 +205,19 @@
     const cs = getComputedStyle(el);
     const tag = el.tagName.toLowerCase();
     const cls = String(el.className || '');
-    const interactive = tag === 'button' || tag === 'a' || /btn|button|input|select/i.test(cls);
+    const interactive = isControl(el, cls);
     const rect = el.getBoundingClientRect();
     const isSmall = rect.width > 0 && rect.width <= 480 && rect.height <= 120;
+    const shape = isSmallShape(el, cls);
 
-    if (interactive) {
+    if (interactive || shape) {
       const raw = cs.borderRadius.split(' ')[0];
       const px = parseFloat(raw) || 0;
       // pill 单列：border-radius:9999px 的计算值是 1.67772e+07px（rules.md · 圆角）
       const key = (px > 500 || raw.includes('%')) ? 'pill'
         : px === 0 ? '0px' : px <= 4 ? '1-4px' : px <= 12 ? '5-12px' : px <= 24 ? '13-24px' : '>24px';
-      buckets[key]++;
-      if (isSmall) smallBuckets[key]++;
+      if (interactive) buckets[key]++;
+      if (shape && isSmall) smallBuckets[key]++;   // R-07 要的是按钮、输入框、卡片
     }
 
     // 颜色用量：记录角色、承载标签、可见面积（R-06 靠这三项判定，不靠出现次数）
@@ -211,12 +235,9 @@
         colorUse[k].tags.add(tag);
         colorUse[k].n++;
         if (interactive) colorUse[k].onControl++;
-        // 只收裁进视口的矩形，面积在输出时按并集算（见 coverage）
-        if (role === 'bg') {
-          const x1 = Math.max(rect.left, 0), y1 = Math.max(rect.top, 0);
-          const x2 = Math.min(rect.right, innerWidth), y2 = Math.min(rect.bottom, innerHeight);
-          if (x2 > x1 && y2 > y1) colorUse[k].rects.push([x1, y1, x2, y2]);
-        }
+        // 收原始矩形；裁剪视口与求并集都放在 coverageOf 里，那是纯函数，可被测试覆盖
+        if (role === 'bg' && rect.width > 0 && rect.height > 0)
+          colorUse[k].rects.push([rect.left, rect.top, rect.right, rect.bottom]);
       }
     }
 
@@ -245,11 +266,14 @@
       }
     }
 
-    // R-03 豁免的第二条判据：≥2px 的近黑描边
-    const bw = parseFloat(cs.borderTopWidth) || 0;
-    if (bw >= 2) {
-      const bc = rgb(cs.borderTopColor);
-      if (bc && hsl(bc).l <= 20) borders.thickDark++;
+    // R-03 豁免的第二条判据：≥2px 的近黑描边。
+    // 文档写的是「border 或 outline」，只查 borderTop 会让 outline-only 的 brutalist 控件
+    // 和只在其他边加粗描边的元素漏掉，R-03 于是报出一个本该被豁免抑制的冲突。
+    for (const [wProp, cProp] of EDGE_PROPS) {
+      if ((parseFloat(cs[wProp]) || 0) < 2) continue;
+      if (wProp === 'outlineWidth' && cs.outlineStyle === 'none') continue;
+      const ec = rgb(cs[cProp]);
+      if (ec && hsl(ec).l <= 20) { borders.thickDark++; break; }   // 同一元素只计一次
     }
 
     // R-08：渐变，且是否进入 UI 控件
@@ -291,21 +315,32 @@
         for (let y = Math.floor(y1 / grid); y < Math.ceil(y2 / grid); y++) cells.add(x + ',' + y);
     return cells.size * grid * grid;
   };
-  const coverage = rects => +(unionArea(rects, GRID) / viewport).toFixed(3);
+  /** 纯函数：裁进视口 → 求并集 → 除以视口面积 → 定点。四步都在这里，便于定点测试 */
+  const clipToViewport = (rects, vw, vh) => (rects || [])
+    .map(([x1, y1, x2, y2]) => [Math.max(x1, 0), Math.max(y1, 0), Math.min(x2, vw), Math.min(y2, vh)])
+    .filter(([x1, y1, x2, y2]) => x2 > x1 && y2 > y1);
+  const coverageOf = (rects, vw, vh, grid) =>
+    +(unionArea(clipToViewport(rects, vw, vh), grid) / (vw * vh)).toFixed(3);
+  const coverage = rects => coverageOf(rects, innerWidth, innerHeight, GRID);
 
   const accent = accentVars.length ? { ...accentVars[0], source: 'css-var' }
     : ctaCandidates.length ? { ...ctaCandidates[0], source: 'primary-cta' }
     : (() => {
         const onCtl = Object.values(colorUse).filter(c => c.onControl > 0);
-        // 背景色优先于描边色：accent 是被"用上去"的，不是勾出来的边
+        // 文档写的是「饱和度最高……**同分时**背景色优先于描边色」。
+        // 把背景角色当主键会让 55% 饱和的背景打败 100% 饱和的控件色，与文档相反。
         const ranked = onCtl.sort((a, b) =>
-          (b.roles.has('bg') - a.roles.has('bg')) || (b.s - a.s) || (b.onControl - a.onControl));
+          (b.s - a.s) || (b.roles.has('bg') - a.roles.has('bg')) || (b.onControl - a.onControl));
         const best = ranked[0];
         return best ? { hex: best.hex, h: best.h, s: best.s, l: best.l, source: 'most-saturated-control' } : { source: 'none' };
       })();
 
   return {
     url: location.host,
+    // 测量条件。coverage 是「视口内」覆盖率，换视口或滚动位置结果就不同，
+    // 不带上这两个字段，任何标定值都无法复现，也无法判断拿到的是哪一次的口径。
+    conditions: { viewport: `${innerWidth}x${innerHeight}`, scrollY: Math.round(scrollY),
+      atTop: Math.round(scrollY) === 0 },
     background: bg ? { ...bg, ...hsl(bg), warmth: bg.r - bg.b, isWarm: bg.r - bg.b > WARM } : null,
     radius: share(buckets),
     radiusSmallElements: share(smallBuckets),      // R-07 只看这个
@@ -317,13 +352,16 @@
         roles: [...c.roles], roleCount: c.roles.size,
         tags: [...c.tags].slice(0, 6), tagCount: c.tags.size,
         onControl: c.onControl, coverage: coverage(c.rects) }))
-      .sort((a, b) => b.n - a.n).slice(0, 8),
+      // 不截断：R-06 要判的可能是一个出现次数很低、但覆盖面积很大的颜色，
+      // 按 n 排序再切前 8 会把它丢掉。改按覆盖率排，全部返回。
+      // colorUse 只收明度区间内饱和度 ≥55 的颜色，实测每页 1–6 个，不会失控。
+      .sort((a, b) => (b.coverage - a.coverage) || (b.n - a.n)),
     fontClasses,
     headWeightMedian: median(weights),
     bodyLeadingMedian: median(leadings),
     shadows, borders, gradients,
     _note: 'accent.source 为 none 时，依赖 accent 的规则无输入，应报告无法判定而不是判否；'
-         + 'coverage 是视口内并集覆盖率，不是盒面积累加。'
+         + 'coverage 是视口内并集覆盖率，不是盒面积累加；conditions.atTop 为 false 时它不可与标定值比较。'
          + 'fontClasses 为 unknown 时同理。unreadableSheets / unparsedColors > 0 表示有输入未被读到，'
          + '结论的覆盖面相应缩小，不要当成"没有问题"。',
   };
