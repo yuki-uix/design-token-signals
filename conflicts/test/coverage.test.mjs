@@ -10,39 +10,15 @@
  */
 import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
+import { pick, load } from './_pick.mjs';
 
 const src = readFileSync(new URL('../probe.js', import.meta.url), 'utf8');
 
-/**
- * 从 probe.js 里取出被测函数本身，不在测试里复刻实现。
- * 扫描到深度为 0 的分号，这样箭头函数的两种写法（花括号体与表达式体）都能取全；
- * 只数花括号的写法会在 `const f = (a) => (b).map(...)` 这类表达式体上截断。
- */
-const pick = name => {
-  const start = src.indexOf(`const ${name} = `);
-  if (start < 0) throw new Error(`probe.js 里找不到 ${name}`);
-  const pairs = { '(': ')', '[': ']', '{': '}' };
-  const stack = [];
-  for (let i = start; i < src.length; i++) {
-    const ch = src[i];
-    if (ch === '/' && src[i + 1] === '/') { i = src.indexOf('\n', i); continue; }
-    if (ch === '/' && src[i + 1] === '*') { i = src.indexOf('*/', i) + 1; continue; }
-    if (ch === "'" || ch === '"' || ch === '`') {
-      const q = ch;
-      while (++i < src.length && (src[i] !== q || src[i - 1] === '\\'));
-      continue;
-    }
-    if (pairs[ch]) stack.push(pairs[ch]);
-    else if (ch === stack[stack.length - 1]) stack.pop();
-    else if (ch === ';' && stack.length === 0) return src.slice(start, i + 1);
-  }
-  throw new Error(`${name} 的定义没有以分号结束`);
-};
-
-const { unionArea, clipToViewport, coverageOf } = new Function(
-  `${pick('unionArea')} ${pick('clipToViewport')} ${pick('coverageOf')}
-   return { unionArea, clipToViewport, coverageOf };`
-)();
+// 从 probe.js 取出被测函数本身执行，不在测试里复刻实现。提取器见 _pick.mjs。
+const picked = ['unionArea', 'clipToViewport', 'coverageOf'].map(n => pick(src, n)).join('\n');
+assert.ok(picked.includes('cells.size'),
+  '提取到的不是 probe.js 里的真实现——扫描器可能取到了注释或截断了定义');
+const { unionArea, clipToViewport, coverageOf } = load(src, ['unionArea', 'clipToViewport', 'coverageOf']);
 
 const G = 8;
 let failed = 0;
@@ -95,6 +71,16 @@ check('超出视口的矩形不会让覆盖率超过 1',
 check('六层堆叠的端到端覆盖率等于单层',
   coverageOf(Array.from({ length: 6 }, () => [0, 0, 500, 400]), VW, VH, G),
   coverageOf([[0, 0, 500, 400]], VW, VH, G));
+
+// ── 网格量化溢出 ──
+// 教训：上面几条用 1000×800，两个维度都能被 8 整除，算出来正好 1.000，
+// 于是完全没暴露量化溢出。真实的 1512×862 不对齐，未钳位时是 1.002。
+// 测试数据选得顺手，会让缺陷从测试里溜走。
+const full1512 = coverageOf([[0, 0, 1512, 862]], 1512, 862, G);
+check('非网格对齐的视口铺满时恰好为 1', full1512, 1);
+check('覆盖率在任何情况下都不超过 1',
+  [[[0, 0, 1512, 862]], [[-300, -300, 2000, 2000]], [[0, 0, 1511, 861]]]
+    .every(r => coverageOf(r, 1512, 862, G) <= 1), true);
 
 console.log(failed ? `\n${failed} 个用例失败` : '\n全部通过');
 process.exit(failed ? 1 : 0);

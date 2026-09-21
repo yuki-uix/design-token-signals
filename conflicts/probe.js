@@ -126,7 +126,16 @@
     try { if (el.matches(CONTROL_SEL)) return true; } catch (e) { /* SVG 等没有 matches */ }
     return /btn|button/i.test(cls);
   };
-  const isSmallShape = (el, cls) => isControl(el, cls) || /card|tile|panel/i.test(cls);
+  /**
+   * R-07 的统计口径是「按钮、输入框、卡片」，**不含普通链接**。
+   * 复用 isControl 会把每个小 <a> 和 [role="link"] 都算进 radiusSmallElements，
+   * 改变圆角分布进而改变 R-07 的结论，所以这里用独立的选择器。
+   */
+  const SHAPE_SEL = 'button, input, select, textarea, [role="button"]';
+  const isSmallShape = (el, cls) => {
+    try { if (el.matches(SHAPE_SEL)) return true; } catch (e) { /* SVG 等没有 matches */ }
+    return /btn|button|card|tile|panel/i.test(cls);
+  };
 
   const isDecorative = el =>
     /svg|canvas|picture|img/i.test(el.tagName) ||
@@ -319,8 +328,10 @@
   const clipToViewport = (rects, vw, vh) => (rects || [])
     .map(([x1, y1, x2, y2]) => [Math.max(x1, 0), Math.max(y1, 0), Math.min(x2, vw), Math.min(y2, vh)])
     .filter(([x1, y1, x2, y2]) => x2 > x1 && y2 > y1);
+  // 网格向上取整会让铺满视口的矩形略超 1：1512×862 下是 1.00232，定点后成 1.002。
+  // 覆盖率按定义不可能超过 1，钳位在这里，不要留给调用方。
   const coverageOf = (rects, vw, vh, grid) =>
-    +(unionArea(clipToViewport(rects, vw, vh), grid) / (vw * vh)).toFixed(3);
+    +Math.min(1, unionArea(clipToViewport(rects, vw, vh), grid) / (vw * vh)).toFixed(3);
   const coverage = rects => coverageOf(rects, innerWidth, innerHeight, GRID);
 
   const accent = accentVars.length ? { ...accentVars[0], source: 'css-var' }
@@ -339,8 +350,9 @@
     url: location.host,
     // 测量条件。coverage 是「视口内」覆盖率，换视口或滚动位置结果就不同，
     // 不带上这两个字段，任何标定值都无法复现，也无法判断拿到的是哪一次的口径。
-    conditions: { viewport: `${innerWidth}x${innerHeight}`, scrollY: Math.round(scrollY),
-      atTop: Math.round(scrollY) === 0 },
+    // scrollY 可能是亚像素值。四舍五入会把 0 < scrollY < 0.5 报成 atTop:true，
+    // 而那时页面已经不在标定所要求的位置上了。保留原值，直接和 0 比。
+    conditions: { viewport: `${innerWidth}x${innerHeight}`, scrollY, atTop: scrollY === 0 },
     background: bg ? { ...bg, ...hsl(bg), warmth: bg.r - bg.b, isWarm: bg.r - bg.b > WARM } : null,
     radius: share(buckets),
     radiusSmallElements: share(smallBuckets),      // R-07 只看这个

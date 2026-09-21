@@ -10,25 +10,16 @@
  */
 import { readFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
+import { pick, load } from './_pick.mjs';
 
 // 从 probe.js 里取出被测函数本身，不在测试里复刻一份实现。
 const src = readFileSync(new URL('../probe.js', import.meta.url), 'utf8');
-const pick = name => {
-  const i = src.indexOf(`const ${name} = `);
-  if (i < 0) throw new Error(`probe.js 里找不到 ${name}`);
-  let d = 0, started = false, j = i;
-  for (; j < src.length; j++) {
-    const ch = src[j];
-    if (ch === '{') { d++; started = true; }
-    else if (ch === '}') { d--; if (started && d === 0) { j = src.indexOf(';', j); break; } }
-  }
-  return src.slice(i, j + 1);
-};
-// 被测函数全部是纯函数，直接从 probe.js 取出来跑，不在测试里复刻实现。
-const { parseShadow, splitTop, alphaOf } = new Function(
-  `${pick('splitTop')} ${pick('alphaOf')} ${pick('parseShadow')}
-   return { parseShadow, splitTop, alphaOf };`
-)();
+
+// 从 probe.js 取出被测函数本身执行，不在测试里复刻实现。提取器见 _pick.mjs。
+const picked = ['splitTop', 'alphaOf', 'parseShadow'].map(n => pick(src, n)).join('\n');
+assert.ok(picked.includes('offsetX'),
+  '提取到的不是 probe.js 里的真实现——扫描器可能取到了注释或截断了定义');
+const { splitTop, alphaOf, parseShadow } = load(src, ['splitTop', 'alphaOf', 'parseShadow']);
 
 const cases = [
   ['rgba(0, 0, 0, 0.25) 0px 2px 32px 0px', { blur: 32, offsetY: 2 }, '颜色函数在前，blur 必须是 32 而不是颜色通道的 0'],
